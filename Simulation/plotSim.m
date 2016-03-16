@@ -18,7 +18,7 @@ plotFinger(thumb,fig);
 axis([-0.2 0.2 -0.05 0.2]);
 
 % Set change in thetaa
-index.setfa(-1);
+index.setfa(-5);
 thumb.setfa(1);
 index.setbd(0.05);
 index.setfe([-0.1;0]);
@@ -32,4 +32,9 @@ for i=1:20
     plotFinger(thumb,fig);
     % Set figure axes
     axis([-0.2 0.2 -0.05 0.2]);
+    % Check for collisions
+    [col, xCol, yCol] = checkCollision(index,thumb);
+    hold on
+    viscircles([xCol, yCol],0.005,'Color', 'r','LineWidth',2);
+    hold off
 end
