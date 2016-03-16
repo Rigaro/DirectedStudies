@@ -171,7 +171,7 @@ classdef Finger < handle
         function poly = getPoly(obj)
             obj.fKine();
             poly = [obj.origin(1),obj.r_op(1),obj.r_od(1);
-                    obj.origin(2),obj.r_op(2),obj.r_od(2)];
+                    obj.origin(2) obj.r_op(2), obj.r_od(2)];
         end
     end
 end
