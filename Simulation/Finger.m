@@ -27,6 +27,7 @@ classdef Finger < handle
         dad % Change in Distal contact force (m/s)
         dap % change in Proximal contact force (m/s)
         Jc % Contact jacobian
+        fc % Contact force
         % External forces
         bd % Distance from Distal joint to Distal disturbance force (m)
         bp % Distance from Proximal joint to Proximal disturbance force (m)
@@ -78,7 +79,7 @@ classdef Finger < handle
             obj.bd = 0;% Distance from Distal joint to Distal disturbance force (m)
             obj.bp = 0;% Distance from Proximal joint to Proximal disturbance force (m)
             obj.updateJe(); % Disturbance jacobian (only Distal contact)
-            obj.fe = [0;0];
+            obj.fe = Force(0,0,0,0);
         end
         % Set finger origin
         function setOrigin(obj, origin)
