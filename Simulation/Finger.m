@@ -32,7 +32,7 @@ classdef Finger < handle
         bd % Distance from Distal joint to Distal disturbance force (m)
         bp % Distance from Proximal joint to Proximal disturbance force (m)
         Je % Disturbance Jacobian
-        fe % External force vector [x;y]
+        fe % External force
         % Special properties
         poly % Polyline parameters for collision detetion [x[];y[]]
     end
@@ -75,6 +75,7 @@ classdef Finger < handle
             obj.dad = 0;% Change in Distal contact force (m/s)
             obj.dap = 0;% change in Proximal contact force (m/s)
             obj.updateJc(); % Contact jacobian (only Distal contact)
+            obj.fc = Force(0,0,0,0);
             % External forces
             obj.bd = 0;% Distance from Distal joint to Distal disturbance force (m)
             obj.bp = 0;% Distance from Proximal joint to Proximal disturbance force (m)
@@ -129,6 +130,10 @@ classdef Finger < handle
         function setfe(obj, fe)
             obj.fe = fe;
         end
+        % Set contact force
+        function setfc(obj, fc)
+            obj.fc = fc;
+        end
         % Update contact jacobian
         function updateJc(obj)
             obj.Jc = [-obj.lp*sin(obj.theta(1))-obj.ad*sin(obj.theta(1)+obj.theta(2)), ...
@@ -159,7 +164,7 @@ classdef Finger < handle
         % Update change in theta under force control condition (FC)
         function updateDynamicsFC(obj)
             obj.updateJe();
-            obj.dtheta = inv(obj.K)*(-obj.Je'*obj.fe-obj.Ja'*obj.fa);
+            obj.dtheta = inv(obj.K)*(-obj.Je'*obj.fe.fv-obj.Ja'*obj.fa);
         end
         % Update kinematics from actuator angle change
         function updateKinematics(obj)

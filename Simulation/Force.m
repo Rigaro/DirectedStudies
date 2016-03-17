@@ -2,7 +2,7 @@ classdef Force < handle
     %UNTITLED Summary of this class goes here
     %   Detailed explanation goes here
     
-    properties
+    properties (SetAccess = private)
         fv % Force vector [x;y]
         o % Force vector origin [x,y] location
     end

@@ -21,7 +21,7 @@ axis([-0.2 0.2 -0.05 0.2]);
 index.setfa(-5);
 thumb.setfa(1);
 index.setbd(0.05);
-index.setfe([-0.1;0]);
+index.fe.setForceV([-0.1;0]);
 for i=1:20
     pause(0.1);
     clf(fig);
