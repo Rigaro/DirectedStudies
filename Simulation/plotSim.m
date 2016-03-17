@@ -18,12 +18,13 @@ plotFinger(thumb,fig);
 axis([-0.2 0.2 -0.05 0.2]);
 
 % Set change in thetaa
-index.setfa(-5);
+index.setfa(-100);
 thumb.setfa(1);
 index.setbd(0.05);
-index.fe.setForceV([-0.1;0]);
-for i=1:20
-    pause(0.1);
+thumb.setbd(0.05);
+% index.fe.setForceV([-0.1;0]);
+for i=1:2
+    pause(2);
     clf(fig);
     index.updateKinematics();
     thumb.updateKinematics();
@@ -34,6 +35,29 @@ for i=1:20
     axis([-0.2 0.2 -0.05 0.2]);
     % Check for collisions
     [col, xCol, yCol] = checkCollision(index,thumb);
+    
+fin = index.computeForceAtContact('xy');
+fth = thumb.computeForceAtContact('xy');
+    hold on
+    viscircles([xCol, yCol],0.005,'Color', 'r','LineWidth',2);
+    hold off
+end
+
+index.setfa(0);
+thumb.setfa(0);
+for i=1:2
+    pause(2);
+    clf(fig);
+    index.updateKinematics();
+    thumb.updateKinematics();
+    % Plot finger
+    plotFinger(index,fig);
+    plotFinger(thumb,fig);
+    % Set figure axes
+    axis([-0.2 0.2 -0.05 0.2]);
+    % Check for collisions
+    [col, xCol, yCol] = checkCollision(index,thumb);
+    
     hold on
     viscircles([xCol, yCol],0.005,'Color', 'r','LineWidth',2);
     hold off
