@@ -1,4 +1,4 @@
-classdef ForceFinger < Force
+classdef ForceNormal < Force
     % ForceFinger class
     % Represents a Force vector [fn,ft] acting on a Finger at a distance
     % d from a joint. fn represents the Force normal to the finger and
