@@ -150,7 +150,7 @@ classdef Finger < handle
         function fKine(obj)
             % Forward kinematics
             obj.rOtoP = rotMat(obj.theta(1))*[obj.lP;0];
-            obj.rOtoD = obj.rOtoP + rotMat(obj.theta(2))*[obj.lD;0];
+            obj.rOtoD =% Vector from origin to end of distal link (fingertip) [x;y] (m)
         end
         function poly = getPoly(obj)
             obj.fKine();
