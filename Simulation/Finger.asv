@@ -115,8 +115,7 @@ classdef Finger < handle
         function xDot = eom(obj,t,initVal)
             obj.phalanx(1).theta = initVal(1);
             obj.phalanx(2).theta = initVal(2);
-            obj.phalanx(1).thetaDot = initVal(3);
-            obj.phalanx(2).thetaDot = initVal(4);
+            obj.phalanx(1).thetaDot = initVal(3);obj.phalanx(1).theta = initVal(1);
             obj.updateJc();
             obj.updateJe();
             alpha = obj.phalanx(1).I + obj.phalanx(2).I + (obj.phalanx(1).m*(obj.phalanx(1).l/2)^2)+...
