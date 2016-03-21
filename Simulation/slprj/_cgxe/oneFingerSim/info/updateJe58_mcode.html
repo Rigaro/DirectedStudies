@@ -1,0 +1,198 @@
+<!-- saved from url=(0014)about:internet -->
+<div class="dead">
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="2,1" id="srcline1">  1</a></span><span class="line"><span class="comment">% Finger Class</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,2" id="srcline2">  2</a></span><span class="line"><span class="comment">% Represents an underactuated cable driven finger.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,3" id="srcline3">  3</a></span><span class="line"><span class="comment">% Author: Ricardo Garcia Rosas</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,4" id="srcline4">  4</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="2,5" id="srcline5">  5</a></span><span class="line"><span class="keyword">classdef</span> Finger &lt; handle &amp; matlab.System</span></span>
+<span class="srcline"><span class="lineno"><a href="2,6" id="srcline6">  6</a></span><span class="line">    <span class="comment">% Finger Class</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,7" id="srcline7">  7</a></span><span class="line">    <span class="comment">% Represents an underactuated cable driven finger.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,8" id="srcline8">  8</a></span><span class="line">    <span class="keyword">properties</span> (SetAccess = immutable)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,9" id="srcline9">  9</a></span><span class="line">        prox; <span class="comment">% Finger proximal phalanx</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,10" id="srcline10"> 10</a></span><span class="line">        dist; <span class="comment">% Finger distal phalanx</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,11" id="srcline11"> 11</a></span><span class="line">        K <span class="comment">% Joint stiffness matrix</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,12" id="srcline12"> 12</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,13" id="srcline13"> 13</a></span><span class="line">    <span class="keyword">properties</span> (SetAccess = private)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,14" id="srcline14"> 14</a></span><span class="line">        origin = [0 0]; <span class="comment">% Finger origin location (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,15" id="srcline15"> 15</a></span><span class="line">        thetaA = 0; <span class="comment">% Actuator pulley angle (rad)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,16" id="srcline16"> 16</a></span><span class="line">        thetaADot = 0; <span class="comment">% First derivative of Actuator pulley angle (rad/s)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,17" id="srcline17"> 17</a></span><span class="line">        </span></span>
+<span class="srcline"><span class="lineno"><a href="2,18" id="srcline18"> 18</a></span><span class="line"><span class="comment">%         rOtoL % Vector from origin to end of phalanx link [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,19" id="srcline19"> 19</a></span><span class="line"><span class="comment">%         rOtoA % Vector from origin to phalanx contact location [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,20" id="srcline20"> 20</a></span><span class="line"><span class="comment">%         rOtoB % Vector from origin to phalanx disturbance location [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,21" id="srcline21"> 21</a></span><span class="line"><span class="comment">%         rOtoG % Vector from origin to phalanx centre of gravity [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,22" id="srcline22"> 22</a></span><span class="line"><span class="comment">%         rOtoP % Vector from origin to end of proximal link [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,23" id="srcline23"> 23</a></span><span class="line"><span class="comment">%         rOtoD % Vector from origin to end of distal link (fingertip) [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,24" id="srcline24"> 24</a></span><span class="line"><span class="comment">%         rOtoAP % Vector from origin to proximal contact location [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,25" id="srcline25"> 25</a></span><span class="line"><span class="comment">%         rOtoAD % Vector from origin to distal contact location [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,26" id="srcline26"> 26</a></span><span class="line"><span class="comment">%         rOtoBP % Vector from origin to proximal disturbance location [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,27" id="srcline27"> 27</a></span><span class="line"><span class="comment">%         rOtoBD % Vector from origin to distal disturbance location [x;y] (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,28" id="srcline28"> 28</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="2,29" id="srcline29"> 29</a></span><span class="line">        Ja <span class="comment">% Actuator Jacobian</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,30" id="srcline30"> 30</a></span><span class="line">        fa <span class="comment">% Actuator force</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,31" id="srcline31"> 31</a></span><span class="line">        Jc <span class="comment">% Contact jacobian</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,32" id="srcline32"> 32</a></span><span class="line">        Je <span class="comment">% Disturbance Jacobian</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,33" id="srcline33"> 33</a></span><span class="line">        </span></span>
+<span class="srcline"><span class="lineno"><a href="2,34" id="srcline34"> 34</a></span><span class="line"><span class="comment">%         poly % Polyline parameters for collision detetion [x[];y[]]</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,35" id="srcline35"> 35</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,36" id="srcline36"> 36</a></span><span class="line">    <span class="keyword">methods</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,37" id="srcline37"> 37</a></span><span class="line">        <span class="keyword">function</span> obj = Finger(origin, kP, kD, lP, lD, rP, rD, mP, mD, thetaP, thetaD, thetaA)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,38" id="srcline38"> 38</a></span><span class="line">        <span class="comment">% Constructor with parameter initialization</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,39" id="srcline39"> 39</a></span><span class="line">        <span class="comment">% Creates a default 2 phalages finger</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,40" id="srcline40"> 40</a></span><span class="line">            <span class="comment">% Custom initialization</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,41" id="srcline41"> 41</a></span><span class="line">            <span class="keyword">if</span>(nargin ~= 0)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,42" id="srcline42"> 42</a></span><span class="line">                obj.origin = origin;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,43" id="srcline43"> 43</a></span><span class="line">                obj.thetaA = thetaA;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,44" id="srcline44"> 44</a></span><span class="line">                obj.prox = Phalanx(kP,lP,rP,mP,thetaP,1);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,45" id="srcline45"> 45</a></span><span class="line">                obj.dist = Phalanx(kD,lD,rD,mD,thetaD,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,46" id="srcline46"> 46</a></span><span class="line">            <span class="keyword">else</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,47" id="srcline47"> 47</a></span><span class="line">                obj.prox = Phalanx();</span></span>
+<span class="srcline"><span class="lineno"><a href="2,48" id="srcline48"> 48</a></span><span class="line">                obj.dist = Phalanx(5,0.1,0.012,0.02,pi/3,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,49" id="srcline49"> 49</a></span><span class="line">            <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,50" id="srcline50"> 50</a></span><span class="line">            <span class="comment">% Physical properties initialization</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,51" id="srcline51"> 51</a></span><span class="line">            obj.K = [obj.prox.k 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,52" id="srcline52"> 52</a></span><span class="line">                     0 obj.dist.k];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,53" id="srcline53"> 53</a></span><span class="line">            <span class="comment">% Kinematic values initialization</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,54" id="srcline54"> 54</a></span><span class="line">            obj.Ja = [obj.prox.r obj.dist.r];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,55" id="srcline55"> 55</a></span><span class="line">            obj.fa = 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,56" id="srcline56"> 56</a></span><span class="line">            <span class="comment">% Contact Kinematics</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,57" id="srcline57"> 57</a></span><span class="line">            obj.updateJc(); <span class="comment">% Contact jacobian</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,58" id="srcline58"> 58</a></span><span class="line">            <span class="comment">% External forces</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,59" id="srcline59"> 59</a></span><span class="line">            obj.updateJe(); <span class="comment">% Disturbance jacobian (only Distal contact)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,60" id="srcline60"> 60</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,61" id="srcline61"> 61</a></span><span class="line">        <span class="keyword">function</span> setOrigin(obj, origin)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,62" id="srcline62"> 62</a></span><span class="line">            <span class="comment">% Set finger origin</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,63" id="srcline63"> 63</a></span><span class="line">            obj.origin = origin;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,64" id="srcline64"> 64</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,65" id="srcline65"> 65</a></span><span class="line">        <span class="keyword">function</span> setThetaA(obj, thetaa)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,66" id="srcline66"> 66</a></span><span class="line">            <span class="comment">% Set actuator theta</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,67" id="srcline67"> 67</a></span><span class="line">            obj.thetaa = thetaa;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,68" id="srcline68"> 68</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,69" id="srcline69"> 69</a></span><span class="line">        <span class="keyword">function</span> setThetaADot(obj, thetaADot)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,70" id="srcline70"> 70</a></span><span class="line">            <span class="comment">% Set actuator change in theta</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,71" id="srcline71"> 71</a></span><span class="line">            obj.thetaADot = thetaADot;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,72" id="srcline72"> 72</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,73" id="srcline73"> 73</a></span><span class="line">        <span class="keyword">function</span> setFa(obj, fa)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,74" id="srcline74"> 74</a></span><span class="line">            <span class="comment">% Set actuator force</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,75" id="srcline75"> 75</a></span><span class="line">            obj.fa = fa;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,76" id="srcline76"> 76</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,77" id="srcline77"> 77</a></span><span class="line">        <span class="keyword">function</span> updateJc(obj)  </span></span>
+<span class="srcline"><span class="lineno"><a href="2,78" id="srcline78"> 78</a></span><span class="line">            <span class="comment">% Update contact jacobian</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,79" id="srcline79"> 79</a></span><span class="line">            obj.Jc = [obj.prox.a, 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,80" id="srcline80"> 80</a></span><span class="line">                      obj.dist.a+obj.prox.l*<span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,81" id="srcline81"> 81</a></span><span class="line">                      (cos(obj.dist.theta)-obj.dist.miuC*<span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,82" id="srcline82"> 82</a></span><span class="line">                      sin(obj.dist.theta)),obj.dist.a];                     </span></span>
+<span class="srcline"><span class="lineno"><a href="2,83" id="srcline83"> 83</a></span><span class="line">        <span class="keyword">end</span></span></span>
+</pre>
+</div>
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="2,84" id="srcline84"> 84</a></span><span class="line">        <span class="keyword">function</span> updateJe(<span class="var type1" id="S48T51U294">obj</span>)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,85" id="srcline85"> 85</a></span><span class="line">            <span class="comment">% Update disturbance jacobian</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,86" id="srcline86"> 86</a></span><span class="line">            <span class="mxinfo " id="T15:U2"><span class="mxinfo " id="T15:U3"><span class="var type1" id="S48T51U298">obj</span>.Je</span> = <span class="mxinfo " id="T15:U5">[<span class="mxinfo " id="T16:U6"><span class="mxinfo " id="T2:U7"><span class="mxinfo " id="T52:U8"><span class="var type1" id="S48T51U304">obj</span>.prox</span>.b</span>, <span class="mxinfo " id="T2:U10">0</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,87" id="srcline87"> 87</a></span><span class="line">                      <span class="mxinfo " id="T16:U11"><span class="mxinfo " id="T2:U12"><span class="mxinfo " id="T2:U13"><span class="mxinfo " id="T55:U14"><span class="var type1" id="S48T51U312">obj</span>.dist</span>.b</span>+<span class="mxinfo " id="T2:U16"><span class="mxinfo " id="T2:U17"><span class="mxinfo " id="T52:U18"><span class="var type1" id="S48T51U318">obj</span>.prox</span>.l</span>*<span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,88" id="srcline88"> 88</a></span><span class="line">                      (<span class="mxinfo " id="T2:U20"><span class="mxinfo " id="T2:U21">cos(<span class="mxinfo " id="T2:U22"><span class="mxinfo " id="T55:U23"><span class="var type1" id="S48T51U327">obj</span>.dist</span>.theta</span>)</span>-<span class="mxinfo " id="T2:U25"><span class="mxinfo " id="T2:U26"><span class="mxinfo " id="T55:U27"><span class="var type1" id="S48T51U333">obj</span>.dist</span>.miuE</span>*<span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,89" id="srcline89"> 89</a></span><span class="line">                      <span class="mxinfo " id="T2:U29">sin(<span class="mxinfo " id="T2:U30"><span class="mxinfo " id="T55:U31"><span class="var type1" id="S48T51U340">obj</span>.dist</span>.theta</span>)</span></span></span>)</span></span>,<span class="mxinfo " id="T2:U33"><span class="mxinfo " id="T55:U34"><span class="var type1" id="S48T51U345">obj</span>.dist</span>.b</span></span>]</span></span>; </span></span>
+<span class="srcline"><span class="lineno"><a href="2,90" id="srcline90"> 90</a></span><span class="line">        <span class="keyword">end</span></span></span>
+</pre>
+<div class="dead">
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="2,91" id="srcline91"> 91</a></span><span class="line">        <span class="keyword">function</span> rot = rotMat(~,theta)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,92" id="srcline92"> 92</a></span><span class="line">            <span class="comment">% Rotation matrix</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,93" id="srcline93"> 93</a></span><span class="line">            rot = [cos(theta) -sin(theta);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,94" id="srcline94"> 94</a></span><span class="line">                   sin(theta) cos(theta)];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,95" id="srcline95"> 95</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,96" id="srcline96"> 96</a></span><span class="line">        <span class="keyword">function</span> [rOtoL, rOtoG] = fKine(obj)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,97" id="srcline97"> 97</a></span><span class="line">            <span class="comment">% Forward kinematics</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,98" id="srcline98"> 98</a></span><span class="line">            rOtoL = zeros(2,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,99" id="srcline99"> 99</a></span><span class="line">            rOtoG = zeros(2,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,100" id="srcline100">100</a></span><span class="line">            rOtoL(:,1) = obj.rotMat(obj.prox.theta)*[obj.prox.l;0];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,101" id="srcline101">101</a></span><span class="line">            rOtoG(:,1) = obj.rotMat(obj.prox.theta)*[obj.prox.l/2;0];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,102" id="srcline102">102</a></span><span class="line">            rOtoL(:,2) = rOtoL(:,2-1) + obj.rotMat(obj.dist.theta)*[obj.dist.l;0];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,103" id="srcline103">103</a></span><span class="line">            rOtoG(:,2) = rOtoG(:,2-1) + obj.rotMat(obj.dist.theta)*[obj.dist.l/2;0];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,104" id="srcline104">104</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,105" id="srcline105">105</a></span><span class="line">        <span class="keyword">function</span> poly = getPoly(obj)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,106" id="srcline106">106</a></span><span class="line">            obj.fKine();</span></span>
+<span class="srcline"><span class="lineno"><a href="2,107" id="srcline107">107</a></span><span class="line">            poly = [obj.origin(1),obj.rOtoL(1,1),obj.rOtoL(1,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,108" id="srcline108">108</a></span><span class="line">                    obj.origin(2),obj.rOtoL(2,1),obj.rOtoL(2,2)];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,109" id="srcline109">109</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,110" id="srcline110">110</a></span><span class="line">        <span class="keyword">function</span> xDot = eom(obj,initVal)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,111" id="srcline111">111</a></span><span class="line">            obj.prox.theta = initVal(1);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,112" id="srcline112">112</a></span><span class="line">            obj.dist.theta = initVal(2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,113" id="srcline113">113</a></span><span class="line">            obj.prox.thetaDot = initVal(3);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,114" id="srcline114">114</a></span><span class="line">            obj.dist.thetaDot = initVal(4);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,115" id="srcline115">115</a></span><span class="line">            obj.updateJc();</span></span>
+<span class="srcline"><span class="lineno"><a href="2,116" id="srcline116">116</a></span><span class="line">            obj.updateJe();</span></span>
+<span class="srcline"><span class="lineno"><a href="2,117" id="srcline117">117</a></span><span class="line">            alpha = obj.prox.I + obj.dist.I + (obj.prox.m*(obj.prox.l/2)^2)+<span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,118" id="srcline118">118</a></span><span class="line">                    obj.dist.m*(obj.prox.l^2+(obj.dist.l/2)^2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,119" id="srcline119">119</a></span><span class="line">            beta = obj.dist.m*obj.prox.l*obj.dist.l/2;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,120" id="srcline120">120</a></span><span class="line">            delta = obj.dist.I+obj.dist.m*(obj.dist.l/2)^2;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,121" id="srcline121">121</a></span><span class="line">            <span class="comment">% Intertia matrix (M)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,122" id="srcline122">122</a></span><span class="line">            M = [alpha+2*beta*cos(obj.dist.theta) delta+beta*cos(obj.dist.theta);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,123" id="srcline123">123</a></span><span class="line">                delta+beta*cos(obj.dist.theta) delta];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,124" id="srcline124">124</a></span><span class="line">            <span class="comment">% Coriolis and Centrifugal matrix (C)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,125" id="srcline125">125</a></span><span class="line">            C = [-beta*sin(obj.dist.theta)*obj.dist.thetaDot <span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,126" id="srcline126">126</a></span><span class="line">                -beta*sin(obj.dist.theta)*(obj.prox.thetaDot+obj.dist.thetaDot);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,127" id="srcline127">127</a></span><span class="line">                beta*sin(obj.dist.theta)*obj.prox.thetaDot 0];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,128" id="srcline128">128</a></span><span class="line">            springTau = obj.K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,129" id="srcline129">129</a></span><span class="line">            contactTau = obj.Jc'*[obj.prox.fc.fv(1); obj.dist.fc.fv(1)];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,130" id="srcline130">130</a></span><span class="line">            distTau = obj.Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,131" id="srcline131">131</a></span><span class="line">            actTau = obj.Ja'*obj.fa;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,132" id="srcline132">132</a></span><span class="line">            thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,133" id="srcline133">133</a></span><span class="line">            thetaDotDot = inv(M)*(-C*thetaDot + springTau + contactTau + distTau + actTau);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,134" id="srcline134">134</a></span><span class="line">            xDot = [thetaDot; thetaDotDot];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,135" id="srcline135">135</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,136" id="srcline136">136</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,137" id="srcline137">137</a></span><span class="line">    <span class="keyword">methods</span> (Access = protected)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,138" id="srcline138">138</a></span><span class="line">        <span class="keyword">function</span> setupImpl(obj)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,139" id="srcline139">139</a></span><span class="line">            <span class="comment">% Implement tasks that need to be performed only once, </span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,140" id="srcline140">140</a></span><span class="line">            <span class="comment">% such as pre-computed constants.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,141" id="srcline141">141</a></span><span class="line">            obj.origin = [-0.01 0.01];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,142" id="srcline142">142</a></span><span class="line">            obj.thetaA = 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,143" id="srcline143">143</a></span><span class="line">            obj.prox = Phalanx(10,0.1,0.02,0.02,pi/10,1);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,144" id="srcline144">144</a></span><span class="line">            obj.dist = Phalanx(50,0.1,0.012,0.02,pi/3,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,145" id="srcline145">145</a></span><span class="line">            <span class="comment">% Physical properties initialization</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,146" id="srcline146">146</a></span><span class="line">            obj.K = [obj.prox.k 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,147" id="srcline147">147</a></span><span class="line">                     0 obj.dist.k];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,148" id="srcline148">148</a></span><span class="line">            <span class="comment">% Kinematic values initialization</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,149" id="srcline149">149</a></span><span class="line">            obj.Ja = [obj.prox.r obj.dist.r];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,150" id="srcline150">150</a></span><span class="line">            obj.fa = 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,151" id="srcline151">151</a></span><span class="line">            <span class="comment">% Contact Kinematics</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,152" id="srcline152">152</a></span><span class="line">            obj.updateJc(); <span class="comment">% Contact jacobian</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,153" id="srcline153">153</a></span><span class="line">            <span class="comment">% External forces</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,154" id="srcline154">154</a></span><span class="line">            obj.updateJe(); <span class="comment">% Disturbance jacobian (only Distal contact)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,155" id="srcline155">155</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,156" id="srcline156">156</a></span><span class="line">        <span class="keyword">function</span> xDot = stepImpl(obj,initVal,fa)</span></span>
+<span class="srcline"><span class="lineno"><a href="2,157" id="srcline157">157</a></span><span class="line">            <span class="comment">% Implement algorithm. Calculate y as a function of</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,158" id="srcline158">158</a></span><span class="line">            <span class="comment">% input u and discrete states.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,159" id="srcline159">159</a></span><span class="line">            obj.fa = fa;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,160" id="srcline160">160</a></span><span class="line">            obj.prox.theta = initVal(1);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,161" id="srcline161">161</a></span><span class="line">            obj.dist.theta = initVal(2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,162" id="srcline162">162</a></span><span class="line">            obj.prox.thetaDot = initVal(3);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,163" id="srcline163">163</a></span><span class="line">            obj.dist.thetaDot = initVal(4);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,164" id="srcline164">164</a></span><span class="line">            obj.updateJc();</span></span>
+<span class="srcline"><span class="lineno"><a href="2,165" id="srcline165">165</a></span><span class="line">            obj.updateJe();</span></span>
+<span class="srcline"><span class="lineno"><a href="2,166" id="srcline166">166</a></span><span class="line">            alpha = obj.prox.I + obj.dist.I + (obj.prox.m*(obj.prox.l/2)^2)+<span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,167" id="srcline167">167</a></span><span class="line">                    obj.dist.m*(obj.prox.l^2+(obj.dist.l/2)^2);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,168" id="srcline168">168</a></span><span class="line">            beta = obj.dist.m*obj.prox.l*obj.dist.l/2;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,169" id="srcline169">169</a></span><span class="line">            delta = obj.dist.I+obj.dist.m*(obj.dist.l/2)^2;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,170" id="srcline170">170</a></span><span class="line">            <span class="comment">% Intertia matrix (M)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,171" id="srcline171">171</a></span><span class="line">            M = [alpha+2*beta*cos(obj.dist.theta) delta+beta*cos(obj.dist.theta);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,172" id="srcline172">172</a></span><span class="line">                delta+beta*cos(obj.dist.theta) delta];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,173" id="srcline173">173</a></span><span class="line">            <span class="comment">% Coriolis and Centrifugal matrix (C)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,174" id="srcline174">174</a></span><span class="line">            C = [-beta*sin(obj.dist.theta)*obj.dist.thetaDot <span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,175" id="srcline175">175</a></span><span class="line">                -beta*sin(obj.dist.theta)*(obj.prox.thetaDot+obj.dist.thetaDot);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,176" id="srcline176">176</a></span><span class="line">                beta*sin(obj.dist.theta)*obj.prox.thetaDot 0];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,177" id="srcline177">177</a></span><span class="line">            springTau = obj.K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,178" id="srcline178">178</a></span><span class="line">            contactTau = obj.Jc'*[obj.prox.fc.fv(1); obj.dist.fc.fv(1)];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,179" id="srcline179">179</a></span><span class="line">            distTau = obj.Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,180" id="srcline180">180</a></span><span class="line">            actTau = obj.Ja'*obj.fa;</span></span>
+<span class="srcline"><span class="lineno"><a href="2,181" id="srcline181">181</a></span><span class="line">            thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,182" id="srcline182">182</a></span><span class="line">            thetaDotDot = inv(M)*(-C*thetaDot + springTau + contactTau + distTau + actTau);</span></span>
+<span class="srcline"><span class="lineno"><a href="2,183" id="srcline183">183</a></span><span class="line">            xDot = [thetaDot; thetaDotDot];</span></span>
+<span class="srcline"><span class="lineno"><a href="2,184" id="srcline184">184</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,185" id="srcline185">185</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,186" id="srcline186">186</a></span><span class="line"><span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="2,187" id="srcline187">187</a></span><span class="line"> </span></span>
+</pre>
+</div>
