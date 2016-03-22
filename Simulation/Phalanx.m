@@ -19,10 +19,10 @@ classdef Phalanx < handle
         thetaDot = 0; % First derivative (velocity) of joint angle (rad/s)
         thetaDotDot = 0; % Second derivative (acceleration) of joint angle (rad/s^2)
         % Contact Kinematics properties
-        a = 0; % Distance from joint to contact force (m)
+        a = 0.05; % Distance from joint to contact force (m)
         fc % Contact Force
         % Disturbance Kinematics properties
-        b = 0; % Distance from joint to disturbance force (m)
+        b = 0.05; % Distance from joint to disturbance force (m)
         fe % Disturbance Force
     end
     methods

@@ -45,7 +45,7 @@ classdef Index < handle & matlab.System
         function Jc = computeJc(obj)  
             % Update contact jacobian
             Jc = [obj.prox.a, 0;
-                  obj.dist.a+obj.prox.l*cos(obj.dist.theta),obj.dist.a];                     
+                  obj.dist.a+obj.prox.l*cos(obj.dist.theta),obj.dist.a];                    
         end
         function Je = computeJe(obj)
             % Update disturbance jacobian
@@ -61,15 +61,29 @@ classdef Index < handle & matlab.System
             % Forward kinematics
             rOtoL = zeros(2,2);
             rOtoG = zeros(2,2);
-            rOtoL(:,1) = origin' + obj.rotMat(obj.prox.theta)*[obj.prox.l;0];
-            rOtoG(:,1) = origin' + obj.rotMat(obj.prox.theta)*[obj.prox.l/2;0];
+            rOtoL(:,1) = origin + obj.rotMat(obj.prox.theta)*[obj.prox.l;0];
+            rOtoG(:,1) = origin + obj.rotMat(obj.prox.theta)*[obj.prox.l/2;0];
             rOtoL(:,2) = rOtoL(:,2-1) + obj.rotMat(obj.prox.theta+obj.dist.theta)*[obj.dist.l;0];
             rOtoG(:,2) = rOtoG(:,2-1) + obj.rotMat(obj.prox.theta+obj.dist.theta)*[obj.dist.l/2;0];
         end
-        function poly = getPoly(obj)
-            obj.fKine();
-            poly = [obj.origin(1),obj.rOtoL(1,1),obj.rOtoL(1,2);
-                    obj.origin(2),obj.rOtoL(2,1),obj.rOtoL(2,2)];
+        function poly = createPoly(~,origin,rOtoL)
+            poly = [origin(1),rOtoL(1,1),rOtoL(1,2);
+                    origin(2),rOtoL(2,1),rOtoL(2,2)];
+        end
+        function fc = getContactForces(obj,fa)
+            thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];
+            K = [obj.prox.k 0;
+                 0 obj.dist.k];
+            D = [obj.prox.d 0;
+                 0 obj.dist.d];
+            Ja = [obj.prox.r obj.dist.r];
+            Jc = obj.computeJc();
+            Je = obj.computeJe();
+            springTau = K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);
+            damperTau = D*thetaDot;
+            distTau = Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];
+            actTau = Ja'*fa;
+            fc = inv(Jc')*(springTau+damperTau+distTau+actTau);
         end
         function xDot = eom(obj,initVal,fa)
             obj.prox.theta = initVal(1);
@@ -110,9 +124,10 @@ classdef Index < handle & matlab.System
             obj.prox = Phalanx(obj.kP,obj.dP,obj.lP,obj.rP,obj.mP,obj.thetaP,1);
             obj.dist = Phalanx(obj.kD,obj.dD,obj.lD,obj.rD,obj.mD,obj.thetaD,2);
         end
-        function [xDot, rOtoL] = stepImpl(obj,initVal,fa,oX,oY)
+        function [xDot, rOtoL, fc] = stepImpl(obj,initVal,fa,origin)
             xDot = obj.eom(initVal,fa);
-            [rOtoL, ~] = obj.fKine([oX oY]);
+            [rOtoL, ~] = obj.fKine(origin);
+            fc = obj.getContactForces(fa);
         end
     end
 end
