@@ -4,6 +4,7 @@ classdef Phalanx < handle
     properties (SetAccess = immutable)
         % Physical Phalanx properties
         k = 1;      % Joint stiffness (Nm/rad)
+        d = 0.01    % Joint damping coefficient (Nm/(rad/s))
         l = 0.1;    % Link length (m)
         r = 0.02;   % Pulley radius (m)
         m = 0.02;   % Link mass (kg)
@@ -25,12 +26,13 @@ classdef Phalanx < handle
         fe % Disturbance Force
     end
     methods
-        function obj = Phalanx(k, l, r, m, theta, linkNum)
+        function obj = Phalanx(k, d, l, r, m, theta, linkNum)
             % Constructor with parameter initialization
             
             % Custom initialization
             if(nargin ~= 0)
                 obj.k = k;
+                obj.d = d;
                 obj.l = l;
                 obj.r = r;
                 obj.m = m;
@@ -44,6 +46,8 @@ classdef Phalanx < handle
                 obj.I = obj.m*(obj.l^2)/3;
             end
             obj.theta0 = obj.theta;
+            obj.thetaDot = 0;
+            obj.thetaDotDot = 0;
             obj.fc = ForceNormal(0,obj.a,obj.miuC);
             obj.fe = ForceNormal(0,obj.b,obj.miuE);
         end

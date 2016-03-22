@@ -1,0 +1,114 @@
+% Finger Class
+% Represents an underactuated cable driven finger.
+% Author: Ricardo Garcia Rosas
+
+classdef Thumb < handle & matlab.System
+    % Finger Class
+    % Represents an underactuated cable driven finger.
+    properties
+        kP; % proxTimal joiny stiffness coefficient (Nm/rad)
+        kD; % distTal joint stiffness coefficient (Nm/rad)
+        dP; % proxTimal joint damping coefficient (Nm/(rad/s))
+        dD; % distTal joint damping coefficient (Nm/(rad/s))
+        lP; % proxTimal link length (m)
+        lD; % distTal link length (m)
+        rP; % proxTimal pulley radius (m)
+        rD; % distTal pulley radius (m)
+        mP; % proxTimal link mass (kg)
+        mD; % distTal link mass (kg)
+        thetaP; % proxTimal joint rest angle (rad)
+        thetaD; % distTal joint rest angle (rad)
+    end
+    properties (SetAccess = private)
+        proxT; % Finger proxTimal phalanx
+        distT; % Finger distTal phalanx
+    end
+    methods
+%         function obj = Finger(origin, kP, kD, lP, lD, rP, rD, mP, mD, thetaP, thetaD, thetaA)
+        function obj = Finger(varargin)
+            setProperties(obj, nargin, varargin{:});
+            obj.kP = 1;
+            obj.kD = 5;
+            obj.dP = 0.01;
+            obj.dD = 0.01;
+            obj.lP = 0.1;
+            obj.lD = 0.1;
+            obj.rP = 0.02;
+            obj.rD = 0.012;
+            obj.mP = 0.02;
+            obj.mD = 0.02;
+            obj.thetaP = pi-pi/10;
+            obj.thetaD = pi-pi/3;
+            obj.proxT = Phalanx(obj.kP,obj.dP,obj.lP,obj.rP,obj.mP,obj.thetaP,1);
+            obj.distT = Phalanx(obj.kD,obj.dD,obj.lD,obj.rD,obj.mD,obj.thetaD,2);
+        end
+        function Jc = computeJc(obj)  
+            % Update contact jacobian
+            Jc = [obj.proxT.a, 0;
+                  obj.distT.a+obj.proxT.l*cos(obj.distT.theta),obj.distT.a];                     
+        end
+        function Je = computeJe(obj)
+            % Update distTurbance jacobian
+            Je = [obj.proxT.b, 0;
+                  obj.distT.b+obj.proxT.l*cos(obj.distT.theta),obj.distT.b]; 
+        end
+        function rot = rotMat(~,theta)
+            % Rotation matrix
+            rot = [cos(theta) -sin(theta);
+                   sin(theta) cos(theta)];
+        end
+        function [rOtoL, rOtoG] = fKine(obj,origin)
+            % Forward kinematics
+            rOtoL = zeros(2,2);
+            rOtoG = zeros(2,2);
+            rOtoL(:,1) = origin' + obj.rotMat(obj.proxT.theta)*[obj.proxT.l;0];
+            rOtoG(:,1) = origin' + obj.rotMat(obj.proxT.theta)*[obj.proxT.l/2;0];
+            rOtoL(:,2) = rOtoL(:,2-1) + obj.rotMat(obj.distT.theta)*[obj.distT.l;0];
+            rOtoG(:,2) = rOtoG(:,2-1) + obj.rotMat(obj.distT.theta)*[obj.distT.l/2;0];
+        end
+        function poly = getPoly(obj)
+            obj.fKine();
+            poly = [obj.origin(1),obj.rOtoL(1,1),obj.rOtoL(1,2);
+                    obj.origin(2),obj.rOtoL(2,1),obj.rOtoL(2,2)];
+        end
+        function xDot = eom(obj,initVal,fa)
+            obj.proxT.theta = initVal(1);
+            obj.distT.theta = initVal(2);
+            obj.proxT.thetaDot = initVal(3);
+            obj.distT.thetaDot = initVal(4);
+            thetaDot = [obj.proxT.thetaDot; obj.distT.thetaDot];
+            K = [obj.proxT.k 0;
+                 0 obj.distT.k];
+            D = [obj.proxT.d 0;
+                 0 obj.distT.d];
+            Ja = [obj.proxT.r obj.distT.r];
+            Jc = obj.computeJc();
+            Je = obj.computeJe();
+            alpha = obj.proxT.I + obj.distT.I + (obj.proxT.m*(obj.proxT.l/2)^2)+...
+                    obj.distT.m*(obj.proxT.l^2+(obj.distT.l/2)^2);
+            beta = obj.distT.m*obj.proxT.l*(obj.distT.l/2);
+            delta = obj.distT.I+obj.distT.m*(obj.distT.l/2)^2;
+            % Intertia matrix (M)
+            M = [alpha+2*beta*cos(obj.distT.theta) delta+beta*cos(obj.distT.theta);
+                delta+beta*cos(obj.distT.theta) delta];
+            % Coriolis and Centrifugal matrix (C)
+            C = [-beta*sin(obj.distT.theta)*obj.distT.thetaDot ...
+                -beta*sin(obj.distT.theta)*(obj.proxT.thetaDot+obj.distT.thetaDot);
+                beta*sin(obj.distT.theta)*obj.proxT.thetaDot 0];
+            springTau = K*([obj.proxT.theta; obj.distT.theta]-[obj.proxT.theta0; obj.distT.theta0]);
+            damperTau = D*thetaDot;
+            contactTau = Jc'*[obj.proxT.fc.fv(1); obj.distT.fc.fv(1)];
+            distTTau = Je'*[obj.proxT.fe.fv(1); obj.distT.fe.fv(1)];
+            actTau = Ja'*fa;
+%             thetaDotDot = inv(M)*(-C*thetaDot + springTau + [-0.01 0; 0 -0.01]*thetaDot + contactTau + distTTau + actTau);
+            thetaDotDot = inv(M)*(-C*thetaDot + springTau + damperTau + contactTau + distTTau + actTau);
+            xDot = [thetaDot; thetaDotDot];
+        end
+    end
+    methods (Access = protected)
+        function [xDot, rOtoL] = stepImpl(obj,initVal,fa,oX,oY)
+            xDot = obj.eom(initVal,fa);
+            [rOtoL, ~] = obj.fKine([oX oY]);
+        end
+    end
+end
