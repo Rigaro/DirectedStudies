@@ -9,6 +9,7 @@
 %%%%%%%%%%%%|%%%%%%%%%%%|%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%|
 % Date      |   Author  | Notes                                     |
 % 16/03/23  |   RGR     | Added more comments.                      |
+% 16/03/24  |   RGR     | Compute fc as Force object.               |
 
 classdef Thumb < handle & matlab.System
     % Finger Class
@@ -92,9 +93,10 @@ classdef Thumb < handle & matlab.System
         end
         function fc = getContactForces(obj,fa)
             % Computes the contact force at contact location due to the
-            % kinetostatic analysis.
+            % kinetostatic analysis expressed in [x,y] coordinates.
             % @param fa Actuator force (N).
-            % @return fc Force exerted at contact location (N).
+            % @param rOtoL Finger position vector.
+            % @return fc Force exerted at contact location (N) in [x,y].
             thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];
             K = [obj.prox.k 0;
                  0 obj.dist.k];
@@ -107,7 +109,8 @@ classdef Thumb < handle & matlab.System
             damperTau = D*thetaDot;
             distTau = Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];
             actTau = Ja'*fa;
-            fc = inv(Jc')*(springTau+damperTau+distTau+actTau);
+            % Compute force vector and transform to [x,y] coordinate.
+            fc = inv(obj.rotMat(obj.prox.theta+obj.dist.theta))*(inv(Jc')*-(springTau+damperTau+distTau+actTau));
         end
         function xDot = eom(obj,initVal,fa)
             % Solves the equations of motion given the initial condition
@@ -163,20 +166,33 @@ classdef Thumb < handle & matlab.System
             obj.prox = Phalanx(obj.kP,obj.dP,obj.lP,obj.rP,obj.mP,obj.thetaP,1);
             obj.dist = Phalanx(obj.kD,obj.dD,obj.lD,obj.rD,obj.mD,obj.thetaD,2);
         end
-        function [xDot, rOtoL, fc] = stepImpl(obj,initVal,fa,origin)
+        function [xDot, rOtoL, fc] = stepImpl(obj,initVal,fa,fc,fe,origin)
             % Step routine. Performed for every simulation step in
             % Simulink.
             % @param initVal intial value of the states used for the 
             % equation of motion.
             % @param fa the actuator force (cable tension).
+            % @param fc Force at contact location (N).
+            % @param fe Force at disturbance location (N).
             % @param origin the finger's origin [x,y] (m).
             % @return xDot the first derivative of the states that solves
             % the intial value problem in the equation of motion.
             % @return rOtoL vector from finger origin to link end, one 2D
             % vector for each link.
             % @return fc Force exerted at contact location (N).
+            
+            % External forces to internal ([x,y] to [n,t])
+            % Contact
+            fcN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fc;
+            obj.dist.fc.setForceV(fcN(1),obj.dist.miuC);
+            % Disturbance
+            feN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fe;
+            obj.dist.fe.setForceV(feN(1),obj.dist.miuC);
+            % Equation of motion
             xDot = obj.eom(initVal,fa);
+            % Forward kinematics
             [rOtoL, ~] = obj.fKine(origin);
+            % Exerted contact force.
             fc = obj.getContactForces(fa);
         end
     end

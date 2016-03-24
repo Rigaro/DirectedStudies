@@ -1,0 +1,37 @@
+<!-- saved from url=(0014)about:internet -->
+<div class="dead">
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="28,1" id="srcline1"> 1</a></span><span class="line"><span class="keyword">classdef</span> ForceNormal &lt; handle</span></span>
+<span class="srcline"><span class="lineno"><a href="28,2" id="srcline2"> 2</a></span><span class="line">    <span class="comment">% ForceNormal class</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,3" id="srcline3"> 3</a></span><span class="line">    <span class="comment">% Represents a Force vector [fn,ft] acting on a Finger at a distance</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,4" id="srcline4"> 4</a></span><span class="line">    <span class="comment">% d from a joint. fn represents the Force normal to the finger and</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,5" id="srcline5"> 5</a></span><span class="line">    <span class="comment">% ft the tangential Force due to friction miu.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,6" id="srcline6"> 6</a></span><span class="line">    <span class="keyword">properties</span> (SetAccess = private)</span></span>
+<span class="srcline"><span class="lineno"><a href="28,7" id="srcline7"> 7</a></span><span class="line">        fv <span class="comment">% Force vector [fn;ft]</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,8" id="srcline8"> 8</a></span><span class="line">        d <span class="comment">% Distance from joint to Force (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,9" id="srcline9"> 9</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,10" id="srcline10">10</a></span><span class="line">    <span class="keyword">methods</span></span></span>
+</pre>
+</div>
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="28,11" id="srcline11">11</a></span><span class="line">        <span class="keyword">function</span> <span class="var type1" id="S6T36U18">obj</span> = ForceNormal(<span class="var type1" id="S7T1U21">fn</span>,<span class="var type1" id="S8T1U22">d</span>,<span class="var type1" id="S9T1U23">miu</span>)</span></span>
+<span class="srcline"><span class="lineno"><a href="28,12" id="srcline12">12</a></span><span class="line">            <span class="comment">% Create a new ForceFinger object</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,13" id="srcline13">13</a></span><span class="line">            <span class="mxinfo " id="T11:U5"><span class="mxinfo " id="T11:U6"><span class="var type1" id="S6T36U27">obj</span>.fv</span> = <span class="mxinfo " id="T11:U8">[<span class="var type1" id="S7T1U31">fn</span>;<span class="mxinfo " id="T1:U10"><span class="var type1" id="S9T1U34">miu</span>*<span class="var type1" id="S7T1U35">fn</span></span>]</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="28,14" id="srcline14">14</a></span><span class="line">            <span class="mxinfo " id="T1:U13"><span class="mxinfo " id="T1:U14"><span class="var type1" id="S6T36U39">obj</span>.d</span> = <span class="var type1" id="S8T1U41">d</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="28,15" id="srcline15">15</a></span><span class="line">        <span class="keyword">end</span></span></span>
+</pre>
+<div class="dead">
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="28,16" id="srcline16">16</a></span><span class="line">        <span class="keyword">function</span> setD(obj,d)</span></span>
+<span class="srcline"><span class="lineno"><a href="28,17" id="srcline17">17</a></span><span class="line">            <span class="comment">% Set the distance from the joint to the Force</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,18" id="srcline18">18</a></span><span class="line">            obj.d = d;</span></span>
+<span class="srcline"><span class="lineno"><a href="28,19" id="srcline19">19</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,20" id="srcline20">20</a></span><span class="line">        <span class="keyword">function</span> setForceV(obj,fn,miu)</span></span>
+<span class="srcline"><span class="lineno"><a href="28,21" id="srcline21">21</a></span><span class="line">            <span class="comment">% Set the Force vector [fx;fy]</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,22" id="srcline22">22</a></span><span class="line">            obj.fv = [fn;miu*fn];</span></span>
+<span class="srcline"><span class="lineno"><a href="28,23" id="srcline23">23</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,24" id="srcline24">24</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,25" id="srcline25">25</a></span><span class="line"><span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="28,26" id="srcline26">26</a></span><span class="line"> </span></span>
+</pre>
+</div>

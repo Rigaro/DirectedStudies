@@ -9,6 +9,7 @@
 %%%%%%%%%%%%|%%%%%%%%%%%|%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%|
 % Date      |   Author  | Notes                                     |
 % 16/03/23  |   RGR     | Added more comments.                      |
+% 16/03/24  |   RGR     | Compute fc and transform to [x,y].        |
 
 classdef Index < handle & matlab.System
     % Finger Class
@@ -92,9 +93,10 @@ classdef Index < handle & matlab.System
         end
         function fc = getContactForces(obj,fa)
             % Computes the contact force at contact location due to the
-            % kinetostatic analysis.
+            % kinetostatic analysis expressed in [x,y] coordinates.
             % @param fa Actuator force (N).
-            % @return fc Force exerted at contact location (N).
+            % @param rOtoL Finger position vector.
+            % @return fc Force exerted at contact location (N) in [x,y].
             thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];
             K = [obj.prox.k 0;
                  0 obj.dist.k];
@@ -107,7 +109,8 @@ classdef Index < handle & matlab.System
             damperTau = D*thetaDot;
             distTau = Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];
             actTau = Ja'*fa;
-            fc = inv(Jc')*(springTau+damperTau+distTau+actTau);
+            % Compute force vector and transform to [x,y] coordinate.
+            fc = inv(obj.rotMat(obj.prox.theta+obj.dist.theta))*(inv(Jc')*-(springTau+damperTau+distTau+actTau));
         end
         function xDot = eom(obj,initVal,fa)
             % Solves the equations of motion given the initial condition
@@ -180,11 +183,11 @@ classdef Index < handle & matlab.System
             
             % External forces to internal ([x,y] to [n,t])
             % Contact
-            fcN = rotMat(obj.prox.theta+obj.dist.theta)*fc.fv;
-            obj.dist.fc.setForceV(fcN,obj.dist.miuC);
+            fcN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fc;
+            obj.dist.fc.setForceV(fcN(1),obj.dist.miuC);
             % Disturbance
-            feN = rotMat(obj.prox.theta+obj.dist.theta)*fe.fv;
-            obj.dist.fe.setForceV(feN,obj.dist.miuC);
+            feN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fe;
+            obj.dist.fe.setForceV(feN(1),obj.dist.miuC);
             % Equation of motion
             xDot = obj.eom(initVal,fa);
             % Forward kinematics
