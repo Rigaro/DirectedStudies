@@ -1,6 +1,17 @@
+% Phalanx Class
+% Represents the phalanx of a robotic hand finger.
+% Contains the properties that represent the physical properties of a
+% robotic hand phalanx, as well as the external forces acting on it.
+% Change log:
+%%%%%%%%%%%%|%%%%%%%%%%%|%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%|
+% Date      |   Author  | Notes                                     |
+% 16/03/23  |   RGR     | Added more comments.                      |
+
 classdef Phalanx < handle
-    % Phalanx Class
-    % Represents the Phalanx of an underactuated Finger.
+% Phalanx Class
+% Represents the phalanx of a robotic hand finger.
+% Contains the properties that represent the physical properties of a
+% robotic hand phalanx, as well as the external forces acting on it.
     properties (SetAccess = immutable)
         % Physical Phalanx properties
         k = 1;      % Joint stiffness (Nm/rad)
@@ -11,7 +22,7 @@ classdef Phalanx < handle
         I           % Link z-inertia
     end
     properties
-        % Physical finger properties
+        % Physical phalanx properties
         miuC = 0.8; % Coefficient of friction between phalanx and contact object.
         miuE = 0.8; % Coefficient of friction between phalanx and disturbance object.% Kinematic properties
         theta0 = pi/10; % Joint rest angle (rad)
@@ -19,7 +30,7 @@ classdef Phalanx < handle
         thetaDot = 0; % First derivative (velocity) of joint angle (rad/s)
         thetaDotDot = 0; % Second derivative (acceleration) of joint angle (rad/s^2)
         % Contact Kinematics properties
-        a = 0.05; % Distance from joint to contact force (m)
+        a = 0.1; % Distance from joint to contact force (m)
         fc % Contact Force
         % Disturbance Kinematics properties
         b = 0.05; % Distance from joint to disturbance force (m)
@@ -28,6 +39,7 @@ classdef Phalanx < handle
     methods
         function obj = Phalanx(k, d, l, r, m, theta, linkNum)
             % Constructor with parameter initialization
+            % @param linkNum the link number in the chain.
             
             % Custom initialization
             if(nargin ~= 0)
@@ -37,6 +49,8 @@ classdef Phalanx < handle
                 obj.r = r;
                 obj.m = m;
                 obj.theta = theta;
+                % Compute intertia matrix depending on which part of the
+                % chain the link is.
                 if (linkNum>1)
                     obj.I = obj.m*(obj.l^2)/12;
                 else

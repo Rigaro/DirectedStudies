@@ -1,5 +1,17 @@
+% Plots the entire hand to the default figure. Handled in Simulink.
+% Author: Ricardo Garcia Rosas
+% Change log:
+%%%%%%%%%%%%|%%%%%%%%%%%|%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%|
+% Date      |   Author  | Notes                                     |
+% 16/03/23  |   RGR     | Added more comments.                      |
 function plotHand(indexO,indexrOtoL,thumbO,thumbrOtoL)
-%#codegen
+    % Plots the entire hand to the default figure. Handled in Simulink.
+    % @param indexO Index finger origin position [x,y] (m).
+    % @param indexrOtoL Index finger vector from its origin to its link
+    % ends.
+    % @param thumbO Thumb origin position [x,y] (m).
+    % @param thumbrOtoL Thumb vector from its origin to its link ends.
+
     % Call figure
     figure(1);
     clf;

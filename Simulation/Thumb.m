@@ -1,10 +1,21 @@
 % Finger Class
 % Represents an underactuated cable driven finger.
+% The finger is composed of two phalanges driven by a tendon-pulley
+% mechanism. This class has methods for calculating the kinematics and
+% dynamics of the system.
+% Extends matlab.System class to allow Simulink implementation.
 % Author: Ricardo Garcia Rosas
+% Change log:
+%%%%%%%%%%%%|%%%%%%%%%%%|%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%|
+% Date      |   Author  | Notes                                     |
+% 16/03/23  |   RGR     | Added more comments.                      |
 
 classdef Thumb < handle & matlab.System
     % Finger Class
     % Represents an underactuated cable driven finger.
+    % The finger is composed of two phalanges driven by a tendon-pulley
+    % mechanism. This class has methods for calculating the kinematics and
+    % dynamics of the system.
     properties
         kP; % proximal joiny stiffness coefficient (Nm/rad)
         kD; % distal joint stiffness coefficient (Nm/rad)
@@ -24,8 +35,10 @@ classdef Thumb < handle & matlab.System
         dist; % Finger distal phalanx
     end
     methods
-%         function obj = Finger(origin, kP, kD, lP, lD, rP, rD, mP, mD, thetaP, thetaD, thetaA)
-        function obj = Finger(varargin)
+        function obj = Thumb(varargin)
+            % System object constructor with default values.
+            % @param varargin System object argument string.
+            % @return Index object.
             setProperties(obj, nargin, varargin{:});
             obj.kP = -1;
             obj.kD = -5;
@@ -43,22 +56,33 @@ classdef Thumb < handle & matlab.System
             obj.dist = Phalanx(obj.kD,obj.dD,obj.lD,obj.rD,obj.mD,obj.thetaD,2);
         end
         function Jc = computeJc(obj)  
-            % Update contact jacobian
+            % Compute contact jacobian. Maps contact forces to joint
+            % torques.
+            % @return Jc the contact jacobian as a 2x2 matrix.
             Jc = [obj.prox.a, 0;
                   obj.dist.a+obj.prox.l*cos(obj.dist.theta),obj.dist.a];                     
         end
         function Je = computeJe(obj)
-            % Update disturbance jacobian
+            % Compute disturbance jacobian. Maps disturbance forces to
+            % joint torques.
+            % @return Je the disturbance jacobian as a 2x2 matrix.
             Je = [obj.prox.b, 0;
                   obj.dist.b+obj.prox.l*cos(obj.dist.theta),obj.dist.b]; 
         end
         function rot = rotMat(~,theta)
-            % Rotation matrix
+            % 2D Z-Rotation matrix on theta.
+            % @param theta the angle
+            % @return rot the rotation matrix as a 2x2 matrix.
             rot = [cos(theta) -sin(theta);
                    sin(theta) cos(theta)];
         end
         function [rOtoL, rOtoG] = fKine(obj,origin)
-            % Forward kinematics
+            % Forward kinematics to link ends and centre of gravity.
+            % @param origin the finger's origin [x,y] (m).
+            % @return rOtoL vector from finger origin to link end, one 2D
+            % vector for each link.
+            % @return rOtoG vector from finger origin to link center of
+            % gravity, one 2D vector for each link.
             rOtoL = zeros(2,2);
             rOtoG = zeros(2,2);
             rOtoL(:,1) = origin + obj.rotMat(obj.prox.theta)*[obj.prox.l;0];
@@ -66,11 +90,11 @@ classdef Thumb < handle & matlab.System
             rOtoL(:,2) = rOtoL(:,2-1) + obj.rotMat(obj.prox.theta+obj.dist.theta)*[obj.dist.l;0];
             rOtoG(:,2) = rOtoG(:,2-1) + obj.rotMat(obj.prox.theta+obj.dist.theta)*[obj.dist.l/2;0];
         end
-        function poly = createPoly(~,origin,rOtoL)
-            poly = [origin(1),rOtoL(1,1),rOtoL(1,2);
-                    origin(2),rOtoL(2,1),rOtoL(2,2)];
-        end
         function fc = getContactForces(obj,fa)
+            % Computes the contact force at contact location due to the
+            % kinetostatic analysis.
+            % @param fa Actuator force (N).
+            % @return fc Force exerted at contact location (N).
             thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];
             K = [obj.prox.k 0;
                  0 obj.dist.k];
@@ -86,11 +110,23 @@ classdef Thumb < handle & matlab.System
             fc = inv(Jc')*(springTau+damperTau+distTau+actTau);
         end
         function xDot = eom(obj,initVal,fa)
+            % Solves the equations of motion given the initial condition
+            % initVal. The states x are: x1 = prox.theta, x2 = dist.theta, 
+            % x3 = prox.thetaDot, x4 = dist.thetaDot. For more information
+            % on the model consult: Murray, et.al. "A Mathematical
+            % Introduction to Robotic Manipulation", for the dynamic model. 
+            % Birglen, et.al. "Underactuated Robotic Hands". for the
+            % kinetostatic model.
+            % @param initVal intial value of the states.
+            % @param fa the actuator force (cable tension).
+            % @return xDot the first derivative of the states that solves
+            % the intial value problem.
             obj.prox.theta = initVal(1);
             obj.dist.theta = initVal(2);
             obj.prox.thetaDot = initVal(3);
             obj.dist.thetaDot = initVal(4);
             thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];
+            % Compute kinetostatic matrices.
             K = [obj.prox.k 0;
                  0 obj.dist.k];
             D = [obj.prox.d 0;
@@ -98,6 +134,7 @@ classdef Thumb < handle & matlab.System
             Ja = [obj.prox.r obj.dist.r];
             Jc = obj.computeJc();
             Je = obj.computeJe();
+            % Compute matrix parameters.
             alpha = obj.prox.I + obj.dist.I + (obj.prox.m*(obj.prox.l/2)^2)+...
                     obj.dist.m*(obj.prox.l^2+(obj.dist.l/2)^2);
             beta = obj.dist.m*obj.prox.l*(obj.dist.l/2);
@@ -114,17 +151,30 @@ classdef Thumb < handle & matlab.System
             contactTau = Jc'*[obj.prox.fc.fv(1); obj.dist.fc.fv(1)];
             distTau = Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];
             actTau = Ja'*fa;
-%             thetaDotDot = inv(M)*(-C*thetaDot + springTau + [-0.01 0; 0 -0.01]*thetaDot + contactTau + distTau + actTau);
+            % Compute angular acceleration
             thetaDotDot = inv(M)*(-C*thetaDot + springTau + damperTau + contactTau + distTau + actTau);
             xDot = [thetaDot; thetaDotDot];
         end
     end
     methods (Access = protected)
         function setupImpl(obj)
+            % Set up routine. Performed once when setting up Simulink
+            % model. Initializes the finger phalanges.
             obj.prox = Phalanx(obj.kP,obj.dP,obj.lP,obj.rP,obj.mP,obj.thetaP,1);
             obj.dist = Phalanx(obj.kD,obj.dD,obj.lD,obj.rD,obj.mD,obj.thetaD,2);
         end
         function [xDot, rOtoL, fc] = stepImpl(obj,initVal,fa,origin)
+            % Step routine. Performed for every simulation step in
+            % Simulink.
+            % @param initVal intial value of the states used for the 
+            % equation of motion.
+            % @param fa the actuator force (cable tension).
+            % @param origin the finger's origin [x,y] (m).
+            % @return xDot the first derivative of the states that solves
+            % the intial value problem in the equation of motion.
+            % @return rOtoL vector from finger origin to link end, one 2D
+            % vector for each link.
+            % @return fc Force exerted at contact location (N).
             xDot = obj.eom(initVal,fa);
             [rOtoL, ~] = obj.fKine(origin);
             fc = obj.getContactForces(fa);
