@@ -108,19 +108,14 @@ classdef Cylinder < handle & matlab.System
         end
     %............................................................................
     %............................................................................
-    %Function that is called in Simulink to calculate updated
-    %positions,velocities and accelerations for the cylinder
         function CylinderResults=SimulinkImplementation(obj,FextX,FextY,TorqueExt,angleDot,angle,...
                                                         xDotG3,yDotG3,xPositionG3,yPositionG3)
             GenCordExt=[FextX,FextY,TorqueExt];
             GeneralCoordinatesDoubleDot = Equation_Of_Motion(obj,GenCordExt);
-            xDoubleDot = GeneralCoordinatesDoubleDot(1);
-            yDoubleDot = GeneralCoordinatesDoubleDot(2);
-            angleDoubleDot = GeneralCoordinatesDoubleDot(3);
+            
             Positions = PosCalculation(obj,angle,xPositionG3,yPositionG3);
             Velocities = VelCalculation (obj,angle,angleDot,xDotG3,yDotG3);
-            Accelerations = AccCalculation (obj,angle,angleDot,angleDoubleDot,xDoubleDot,yDoubleDot);
-            CylinderResults = [Positions,Velocities,Accelerations];
+            Accelerations = AccCalculation (obj,angle,angleDot,angleDoubleDot,xDoubleDot,yDoubleDot)
         end
     end
 end
