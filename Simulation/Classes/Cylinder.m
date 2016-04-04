@@ -106,6 +106,8 @@ classdef Cylinder < handle & matlab.System
                                        yDoubleDot-obj.R*cos(angle)*(angleDot^2)-obj.R*sin(angle)*angleDoubleDot];
             Accelerations=[Acceleration_o_G3_frame_0,Acceleration_o_P3_frame_0];
         end
+    end
+    methods (Access = protected)
     %............................................................................
     %............................................................................
     %Function that is called in Simulink to calculate updated
