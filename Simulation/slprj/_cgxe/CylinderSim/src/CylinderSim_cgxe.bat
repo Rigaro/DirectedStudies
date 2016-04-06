@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+"C:\Program Files\MATLAB\R2015b\sys\lcc64\lcc64\bin\lccmake.exe" -f CylinderSim_cgxe.lmk
+=======
 @echo off
 set COMPILER=cl 
         set COMPFLAGS=/c /GR /W3 /EHs /nologo /MD -I"C:\Program Files\MATLAB\MATLAB Production Server\R2015a64\extern\include" -I"C:\Program Files\MATLAB\MATLAB Production Server\R2015a64\simulink\include"  /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0  /DMATLAB_MEX_FILE /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0  /DMATLAB_MEX_FILE  /DMATLAB_MEX_FILE 
@@ -13,3 +16,4 @@ set LIB=C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Lib\amd64;C:\Prog
 set LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Lib\amd64;C:\Program Files\Microsoft SDKs\Windows\v7.1\\LIB\X64;C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\ATLMFC\LIB\AMD64;C:\Program Files\MATLAB\MATLAB Production Server\R2015a64\extern\lib\win64;%LIBPATH%
 
 nmake -f CylinderSim_cgxe.mak
+>>>>>>> 438a19e020e85c521f6c228923ac4e5b4c6e50da
