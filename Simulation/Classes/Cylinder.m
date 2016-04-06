@@ -7,6 +7,8 @@ classdef Cylinder < handle & matlab.System
        Uk;%Kinetic coefficient of friction
        Urs;%Static rotational coefficient of friction
        Urk;%Kinetic rotational coefficient of friction
+       Ucs;%Static contact coefficient of friction
+       Uck;%Kinetic contact coefficient of friction
        Iz;%Inertia of the cylindrical object in Z
        F_s_x;%Static friction force in X
        F_s_y;%Static friction force in Y
@@ -29,6 +31,8 @@ classdef Cylinder < handle & matlab.System
             obj.Uk=0.48;
             obj.Urs=0.5;
             obj.Urk=0.48;
+            obj.Ucs=0.5;
+            obj.Uck=0.4;
             obj.Iz=(obj.M*obj.R^2)/2;
             obj.F_s_x=obj.M*obj.g*obj.Us;
             obj.F_s_y=obj.M*obj.g*obj.Us;
@@ -111,16 +115,97 @@ classdef Cylinder < handle & matlab.System
                                        yDoubleDot-obj.R*cos(angle)*(angleDot^2)-obj.R*sin(angle)*angleDoubleDot];
             Accelerations=[Acceleration_o_G3_frame_0,Acceleration_o_P3_frame_0,[angleDoubleDot;0]];
         end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function RotMatrix_0_4=RotationToContactFrame(obj,CollisionPosition,xPositionG3,yPositionG3)
+            if ((CollisionPosition(1)-xPositionG3)==0)
+                if((CollisionPosition(2)-yPositionG3)>0)
+                    Theta=pi/2;
+                else
+                    Theta=3*pi/2;
+                end
+            else
+                tan_angle=(CollisionPosition(2)-yPositionG3)/(CollisionPosition(1)-xPositionG3);
+                if(tan_angle>0 && (CollisionPosition(1)-xPositionG3)>0 && (CollisionPosition(2)-yPositionG3)>0)
+                    Theta=atan(tan_angle);
+                elseif(tan_angle>0 && (CollisionPosition(1)-xPositionG3)<0 && (CollisionPosition(2)-yPositionG3)<0)
+                    Theta=atan(tan_angle)+pi;
+                elseif(tan_angle<0 && (CollisionPosition(1)-xPositionG3)<0 && (CollisionPosition(2)-yPositionG3)>0)
+                    Theta=atan(tan_angle);
+                elseif(tan_angle<0 && (CollisionPosition(1)-xPositionG3)>0 && (CollisionPosition(2)-yPositionG3)<0)
+                    Theta=atan(tan_angle)+pi;
+                elseif(tan_angle==0)
+                    Theta=0;
+                end
+            end 
+            RotMatrix_0_4=[cos(Theta) -sin(Theta);sin(Theta) cos(Theta)];
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function RotatedForce = ConvesrsionForceContactPoint(obj,RotMatrix_0_4,Force)
+            RotatedForce=RotMatrix_0_4'*Force;
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function FrictionForceInContactFrame=EvaluateFrictionInContactPoint(obj,RotatedForce)
+            if(RotatedForce(2)<=obj.Ucs*RotatedForce(1))
+                FrictionForceInContactFrame=[RotatedForce(1);RotatedForce(2)+(-1*sign(RotatedForce(2)))];
+            else
+                FrictionForceInContactFrame=RotatedForce;
+            end
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function RotatedForceToFrame0 = ConvesrsionContactPointFrame0(obj,RotMatrix_0_4,Force)
+            RotatedForceToFrame0=RotMatrix_0_4*Force;
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function ResultantTorque = ResultantTorqueCalc(obj,RotatedForceIndex,RotatedForceThumb)
+            ResultantTorque=obj.R*RotatedForceIndex(2)+RotatedForceThumb(2);
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function ResultantForceX=ResultantXForceWithoutFloorFrictionX(obj,IndexForceX,ThumbForceX)
+            ResultantForceX=IndexForceX+ThumbForceX;
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function ResultantForceY=ResultantXForceWithoutFloorFrictionY(obj,IndexForceY,ThumbForceY)
+            ResultantForceY=IndexForceY+ThumbForceY;
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function BunchOfTotalForces=ColissionCondition(obj,ColissionCondition,IndexForce,ThumbForce)
+            if(CollisionCondition(1)==1 && CollisionCondition(2)==1)
+                BunchOfTotalForce=[IndexForce,ThumbForce];
+            elseif(CollisionCondition(1)==0 && CollisionCondition(2)==1)
+                BunchOfTotalForce=[[0;0],ThumbForce];
+            elseif(CollisionCondition(1)==1 && CollisionCondition(2)==0)
+                BunchOfTotalForce=[IndexForce,[0;0]];
+            else
+                BunchOfTotalForce=[[0;0],[0;0]];
+            end
+        end
     end
     methods (Access = protected)
     %............................................................................
     %............................................................................
     %Function that is called in Simulink to calculate updated
     %positions,velocities and accelerations for the cylinder
-        function CylinderResults=stepImpl(obj,Urk,FextX,FextY,TorqueExt,xDotG3,yDotG3,angleDot,...
-                                                        xPositionG3,yPositionG3,angle)
+        function CylinderResults=stepImpl(obj,Urk,IndexFext,ThumbFext,CollisionCondition,CollisionPosition,...
+                                            xDotG3,yDotG3,angleDot,xPositionG3,yPositionG3,angle)
             obj.Urk=Urk;
             obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g;
+            
             GenCordExt=[FextX,FextY,TorqueExt];
             FrictionCondition=NonLinearFriction(obj,abs(GenCordExt(3)),'T_s');
             GeneralCoordinatesDoubleDot = Equation_Of_Motion(obj,GenCordExt);
@@ -130,8 +215,7 @@ classdef Cylinder < handle & matlab.System
             Positions = PosCalculation(obj,angle,xPositionG3,yPositionG3);
             Velocities = VelCalculation (obj,angle,angleDot,xDotG3,yDotG3);
             Accelerations = AccCalculation (obj,angle,angleDot,angleDoubleDot,xDoubleDot,yDoubleDot);
-            CylinderResults = [Accelerations([1 2 5]),Positions([3 4]),obj.R,...
-                Freaction,obj.Urk,obj.T_k,FrictionCondition];
+            CylinderResults = [Accelerations([1 2 5]),Positions([3 4]),obj.R,obj.Urk,FrictionCondition];
         end
     end
 end
