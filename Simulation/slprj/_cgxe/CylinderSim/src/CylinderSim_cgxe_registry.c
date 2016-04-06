@@ -18,7 +18,6 @@ static void mdlStart(SimStruct* S)
 
 static void mdlInitializeConditions(SimStruct *S)
 {
-  /*sf_mex_error_direct_call(S, "mdlInitializeConditions", "sf_sfun");*/
   mexPrintf("ERROR: Calling model mdlInitializeConditions method directly.\n");
 }
 
@@ -26,19 +25,16 @@ static void mdlInitializeConditions(SimStruct *S)
 
 static void mdlUpdate(SimStruct *S, int_T tid)
 {
-  /*sf_mex_error_direct_call(S, "mdlUpdate", "sf_sfun");*/
   mexPrintf("ERROR: Calling model mdlUpdate method directly.\n");
 }
 
 static void mdlOutputs(SimStruct* S, int_T tid)
 {
-  /*sf_mex_error_direct_call(S, "mdlOutputs", "sf_sfun");*/
-  mexPrintf("ERROR: Calling model mdlOUtputs method directly.\n");
+  mexPrintf("ERROR: Calling model mdlOutputs method directly.\n");
 }
 
 static void mdlTerminate(SimStruct *S)
 {
-  /*sf_mex_error_direct_call(S, "mdlOutputs", "sf_sfun");*/
   mexPrintf("ERROR: Calling model mdlTerminate method directly.\n");
 }
 
@@ -57,10 +53,10 @@ static mxArray* cgxe_get_supported_modules(void)
   uint32_T* checksumData = NULL;
   mxChksum = mxCreateNumericMatrix(1, 4, mxUINT32_CLASS, mxREAL);
   checksumData = (uint32_T*) mxGetData(mxChksum);
-  checksumData[0] = 1851714360;
-  checksumData[1] = 3545027892;
-  checksumData[2] = 3074268267;
-  checksumData[3] = 1486636326;
+  checksumData[0] = 2830806677;
+  checksumData[1] = 1022949638;
+  checksumData[2] = 1888281655;
+  checksumData[3] = 1789682460;
   mxSetCell(mxModules, 0, mxChksum);
   return mxModules;
 }
@@ -77,40 +73,40 @@ static int cgxe_process_get_checksums(int nlhs, mxArray* plhs[], int nrhs, const
   {
     mxArray* mxModelChksum = mxCreateDoubleMatrix(1, 4, mxREAL);
     double* checksumData = (double*) mxGetData(mxModelChksum);
-    checksumData[0] = 2436638259;
-    checksumData[1] = 2072663710;
-    checksumData[2] = 1214208827;
-    checksumData[3] = 1418645630;
+    checksumData[0] = 4219585351;
+    checksumData[1] = 1410500254;
+    checksumData[2] = 998849182;
+    checksumData[3] = 3779145693;
     mxSetField(mxChecksum, 0, "model", mxModelChksum);
   }
 
   {
     mxArray* mxMakefileChksum = mxCreateDoubleMatrix(1, 4, mxREAL);
     double* checksumData = (double*) mxGetData(mxMakefileChksum);
-    checksumData[0] = 2234794573;
-    checksumData[1] = 2298093453;
-    checksumData[2] = 873297924;
-    checksumData[3] = 1336857627;
+    checksumData[0] = 1107892207;
+    checksumData[1] = 1166504183;
+    checksumData[2] = 2199647629;
+    checksumData[3] = 3306514579;
     mxSetField(mxChecksum, 0, "makefile", mxMakefileChksum);
   }
 
   {
     mxArray* mxTargetChksum = mxCreateDoubleMatrix(1, 4, mxREAL);
     double* checksumData = (double*) mxGetData(mxTargetChksum);
-    checksumData[0] = 3372951106;
-    checksumData[1] = 918431882;
-    checksumData[2] = 3347834876;
-    checksumData[3] = 1981024879;
+    checksumData[0] = 4201015399;
+    checksumData[1] = 462648460;
+    checksumData[2] = 3089484632;
+    checksumData[3] = 1933583925;
     mxSetField(mxChecksum, 0, "target", mxTargetChksum);
   }
 
   {
     mxArray* mxOverallChksum = mxCreateDoubleMatrix(1, 4, mxREAL);
     double* checksumData = (double*) mxGetData(mxOverallChksum);
-    checksumData[0] = 2829337509;
-    checksumData[1] = 2747940169;
-    checksumData[2] = 4031883816;
-    checksumData[3] = 2529533371;
+    checksumData[0] = 2012280677;
+    checksumData[1] = 492211778;
+    checksumData[2] = 2452286334;
+    checksumData[3] = 2040889177;
     mxSetField(mxChecksum, 0, "overall", mxOverallChksum);
   }
 
@@ -180,9 +176,9 @@ static int cgxe_get_BuildInfoUpdate(int nlhs, mxArray * plhs[], int nrhs, const
   char tpChksum[64];
   mxGetString(prhs[1], tpChksum,sizeof(tpChksum)/sizeof(char));
   tpChksum[(sizeof(tpChksum)/sizeof(char)-1)] = '\0';
-  if (strcmp(tpChksum, "mZk3xfHht9RcBXgyf1yZnE") == 0) {
-    extern mxArray *cgxe_mZk3xfHht9RcBXgyf1yZnE_BuildInfoUpdate(void);
-    plhs[0] = cgxe_mZk3xfHht9RcBXgyf1yZnE_BuildInfoUpdate();
+  if (strcmp(tpChksum, "31jpglTIC8bwLycVokar5F") == 0) {
+    extern mxArray *cgxe_31jpglTIC8bwLycVokar5F_BuildInfoUpdate(void);
+    plhs[0] = cgxe_31jpglTIC8bwLycVokar5F_BuildInfoUpdate();
     return 1;
   }
 

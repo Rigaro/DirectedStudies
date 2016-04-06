@@ -5,6 +5,8 @@ classdef Cylinder < handle & matlab.System
        g;%Acceleration of gravity in m/s^2
        Us;%Static coefficient of friction
        Uk;%Kinetic coefficient of friction
+       Urs;%Static rotational coefficient of friction
+       Urk;%Kinetic rotational coefficient of friction
        Iz;%Inertia of the cylindrical object in Z
        F_s_x;%Static friction force in X
        F_s_y;%Static friction force in Y
@@ -25,13 +27,15 @@ classdef Cylinder < handle & matlab.System
             obj.g=9.81;
             obj.Us=0.5;
             obj.Uk=0.48;
+            obj.Urs=0.5;
+            obj.Urk=0.48;
             obj.Iz=(obj.M*obj.R^2)/2;
             obj.F_s_x=obj.M*obj.g*obj.Us;
             obj.F_s_y=obj.M*obj.g*obj.Us;
             obj.F_k_x=obj.M*obj.g*obj.Uk;
             obj.F_k_y=obj.M*obj.g*obj.Uk;
-            obj.T_s=(2/3)*obj.Us*obj.R*obj.M*obj.g;
-            obj.T_k=(2/3)*obj.Uk*obj.R*obj.M*obj.g;
+            obj.T_s=(2/3)*obj.Urs*obj.R*obj.M*obj.g;
+            obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g;
             obj.Position_o_G3=[0;0];
             obj.Position_G3_P3_frame_cylinder=[0;obj.R];
         end
@@ -105,7 +109,7 @@ classdef Cylinder < handle & matlab.System
             Acceleration_o_G3_frame_0=[xDoubleDot;yDoubleDot];
             Acceleration_o_P3_frame_0=[xDoubleDot+obj.R*sin(angle)*(angleDot^2)-obj.R*cos(angle)*angleDoubleDot;...
                                        yDoubleDot-obj.R*cos(angle)*(angleDot^2)-obj.R*sin(angle)*angleDoubleDot];
-            Accelerations=[Acceleration_o_G3_frame_0,Acceleration_o_P3_frame_0];
+            Accelerations=[Acceleration_o_G3_frame_0,Acceleration_o_P3_frame_0,[angleDoubleDot;0]];
         end
     end
     methods (Access = protected)
@@ -113,8 +117,10 @@ classdef Cylinder < handle & matlab.System
     %............................................................................
     %Function that is called in Simulink to calculate updated
     %positions,velocities and accelerations for the cylinder
-        function CylinderResults=stepImpl(obj,FextX,FextY,TorqueExt,angleDot,angle,...
-                                                        xDotG3,yDotG3,xPositionG3,yPositionG3)
+        function CylinderResults=stepImpl(obj,FextX,FextY,TorqueExt,xDotG3,yDotG3,angleDot,...
+                                                        xPositionG3,yPositionG3,angle)
+            %obj.Urk=Urk;
+            %obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g;
             GenCordExt=[FextX,FextY,TorqueExt];
             GeneralCoordinatesDoubleDot = Equation_Of_Motion(obj,GenCordExt);
             xDoubleDot = GeneralCoordinatesDoubleDot(1);
@@ -123,7 +129,7 @@ classdef Cylinder < handle & matlab.System
             Positions = PosCalculation(obj,angle,xPositionG3,yPositionG3);
             Velocities = VelCalculation (obj,angle,angleDot,xDotG3,yDotG3);
             Accelerations = AccCalculation (obj,angle,angleDot,angleDoubleDot,xDoubleDot,yDoubleDot);
-            CylinderResults = [Accelerations(1),Accelerations(2),angleDoubleDot,obj.R,Positions(3),Positions(4)];
+            CylinderResults = [Accelerations([1 2 5]),Positions([3 4]),obj.R];
         end
     end
 end

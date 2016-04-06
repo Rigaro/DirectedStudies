@@ -1,5 +1,5 @@
-#ifndef __mZk3xfHht9RcBXgyf1yZnE_h__
-#define __mZk3xfHht9RcBXgyf1yZnE_h__
+#ifndef __31jpglTIC8bwLycVokar5F_h__
+#define __31jpglTIC8bwLycVokar5F_h__
 
 /* Include files */
 #include "simstruc.h"
@@ -30,19 +30,19 @@ typedef struct slE07I4lDg6FknjQ3k8Q9CG slE07I4lDg6FknjQ3k8Q9CG;
 
 #endif                                 /*typedef_slE07I4lDg6FknjQ3k8Q9CG*/
 
-#ifndef struct_sBOY20gM4tIPG912eC2a7GB
-#define struct_sBOY20gM4tIPG912eC2a7GB
+#ifndef struct_sORGHAN5sH04AHU9NSNSORC
+#define struct_sORGHAN5sH04AHU9NSNSORC
 
-struct sBOY20gM4tIPG912eC2a7GB
+struct sORGHAN5sH04AHU9NSNSORC
 {
-  boolean_T isInitialized;
-  boolean_T isReleased;
-  boolean_T TunablePropsChanged;
+  int32_T isInitialized;
   real_T R;
   real_T M;
   real_T g;
   real_T Us;
   real_T Uk;
+  real_T Urs;
+  real_T Urk;
   real_T Iz;
   real_T F_s_x;
   real_T F_s_y;
@@ -54,12 +54,12 @@ struct sBOY20gM4tIPG912eC2a7GB
   real_T Position_G3_P3_frame_cylinder[2];
 };
 
-#endif                                 /*struct_sBOY20gM4tIPG912eC2a7GB*/
+#endif                                 /*struct_sORGHAN5sH04AHU9NSNSORC*/
 
 #ifndef typedef_Cylinder
 #define typedef_Cylinder
 
-typedef struct sBOY20gM4tIPG912eC2a7GB Cylinder;
+typedef struct sORGHAN5sH04AHU9NSNSORC Cylinder;
 
 #endif                                 /*typedef_Cylinder*/
 
@@ -166,33 +166,37 @@ typedef struct s7UBIGHSehQY1gCsIQWwr5C s7UBIGHSehQY1gCsIQWwr5C;
 
 #endif                                 /*typedef_s7UBIGHSehQY1gCsIQWwr5C*/
 
-#ifndef struct_sWzLM2sxoJyiBvZh9w5OsiF
-#define struct_sWzLM2sxoJyiBvZh9w5OsiF
+#ifndef struct_sznE3FlCyo7TBPrpitCkVZC
+#define struct_sznE3FlCyo7TBPrpitCkVZC
 
-struct sWzLM2sxoJyiBvZh9w5OsiF
+struct sznE3FlCyo7TBPrpitCkVZC
 {
-  real_T codeGenChksum[4];
+  s7UBIGHSehQY1gCsIQWwr5C dlgPrmChksum;
+  s7UBIGHSehQY1gCsIQWwr5C propChksum[3];
+  s7UBIGHSehQY1gCsIQWwr5C CGOnlyParamChksum;
+  s7UBIGHSehQY1gCsIQWwr5C postPropOnlyChksum;
 };
 
-#endif                                 /*struct_sWzLM2sxoJyiBvZh9w5OsiF*/
+#endif                                 /*struct_sznE3FlCyo7TBPrpitCkVZC*/
 
-#ifndef typedef_sWzLM2sxoJyiBvZh9w5OsiF
-#define typedef_sWzLM2sxoJyiBvZh9w5OsiF
+#ifndef typedef_sznE3FlCyo7TBPrpitCkVZC
+#define typedef_sznE3FlCyo7TBPrpitCkVZC
 
-typedef struct sWzLM2sxoJyiBvZh9w5OsiF sWzLM2sxoJyiBvZh9w5OsiF;
+typedef struct sznE3FlCyo7TBPrpitCkVZC sznE3FlCyo7TBPrpitCkVZC;
 
-#endif                                 /*typedef_sWzLM2sxoJyiBvZh9w5OsiF*/
+#endif                                 /*typedef_sznE3FlCyo7TBPrpitCkVZC*/
 
-#ifndef typedef_InstanceStruct_mZk3xfHht9RcBXgyf1yZnE
-#define typedef_InstanceStruct_mZk3xfHht9RcBXgyf1yZnE
+#ifndef typedef_InstanceStruct_31jpglTIC8bwLycVokar5F
+#define typedef_InstanceStruct_31jpglTIC8bwLycVokar5F
 
 typedef struct {
   SimStruct *S;
+  covrtInstance covInst;
   Cylinder sysobj;
   boolean_T sysobj_not_empty;
-} InstanceStruct_mZk3xfHht9RcBXgyf1yZnE;
+} InstanceStruct_31jpglTIC8bwLycVokar5F;
 
-#endif                                 /*typedef_InstanceStruct_mZk3xfHht9RcBXgyf1yZnE*/
+#endif                                 /*typedef_InstanceStruct_31jpglTIC8bwLycVokar5F*/
 
 /* Named Constants */
 
@@ -203,9 +207,9 @@ typedef struct {
 /* Function Declarations */
 
 /* Function Definitions */
-extern void method_dispatcher_mZk3xfHht9RcBXgyf1yZnE(SimStruct *S, int_T method,
+extern void method_dispatcher_31jpglTIC8bwLycVokar5F(SimStruct *S, int_T method,
   void* data);
-extern int autoInfer_dispatcher_mZk3xfHht9RcBXgyf1yZnE(mxArray *lhs[], const
+extern int autoInfer_dispatcher_31jpglTIC8bwLycVokar5F(mxArray *lhs[], const
   char* commandName);
 
 #endif

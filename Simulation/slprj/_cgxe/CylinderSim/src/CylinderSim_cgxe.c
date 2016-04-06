@@ -1,7 +1,7 @@
 /* Include files */
 
 #include "CylinderSim_cgxe.h"
-#include "m_mZk3xfHht9RcBXgyf1yZnE.h"
+#include "m_31jpglTIC8bwLycVokar5F.h"
 
 static unsigned int cgxeModelInitialized = 0;
 emlrtContext emlrtContextGlobal = { true, true, EMLRT_VERSION_INFO, NULL, "",
@@ -33,11 +33,11 @@ void cgxe_CylinderSim_terminator(void)
 unsigned int cgxe_CylinderSim_method_dispatcher(SimStruct* S, int_T method, void*
   data)
 {
-  if (ssGetChecksum0(S) == 1851714360 &&
-      ssGetChecksum1(S) == 3545027892 &&
-      ssGetChecksum2(S) == 3074268267 &&
-      ssGetChecksum3(S) == 1486636326) {
-    method_dispatcher_mZk3xfHht9RcBXgyf1yZnE(S, method, data);
+  if (ssGetChecksum0(S) == 2830806677 &&
+      ssGetChecksum1(S) == 1022949638 &&
+      ssGetChecksum2(S) == 1888281655 &&
+      ssGetChecksum3(S) == 1789682460) {
+    method_dispatcher_31jpglTIC8bwLycVokar5F(S, method, data);
     return 1;
   }
 
@@ -50,8 +50,8 @@ int cgxe_CylinderSim_autoInfer_dispatcher(const mxArray* prhs, mxArray* lhs[],
   char sid[64];
   mxGetString(prhs,sid, sizeof(sid)/sizeof(char));
   sid[(sizeof(sid)/sizeof(char)-1)] = '\0';
-  if (strcmp(sid, "CylinderSim:48") == 0 ) {
-    return autoInfer_dispatcher_mZk3xfHht9RcBXgyf1yZnE(lhs, commandName);
+  if (strcmp(sid, "CylinderSim:67") == 0 ) {
+    return autoInfer_dispatcher_31jpglTIC8bwLycVokar5F(lhs, commandName);
   }
 
   return 0;
