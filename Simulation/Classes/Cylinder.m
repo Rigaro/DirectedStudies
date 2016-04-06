@@ -117,11 +117,12 @@ classdef Cylinder < handle & matlab.System
     %............................................................................
     %Function that is called in Simulink to calculate updated
     %positions,velocities and accelerations for the cylinder
-        function CylinderResults=stepImpl(obj,FextX,FextY,TorqueExt,xDotG3,yDotG3,angleDot,...
+        function CylinderResults=stepImpl(obj,ColissionCondition,Urk,FextX,FextY,TorqueExt,xDotG3,yDotG3,angleDot,...
                                                         xPositionG3,yPositionG3,angle)
-            %obj.Urk=Urk;
-            %obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g;
+            obj.Urk=Urk;
+            obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g;
             GenCordExt=[FextX,FextY,TorqueExt];
+            FrictionCondition=NonLinearFriction(obj,abs(GenCordExt(3)),'T_s');
             GeneralCoordinatesDoubleDot = Equation_Of_Motion(obj,GenCordExt);
             xDoubleDot = GeneralCoordinatesDoubleDot(1);
             yDoubleDot = GeneralCoordinatesDoubleDot(2);
@@ -129,7 +130,8 @@ classdef Cylinder < handle & matlab.System
             Positions = PosCalculation(obj,angle,xPositionG3,yPositionG3);
             Velocities = VelCalculation (obj,angle,angleDot,xDotG3,yDotG3);
             Accelerations = AccCalculation (obj,angle,angleDot,angleDoubleDot,xDoubleDot,yDoubleDot);
-            CylinderResults = [Accelerations([1 2 5]),Positions([3 4]),obj.R];
+            CylinderResults = [Accelerations([1 2 5]),Positions([3 4]),obj.R,...
+                Freaction,obj.Urk,obj.T_k,FrictionCondition];
         end
     end
 end

@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include "blas.h"
 #include "CylinderSim_cgxe.h"
-#include "m_31jpglTIC8bwLycVokar5F.h"
+#include "m_eJG1O6WbMNFUvHWZ3mwzSC.h"
 #include "mwmathutil.h"
 
 /* Type Definitions */
@@ -18,14 +18,14 @@ static emlrtMCInfo emlrtMCI = { 1, 1, "SystemCore",
 };
 
 /* Function Declarations */
-static void cgxe_mdl_start(InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance);
-static void cgxe_mdl_initialize(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance);
+static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance);
-static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance);
-static void cgxe_mdl_update(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void cgxe_mdl_update(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance);
-static void cgxe_mdl_terminate(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance);
 static const mxArray *mw__internal__name__resolution__fcn(void);
 static void info_helper(const mxArray **info);
@@ -34,7 +34,7 @@ static const mxArray *b_emlrt_marshallOut(const uint32_T u);
 static void b_info_helper(const mxArray **info);
 static const mxArray *mw__internal__autoInference__fcn(void);
 static const mxArray *mw__internal__getSimState__fcn
-  (InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance);
+  (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance);
 static void emlrt_marshallIn(const mxArray *b_sysobj, const char_T *identifier,
   Cylinder *y);
 static void b_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
@@ -49,7 +49,7 @@ static boolean_T f_emlrt_marshallIn(const mxArray *b_sysobj_not_empty, const
   char_T *identifier);
 static boolean_T g_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
   *parentId);
-static void mw__internal__setSimState__fcn(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void mw__internal__setSimState__fcn(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance, const mxArray *st);
 static const mxArray *message(const mxArray *b, const mxArray *c, emlrtMCInfo
   *location);
@@ -64,7 +64,7 @@ static boolean_T k_emlrt_marshallIn(const mxArray *src, const emlrtMsgIdentifier
   *msgId);
 
 /* Function Definitions */
-static void cgxe_mdl_start(InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance)
+static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance)
 {
   real_T a;
   int32_T i0;
@@ -142,7 +142,7 @@ static void cgxe_mdl_start(InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance
   covrtFcnInit(&moduleInstance->covInst, 0, 0, "Cylinder_Cylinder", 1145, -1,
                1767);
   covrtFcnInit(&moduleInstance->covInst, 0, 6, "Cylinder_stepImpl", 6315, -1,
-               7213);
+               7231);
 
   /* Initialize Basic Block Information */
   covrtBasicBlockInit(&moduleInstance->covInst, 0, 15, 5586, -1, 5965);
@@ -161,7 +161,7 @@ static void cgxe_mdl_start(InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance
   covrtBasicBlockInit(&moduleInstance->covInst, 0, 2, 2322, -1, 2347);
   covrtBasicBlockInit(&moduleInstance->covInst, 0, 1, 2231, -1, 2256);
   covrtBasicBlockInit(&moduleInstance->covInst, 0, 0, 1189, -1, 1754);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 16, 6581, -1, 7200);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 16, 6505, -1, 7218);
 
   /* Initialize If Information */
   covrtIfInit(&moduleInstance->covInst, 0, 3, 3250, 3307, 3417, 3488);
@@ -261,7 +261,7 @@ static void cgxe_mdl_start(InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance
   obj->isInitialized = 1;
 }
 
-static void cgxe_mdl_initialize(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance)
 {
   real_T a;
@@ -431,7 +431,7 @@ static void cgxe_mdl_initialize(InstanceStruct_31jpglTIC8bwLycVokar5F
   }
 }
 
-static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance)
 {
   real_T Acceleration_o_P3_frame_0[2];
@@ -481,7 +481,7 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   real_T GeneralCoordinatesDoubleDot_idx_0;
   real_T GeneralCoordinatesDoubleDot_idx_1;
   real_T dv0[4];
-  real_T varargin_7[2];
+  real_T varargin_8[2];
   int32_T i2;
   real_T Positions[4];
   real_T GeneralCoordinatesDoubleDot[2];
@@ -506,11 +506,12 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   real_T *u0;
   real_T *u1;
   real_T *u2;
+  real_T *u3;
+  real_T *u9;
+  real_T *u7;
   real_T *u8;
   real_T *u6;
-  real_T *u7;
-  real_T *u5;
-  real_T (*b_y0)[6];
+  real_T (*b_y0)[8];
   real_T (*Position_o_G3)[2];
   real_T (*Position_G3_P3_frame_cylinder)[2];
   Position_G3_P3_frame_cylinder = (real_T (*)[2])(ssGetRunTimeParamInfo
@@ -531,11 +532,12 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   g = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 2U))->data;
   M = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 1U))->data;
   R = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 0U))->data;
-  b_y0 = (real_T (*)[6])ssGetOutputPortSignal(moduleInstance->S, 0U);
+  b_y0 = (real_T (*)[8])ssGetOutputPortSignal(moduleInstance->S, 0U);
+  u9 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 9U);
   u8 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 8U);
   u7 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 7U);
   u6 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 6U);
-  u5 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 5U);
+  u3 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 3U);
   u2 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 2U);
   u1 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 1U);
   u0 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 0U);
@@ -921,11 +923,11 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   /* ............................................................................ */
   /* Function that is called in Simulink to calculate updated */
   /* positions,velocities and accelerations for the cylinder */
-  /* obj.Urk=Urk; */
-  /* obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g; */
-  GenCordExt[0] = *u0;
-  GenCordExt[1] = *u1;
-  GenCordExt[2] = *u2;
+  obj->Urk = *u0;
+  obj->T_k = 0.66666666666666663 * obj->Urk * obj->R * obj->M * obj->g;
+  GenCordExt[0] = *u1;
+  GenCordExt[1] = *u2;
+  GenCordExt[2] = *u3;
   covrtLogFcn(&moduleInstance->covInst, 0, 2);
   covrtLogBasicBlock(&moduleInstance->covInst, 0, 6);
   for (k = 0; k < 3; k++) {
@@ -936,7 +938,7 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   covrtLogIf(&moduleInstance->covInst, 0, 0, 0, true);
   covrtLogBasicBlock(&moduleInstance->covInst, 0, 1);
   ForceEvaluation = obj->F_s_x;
-  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u0) <=
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u1) <=
                  ForceEvaluation)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 4);
     k = 0;
@@ -947,7 +949,7 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
 
   if (covrtLogIf(&moduleInstance->covInst, 0, 0, 3, k == 1)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 7);
-    ForceEvaluation = *u0 + SignOposite[0] * obj->F_k_x;
+    ForceEvaluation = *u1 + SignOposite[0] * obj->F_k_x;
     B = obj->M;
     GeneralCoordinatesDoubleDot_idx_0 = ForceEvaluation / B;
   } else {
@@ -960,7 +962,7 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   covrtLogIf(&moduleInstance->covInst, 0, 0, 1, true);
   covrtLogBasicBlock(&moduleInstance->covInst, 0, 2);
   ForceEvaluation = obj->F_s_y;
-  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u1) <=
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u2) <=
                  ForceEvaluation)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 4);
     k = 0;
@@ -971,7 +973,7 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
 
   if (covrtLogIf(&moduleInstance->covInst, 0, 0, 4, k == 1)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 9);
-    ForceEvaluation = *u1 + SignOposite[1] * obj->F_k_y;
+    ForceEvaluation = *u2 + SignOposite[1] * obj->F_k_y;
     B = obj->M;
     GeneralCoordinatesDoubleDot_idx_1 = ForceEvaluation / B;
   } else {
@@ -984,7 +986,7 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   covrtLogIf(&moduleInstance->covInst, 0, 0, 1, false);
   covrtLogBasicBlock(&moduleInstance->covInst, 0, 3);
   ForceEvaluation = obj->T_s;
-  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u2) <=
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u3) <=
                  ForceEvaluation)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 4);
     k = 0;
@@ -995,7 +997,7 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
 
   if (covrtLogIf(&moduleInstance->covInst, 0, 0, 5, k == 1)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 11);
-    ForceEvaluation = *u2 + SignOposite[2] * obj->T_k;
+    ForceEvaluation = *u3 + SignOposite[2] * obj->T_k;
     B = obj->Iz;
     ForceEvaluation /= B;
   } else {
@@ -1009,12 +1011,12 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
     Acceleration_o_P3_frame_0[k] = obj->Position_G3_P3_frame_cylinder[k];
   }
 
-  dv0[0] = muDoubleScalarCos(*u8);
-  dv0[2] = -muDoubleScalarSin(*u8);
-  dv0[1] = muDoubleScalarSin(*u8);
-  dv0[3] = muDoubleScalarCos(*u8);
-  varargin_7[0] = *u6;
-  varargin_7[1] = *u7;
+  dv0[0] = muDoubleScalarCos(*u9);
+  dv0[2] = -muDoubleScalarSin(*u9);
+  dv0[1] = muDoubleScalarSin(*u9);
+  dv0[3] = muDoubleScalarCos(*u9);
+  varargin_8[0] = *u7;
+  varargin_8[1] = *u8;
   for (k = 0; k < 2; k++) {
     hoistedGlobal_Position_o_G3[k] = 0.0;
     for (i2 = 0; i2 < 2; i2++) {
@@ -1028,7 +1030,7 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   }
 
   for (k = 0; k < 2; k++) {
-    Positions[2 + k] = varargin_7[k] + hoistedGlobal_Position_o_G3[k];
+    Positions[2 + k] = varargin_8[k] + hoistedGlobal_Position_o_G3[k];
   }
 
   covrtLogFcn(&moduleInstance->covInst, 0, 4);
@@ -1080,10 +1082,10 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   /* ............................................................................ */
   /* Absolute Accelerations for G3 and P3 updated from frame 0 */
   Acceleration_o_P3_frame_0[0] = (GeneralCoordinatesDoubleDot_idx_0 + obj->R *
-    muDoubleScalarSin(*u8) * (*u5 * *u5)) - obj->R * muDoubleScalarCos(*u8) *
+    muDoubleScalarSin(*u9) * (*u6 * *u6)) - obj->R * muDoubleScalarCos(*u9) *
     ForceEvaluation;
   Acceleration_o_P3_frame_0[1] = (GeneralCoordinatesDoubleDot_idx_1 - obj->R *
-    muDoubleScalarCos(*u8) * (*u5 * *u5)) - obj->R * muDoubleScalarSin(*u8) *
+    muDoubleScalarCos(*u9) * (*u6 * *u6)) - obj->R * muDoubleScalarSin(*u9) *
     ForceEvaluation;
   GeneralCoordinatesDoubleDot[0] = GeneralCoordinatesDoubleDot_idx_0;
   GeneralCoordinatesDoubleDot[1] = GeneralCoordinatesDoubleDot_idx_1;
@@ -1104,15 +1106,17 @@ static void cgxe_mdl_outputs(InstanceStruct_31jpglTIC8bwLycVokar5F
   }
 
   (*b_y0)[5] = obj->R;
+  (*b_y0)[6] = obj->Urk;
+  (*b_y0)[7] = obj->T_k;
 }
 
-static void cgxe_mdl_update(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void cgxe_mdl_update(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance)
 {
   (void)moduleInstance;
 }
 
-static void cgxe_mdl_terminate(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance)
 {
   real_T a;
@@ -1802,7 +1806,7 @@ static void info_helper(const mxArray **info)
   emlrtAddField(*info, emlrt_marshallOut(
     "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
                 "resolved", 41);
-  emlrtAddField(*info, b_emlrt_marshallOut(1459923563U), "fileTimeLo", 41);
+  emlrtAddField(*info, b_emlrt_marshallOut(1459930192U), "fileTimeLo", 41);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 41);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 41);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 41);
@@ -2387,21 +2391,20 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   const mxArray *infoCache;
   int8_T Ports_dims_data[4];
   int32_T i4;
-  static int8_T iv15[4] = { 6, 2, 1, 6 };
+  static int8_T iv15[4] = { 8, 2, 1, 8 };
 
   uint32_T RestoreInfo_cgxeChksum[4];
   uint32_T info_VerificationInfo_dlgPrmChksum_chksum[4];
-  static uint32_T uv0[4] = { 2830806677U, 1022949638U, 1888281655U, 1789682460U
-  };
+  static uint32_T uv0[4] = { 106978902U, 377345797U, 3171370533U, 4112056921U };
 
   static uint32_T t0_dlgPrmChksum_chksum[4] = { 4119393617U, 1661565817U,
     4163944417U, 1726356677U };
 
   s7UBIGHSehQY1gCsIQWwr5C info_VerificationInfo_propChksum[3];
-  static s7UBIGHSehQY1gCsIQWwr5C b_t0_propChksum[3] = { { { 2.142174056E+9,
-        8.46573741E+8, 1.209501514E+9, 4.3039537E+8 } }, { { 4.25343916E+8,
-        2.17928458E+9, 2.146508138E+9, 3.819613487E+9 } }, { { 7.76759425E+8,
-        3.454184808E+9, 3.908237643E+9, 4.275338662E+9 } } };
+  static s7UBIGHSehQY1gCsIQWwr5C b_t0_propChksum[3] = { { { 5.80329916E+8,
+        3.311835659E+9, 1.200678795E+9, 2.69024578E+8 } }, { { 1.30480059E+8,
+        3.265749625E+9, 3.520795777E+9, 3.444041995E+9 } }, { { 3.912780797E+9,
+        4.8271938E+7, 2.633218385E+9, 2.74198087E+8 } } };
 
   uint32_T b_t0_dlgPrmChksum_chksum[4];
   uint32_T info_VerificationInfo_postPropOnlyChksum_chksum[4];
@@ -2627,12 +2630,12 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAssign(&s_y, m6);
   emlrtAddField(c_y, s_y, "objDWorkTypeNameIndex", 0);
   b_u_sizes[0] = 1;
-  b_u_sizes[1] = 9;
+  b_u_sizes[1] = 10;
   t_y = NULL;
   m6 = emlrtCreateNumericArray(2, b_u_sizes, mxDOUBLE_CLASS, mxREAL);
   pData = (real_T *)mxGetPr(m6);
   i4 = 0;
-  for (i = 0; i < 9; i++) {
+  for (i = 0; i < 10; i++) {
     pData[i4] = 0.0;
     i4++;
   }
@@ -2735,7 +2738,7 @@ static const mxArray *mw__internal__autoInference__fcn(void)
 }
 
 static const mxArray *mw__internal__getSimState__fcn
-  (InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance)
+  (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance)
 {
   const mxArray *st;
   const mxArray *y;
@@ -2978,7 +2981,7 @@ static boolean_T g_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
   return y;
 }
 
-static void mw__internal__setSimState__fcn(InstanceStruct_31jpglTIC8bwLycVokar5F
+static void mw__internal__setSimState__fcn(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   *moduleInstance, const mxArray *st)
 {
   const mxArray *u;
@@ -3057,57 +3060,57 @@ static boolean_T k_emlrt_marshallIn(const mxArray *src, const emlrtMsgIdentifier
 }
 
 /* CGXE Glue Code */
-static void mdlOutputs_31jpglTIC8bwLycVokar5F(SimStruct *S, int_T tid)
+static void mdlOutputs_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S, int_T tid)
 {
-  InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance;
-  moduleInstance = (InstanceStruct_31jpglTIC8bwLycVokar5F *)ssGetUserData(S);
+  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
+  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_outputs(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlInitialize_31jpglTIC8bwLycVokar5F(SimStruct *S)
+static void mdlInitialize_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
 {
-  InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance;
-  moduleInstance = (InstanceStruct_31jpglTIC8bwLycVokar5F *)ssGetUserData(S);
+  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
+  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_initialize(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlUpdate_31jpglTIC8bwLycVokar5F(SimStruct *S, int_T tid)
+static void mdlUpdate_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S, int_T tid)
 {
-  InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance;
-  moduleInstance = (InstanceStruct_31jpglTIC8bwLycVokar5F *)ssGetUserData(S);
+  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
+  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_update(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static mxArray* getSimState_31jpglTIC8bwLycVokar5F(SimStruct *S)
+static mxArray* getSimState_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
 {
-  InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance;
+  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
   mxArray* mxSS;
-  moduleInstance = (InstanceStruct_31jpglTIC8bwLycVokar5F *)ssGetUserData(S);
+  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   mxSS = (mxArray *) mw__internal__getSimState__fcn(moduleInstance);
   CGXERT_LEAVE_CHECK();
   return mxSS;
 }
 
-static void setSimState_31jpglTIC8bwLycVokar5F(SimStruct *S, const mxArray *ss)
+static void setSimState_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S, const mxArray *ss)
 {
-  InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance;
-  moduleInstance = (InstanceStruct_31jpglTIC8bwLycVokar5F *)ssGetUserData(S);
+  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
+  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   mw__internal__setSimState__fcn(moduleInstance, emlrtAlias(ss));
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlTerminate_31jpglTIC8bwLycVokar5F(SimStruct *S)
+static void mdlTerminate_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
 {
-  InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance;
-  moduleInstance = (InstanceStruct_31jpglTIC8bwLycVokar5F *)ssGetUserData(S);
+  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
+  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_terminate(moduleInstance);
   CGXERT_LEAVE_CHECK();
@@ -3115,11 +3118,11 @@ static void mdlTerminate_31jpglTIC8bwLycVokar5F(SimStruct *S)
   ssSetUserData(S, NULL);
 }
 
-static void mdlStart_31jpglTIC8bwLycVokar5F(SimStruct *S)
+static void mdlStart_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
 {
-  InstanceStruct_31jpglTIC8bwLycVokar5F *moduleInstance;
-  moduleInstance = (InstanceStruct_31jpglTIC8bwLycVokar5F *)calloc(1, sizeof
-    (InstanceStruct_31jpglTIC8bwLycVokar5F));
+  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
+  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)calloc(1, sizeof
+    (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC));
   moduleInstance->S = S;
   ssSetUserData(S, (void *)moduleInstance);
   CGXERT_ENTER_CHECK();
@@ -3132,48 +3135,48 @@ static void mdlStart_31jpglTIC8bwLycVokar5F(SimStruct *S)
     ssSetOptions(S, options);
   }
 
-  ssSetmdlOutputs(S, mdlOutputs_31jpglTIC8bwLycVokar5F);
-  ssSetmdlInitializeConditions(S, mdlInitialize_31jpglTIC8bwLycVokar5F);
-  ssSetmdlUpdate(S, mdlUpdate_31jpglTIC8bwLycVokar5F);
-  ssSetmdlTerminate(S, mdlTerminate_31jpglTIC8bwLycVokar5F);
+  ssSetmdlOutputs(S, mdlOutputs_eJG1O6WbMNFUvHWZ3mwzSC);
+  ssSetmdlInitializeConditions(S, mdlInitialize_eJG1O6WbMNFUvHWZ3mwzSC);
+  ssSetmdlUpdate(S, mdlUpdate_eJG1O6WbMNFUvHWZ3mwzSC);
+  ssSetmdlTerminate(S, mdlTerminate_eJG1O6WbMNFUvHWZ3mwzSC);
 }
 
-static void mdlProcessParameters_31jpglTIC8bwLycVokar5F(SimStruct *S)
+static void mdlProcessParameters_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
 {
 }
 
-void method_dispatcher_31jpglTIC8bwLycVokar5F(SimStruct *S, int_T method, void
+void method_dispatcher_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S, int_T method, void
   *data)
 {
   switch (method) {
    case SS_CALL_MDL_START:
-    mdlStart_31jpglTIC8bwLycVokar5F(S);
+    mdlStart_eJG1O6WbMNFUvHWZ3mwzSC(S);
     break;
 
    case SS_CALL_MDL_PROCESS_PARAMETERS:
-    mdlProcessParameters_31jpglTIC8bwLycVokar5F(S);
+    mdlProcessParameters_eJG1O6WbMNFUvHWZ3mwzSC(S);
     break;
 
    case SS_CALL_MDL_GET_SIM_STATE:
-    *((mxArray**) data) = getSimState_31jpglTIC8bwLycVokar5F(S);
+    *((mxArray**) data) = getSimState_eJG1O6WbMNFUvHWZ3mwzSC(S);
     break;
 
    case SS_CALL_MDL_SET_SIM_STATE:
-    setSimState_31jpglTIC8bwLycVokar5F(S, (const mxArray *) data);
+    setSimState_eJG1O6WbMNFUvHWZ3mwzSC(S, (const mxArray *) data);
     break;
 
    default:
     /* Unhandled method */
     /*
        sf_mex_error_message("Stateflow Internal Error:\n"
-       "Error calling method dispatcher for module: 31jpglTIC8bwLycVokar5F.\n"
+       "Error calling method dispatcher for module: eJG1O6WbMNFUvHWZ3mwzSC.\n"
        "Can't handle method %d.\n", method);
      */
     break;
   }
 }
 
-int autoInfer_dispatcher_31jpglTIC8bwLycVokar5F(mxArray* plhs[], const char
+int autoInfer_dispatcher_eJG1O6WbMNFUvHWZ3mwzSC(mxArray* plhs[], const char
   * commandName)
 {
   if (strcmp(commandName, "NameResolution") == 0) {
@@ -3189,7 +3192,7 @@ int autoInfer_dispatcher_31jpglTIC8bwLycVokar5F(mxArray* plhs[], const char
   return 0;
 }
 
-mxArray *cgxe_31jpglTIC8bwLycVokar5F_BuildInfoUpdate(void)
+mxArray *cgxe_eJG1O6WbMNFUvHWZ3mwzSC_BuildInfoUpdate(void)
 {
   mxArray * mxBIArgs;
   mxArray * elem_1;

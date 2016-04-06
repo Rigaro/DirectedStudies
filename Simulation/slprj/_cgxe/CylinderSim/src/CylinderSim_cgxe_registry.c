@@ -54,6 +54,12 @@ static mxArray* cgxe_get_supported_modules(void)
   mxChksum = mxCreateNumericMatrix(1, 4, mxUINT32_CLASS, mxREAL);
   checksumData = (uint32_T*) mxGetData(mxChksum);
 <<<<<<< HEAD
+  checksumData[0] = 106978902;
+  checksumData[1] = 377345797;
+  checksumData[2] = 3171370533;
+  checksumData[3] = 4112056921;
+=======
+<<<<<<< HEAD
   checksumData[0] = 2385195304;
   checksumData[1] = 3350137730;
   checksumData[2] = 2965100561;
@@ -64,6 +70,7 @@ static mxArray* cgxe_get_supported_modules(void)
   checksumData[2] = 1888281655;
   checksumData[3] = 1789682460;
 >>>>>>> 438a19e020e85c521f6c228923ac4e5b4c6e50da
+>>>>>>> 3b6785beae7b1b91d671d3400db927969db90f62
   mxSetCell(mxModules, 0, mxChksum);
   return mxModules;
 }
@@ -81,6 +88,12 @@ static int cgxe_process_get_checksums(int nlhs, mxArray* plhs[], int nrhs, const
     mxArray* mxModelChksum = mxCreateDoubleMatrix(1, 4, mxREAL);
     double* checksumData = (double*) mxGetData(mxModelChksum);
 <<<<<<< HEAD
+    checksumData[0] = 4045158047;
+    checksumData[1] = 1886551100;
+    checksumData[2] = 3933028082;
+    checksumData[3] = 876979045;
+=======
+<<<<<<< HEAD
     checksumData[0] = 3327881038;
     checksumData[1] = 2699809805;
     checksumData[2] = 2477652977;
@@ -91,12 +104,19 @@ static int cgxe_process_get_checksums(int nlhs, mxArray* plhs[], int nrhs, const
     checksumData[2] = 998849182;
     checksumData[3] = 3779145693;
 >>>>>>> 438a19e020e85c521f6c228923ac4e5b4c6e50da
+>>>>>>> 3b6785beae7b1b91d671d3400db927969db90f62
     mxSetField(mxChecksum, 0, "model", mxModelChksum);
   }
 
   {
     mxArray* mxMakefileChksum = mxCreateDoubleMatrix(1, 4, mxREAL);
     double* checksumData = (double*) mxGetData(mxMakefileChksum);
+<<<<<<< HEAD
+    checksumData[0] = 717330753;
+    checksumData[1] = 4285118029;
+    checksumData[2] = 3693911560;
+    checksumData[3] = 397877149;
+=======
 <<<<<<< HEAD
     checksumData[0] = 3184066827;
     checksumData[1] = 4154336025;
@@ -108,6 +128,7 @@ static int cgxe_process_get_checksums(int nlhs, mxArray* plhs[], int nrhs, const
     checksumData[2] = 2199647629;
     checksumData[3] = 3306514579;
 >>>>>>> 438a19e020e85c521f6c228923ac4e5b4c6e50da
+>>>>>>> 3b6785beae7b1b91d671d3400db927969db90f62
     mxSetField(mxChecksum, 0, "makefile", mxMakefileChksum);
   }
 
@@ -132,6 +153,12 @@ static int cgxe_process_get_checksums(int nlhs, mxArray* plhs[], int nrhs, const
     mxArray* mxOverallChksum = mxCreateDoubleMatrix(1, 4, mxREAL);
     double* checksumData = (double*) mxGetData(mxOverallChksum);
 <<<<<<< HEAD
+    checksumData[0] = 3516915105;
+    checksumData[1] = 1053522604;
+    checksumData[2] = 3898752351;
+    checksumData[3] = 906556076;
+=======
+<<<<<<< HEAD
     checksumData[0] = 19867262;
     checksumData[1] = 3309020895;
     checksumData[2] = 2192358092;
@@ -142,6 +169,7 @@ static int cgxe_process_get_checksums(int nlhs, mxArray* plhs[], int nrhs, const
     checksumData[2] = 2452286334;
     checksumData[3] = 2040889177;
 >>>>>>> 438a19e020e85c521f6c228923ac4e5b4c6e50da
+>>>>>>> 3b6785beae7b1b91d671d3400db927969db90f62
     mxSetField(mxChecksum, 0, "overall", mxOverallChksum);
   }
 
@@ -212,6 +240,11 @@ static int cgxe_get_BuildInfoUpdate(int nlhs, mxArray * plhs[], int nrhs, const
   mxGetString(prhs[1], tpChksum,sizeof(tpChksum)/sizeof(char));
   tpChksum[(sizeof(tpChksum)/sizeof(char)-1)] = '\0';
 <<<<<<< HEAD
+  if (strcmp(tpChksum, "eJG1O6WbMNFUvHWZ3mwzSC") == 0) {
+    extern mxArray *cgxe_eJG1O6WbMNFUvHWZ3mwzSC_BuildInfoUpdate(void);
+    plhs[0] = cgxe_eJG1O6WbMNFUvHWZ3mwzSC_BuildInfoUpdate();
+=======
+<<<<<<< HEAD
   if (strcmp(tpChksum, "GnKguKH8AZspcA0U7Ie8uE") == 0) {
     extern mxArray *cgxe_GnKguKH8AZspcA0U7Ie8uE_BuildInfoUpdate(void);
     plhs[0] = cgxe_GnKguKH8AZspcA0U7Ie8uE_BuildInfoUpdate();
@@ -220,6 +253,7 @@ static int cgxe_get_BuildInfoUpdate(int nlhs, mxArray * plhs[], int nrhs, const
     extern mxArray *cgxe_31jpglTIC8bwLycVokar5F_BuildInfoUpdate(void);
     plhs[0] = cgxe_31jpglTIC8bwLycVokar5F_BuildInfoUpdate();
 >>>>>>> 438a19e020e85c521f6c228923ac4e5b4c6e50da
+>>>>>>> 3b6785beae7b1b91d671d3400db927969db90f62
     return 1;
   }
 
