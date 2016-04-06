@@ -109,7 +109,7 @@ classdef Cylinder < handle & matlab.System
             Acceleration_o_G3_frame_0=[xDoubleDot;yDoubleDot];
             Acceleration_o_P3_frame_0=[xDoubleDot+obj.R*sin(angle)*(angleDot^2)-obj.R*cos(angle)*angleDoubleDot;...
                                        yDoubleDot-obj.R*cos(angle)*(angleDot^2)-obj.R*sin(angle)*angleDoubleDot];
-            Accelerations=[Acceleration_o_G3_frame_0,Acceleration_o_P3_frame_0,[angleDoubleDot;0]];
+            Accelerations=[Acceleration_o_G3_frame_0,Acceleration_o_P3_frame_0,angleDoubleDot];
         end
     end
     methods (Access = protected)
@@ -129,7 +129,7 @@ classdef Cylinder < handle & matlab.System
             Positions = PosCalculation(obj,angle,xPositionG3,yPositionG3);
             Velocities = VelCalculation (obj,angle,angleDot,xDotG3,yDotG3);
             Accelerations = AccCalculation (obj,angle,angleDot,angleDoubleDot,xDoubleDot,yDoubleDot);
-            CylinderResults = [Accelerations([1 2 5]),Positions([3 4]),obj.R];
+            CylinderResults = [Accelerations,Positions(3),Positions(4),obj.R];
         end
     end
 end
