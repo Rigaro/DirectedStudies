@@ -10,6 +10,7 @@
 % Date      |   Author  | Notes                                     |
 % 16/03/23  |   RGR     | Added more comments.                      |
 % 16/03/24  |   RGR     | Compute fc and transform to [x,y].        |
+% 16/04/06  |   RGR     | Removed force class, using only magnitude.|
 
 classdef Index < handle & matlab.System
     % Finger Class
@@ -107,12 +108,15 @@ classdef Index < handle & matlab.System
             Je = obj.computeJe();
             springTau = K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);
             damperTau = D*thetaDot;
-            distTau = Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];
+            distTau = Je'*[obj.prox.fe; obj.dist.fe];
             actTau = Ja'*fa;
-            % Compute force vector and transform to [x,y] coordinate.
-            fc = inv(obj.rotMat(obj.prox.theta+obj.dist.theta))*(inv(Jc')*-(springTau+damperTau+distTau+actTau));
+            % Compute forces normal to proximal and distal links.
+            fcN = (inv(Jc')*-(springTau+damperTau+distTau+actTau));
+            % Distal normal and tangential (0, no tangential force due to
+            % actuation) forces and transform to [x,y] coordinate.
+            fc = -obj.rotMat(obj.prox.theta+obj.dist.theta)*[0;fcN(2)];
         end
-        function xDot = eom(obj,initVal,fa)
+        function [xDot, fc] = eom(obj,initVal,fa)
             % Solves the equations of motion given the initial condition
             % initVal. The states x are: x1 = prox.theta, x2 = dist.theta, 
             % x3 = prox.thetaDot, x4 = dist.thetaDot. For more information
@@ -151,8 +155,8 @@ classdef Index < handle & matlab.System
                 beta*sin(obj.dist.theta)*obj.prox.thetaDot 0];
             springTau = K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);
             damperTau = D*thetaDot;
-            contactTau = Jc'*[obj.prox.fc.fv(1); obj.dist.fc.fv(1)];
-            distTau = Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];
+            contactTau = Jc'*[obj.prox.fc; obj.dist.fc];
+            distTau = Je'*[obj.prox.fe; obj.dist.fe];
             actTau = Ja'*fa;
             % Compute angular acceleration
             thetaDotDot = inv(M)*(-C*thetaDot + springTau + damperTau + contactTau + distTau + actTau);
@@ -181,13 +185,14 @@ classdef Index < handle & matlab.System
             % vector for each link.
             % @return fc Force exerted at contact location (N).
             
-            % External forces to internal ([x,y] to [n,t])
+            % External forces to internal ([x,y] to Normal)
             % Contact
             fcN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fc;
-            obj.dist.fc.setForceV(fcN(1),obj.dist.miuC);
+            obj.dist.fc = fcN(1);
             % Disturbance
             feN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fe;
-            obj.dist.fe.setForceV(feN(1),obj.dist.miuC);
+            obj.dist.fe = feN(1);
+            
             % Equation of motion
             xDot = obj.eom(initVal,fa);
             % Forward kinematics

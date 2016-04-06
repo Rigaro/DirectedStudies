@@ -9,7 +9,8 @@
 %%%%%%%%%%%%|%%%%%%%%%%%|%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%|
 % Date      |   Author  | Notes                                     |
 % 16/03/23  |   RGR     | Added more comments.                      |
-% 16/03/24  |   RGR     | Compute fc as Force object.               |
+% 16/03/24  |   RGR     | Compute fc and transform to [x,y].        |
+% 16/04/06  |   RGR     | Removed force class, using only magnitude.|
 
 classdef Thumb < handle & matlab.System
     % Finger Class
@@ -18,25 +19,25 @@ classdef Thumb < handle & matlab.System
     % mechanism. This class has methods for calculating the kinematics and
     % dynamics of the system.
     properties
-        kP; % proximal joiny stiffness coefficient (Nm/rad)
-        kD; % distal joint stiffness coefficient (Nm/rad)
-        dP; % proximal joint damping coefficient (Nm/(rad/s))
-        dD; % distal joint damping coefficient (Nm/(rad/s))
-        lP; % proximal link length (m)
-        lD; % distal link length (m)
-        rP; % proximal pulley radius (m)
-        rD; % distal pulley radius (m)
-        mP; % proximal link mass (kg)
-        mD; % distal link mass (kg)
-        thetaP; % proximal joint rest angle (rad)
-        thetaD; % distal joint rest angle (rad)
+        kP; % Proximal joiny stiffness coefficient (Nm/rad)
+        kD; % Distal joint stiffness coefficient (Nm/rad)
+        dP; % Proximal joint damping coefficient (Nm/(rad/s))
+        dD; % Distal joint damping coefficient (Nm/(rad/s))
+        lP; % Proximal link length (m)
+        lD; % Distal link length (m)
+        rP; % Proximal pulley radius (m)
+        rD; % Distal pulley radius (m)
+        mP; % Proximal link mass (kg)
+        mD; % Distal link mass (kg)
+        thetaP; % Proximal joint rest angle (rad)
+        thetaD; % Distal joint rest angle (rad)
     end
     properties (SetAccess = private)
         prox; % Finger proximal phalanx
         dist; % Finger distal phalanx
     end
     methods
-        function obj = Thumb(varargin)
+        function obj = Index(varargin)
             % System object constructor with default values.
             % @param varargin System object argument string.
             % @return Index object.
@@ -51,8 +52,8 @@ classdef Thumb < handle & matlab.System
             obj.rD = 0.012;
             obj.mP = 0.02;
             obj.mD = 0.02;
-            obj.thetaP = pi-pi/10;
-            obj.thetaD = -pi/3;
+            obj.thetaP = pi/10;
+            obj.thetaD = pi/3;
             obj.prox = Phalanx(obj.kP,obj.dP,obj.lP,obj.rP,obj.mP,obj.thetaP,1);
             obj.dist = Phalanx(obj.kD,obj.dD,obj.lD,obj.rD,obj.mD,obj.thetaD,2);
         end
@@ -61,7 +62,7 @@ classdef Thumb < handle & matlab.System
             % torques.
             % @return Jc the contact jacobian as a 2x2 matrix.
             Jc = [obj.prox.a, 0;
-                  obj.dist.a+obj.prox.l*cos(obj.dist.theta),obj.dist.a];                     
+                  obj.dist.a+obj.prox.l*cos(obj.dist.theta),obj.dist.a];                    
         end
         function Je = computeJe(obj)
             % Compute disturbance jacobian. Maps disturbance forces to
@@ -107,12 +108,15 @@ classdef Thumb < handle & matlab.System
             Je = obj.computeJe();
             springTau = K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);
             damperTau = D*thetaDot;
-            distTau = Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];
+            distTau = Je'*[obj.prox.fe; obj.dist.fe];
             actTau = Ja'*fa;
-            % Compute force vector and transform to [x,y] coordinate.
-            fc = inv(obj.rotMat(obj.prox.theta+obj.dist.theta))*(inv(Jc')*-(springTau+damperTau+distTau+actTau));
+            % Compute forces normal to proximal and distal links.
+            fcN = (inv(Jc')*-(springTau+damperTau+distTau+actTau));
+            % Distal normal and tangential (0, no tangential force due to
+            % actuation) forces and transform to [x,y] coordinate.
+            fc = -obj.rotMat(obj.prox.theta+obj.dist.theta)*[0;fcN(2)];
         end
-        function xDot = eom(obj,initVal,fa)
+        function [xDot, fc] = eom(obj,initVal,fa)
             % Solves the equations of motion given the initial condition
             % initVal. The states x are: x1 = prox.theta, x2 = dist.theta, 
             % x3 = prox.thetaDot, x4 = dist.thetaDot. For more information
@@ -151,8 +155,8 @@ classdef Thumb < handle & matlab.System
                 beta*sin(obj.dist.theta)*obj.prox.thetaDot 0];
             springTau = K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);
             damperTau = D*thetaDot;
-            contactTau = Jc'*[obj.prox.fc.fv(1); obj.dist.fc.fv(1)];
-            distTau = Je'*[obj.prox.fe.fv(1); obj.dist.fe.fv(1)];
+            contactTau = Jc'*[obj.prox.fc; obj.dist.fc];
+            distTau = Je'*[obj.prox.fe; obj.dist.fe];
             actTau = Ja'*fa;
             % Compute angular acceleration
             thetaDotDot = inv(M)*(-C*thetaDot + springTau + damperTau + contactTau + distTau + actTau);
@@ -181,13 +185,14 @@ classdef Thumb < handle & matlab.System
             % vector for each link.
             % @return fc Force exerted at contact location (N).
             
-            % External forces to internal ([x,y] to [n,t])
+            % External forces to internal ([x,y] to Normal)
             % Contact
             fcN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fc;
-            obj.dist.fc.setForceV(fcN(1),obj.dist.miuC);
+            obj.dist.fc = fcN(1);
             % Disturbance
             feN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fe;
-            obj.dist.fe.setForceV(feN(1),obj.dist.miuC);
+            obj.dist.fe = feN(1);
+            
             % Equation of motion
             xDot = obj.eom(initVal,fa);
             % Forward kinematics

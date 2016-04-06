@@ -31,10 +31,10 @@ classdef Phalanx < handle
         thetaDotDot = 0; % Second derivative (acceleration) of joint angle (rad/s^2)
         % Contact Kinematics properties
         a = 0.1; % Distance from joint to contact force (m)
-        fc % Contact Force
+        fc = 0% Contact Force, Normal to finger.
         % Disturbance Kinematics properties
         b = 0.05; % Distance from joint to disturbance force (m)
-        fe % Disturbance Force
+        fe = 0% Disturbance Force, Normal to finger.
     end
     methods
         function obj = Phalanx(k, d, l, r, m, theta, linkNum)
@@ -62,8 +62,8 @@ classdef Phalanx < handle
             obj.theta0 = obj.theta;
             obj.thetaDot = 0;
             obj.thetaDotDot = 0;
-            obj.fc = ForceNormal(0,obj.a,obj.miuC);
-            obj.fe = ForceNormal(0,obj.b,obj.miuE);
+            obj.fc = 0;
+            obj.fe = 0;
         end
     end
 end

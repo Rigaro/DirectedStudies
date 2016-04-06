@@ -1,0 +1,216 @@
+<!-- saved from url=(0014)about:internet -->
+<div class="dead">
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="29,1" id="srcline1">  1</a></span><span class="line"><span class="comment">% Finger Class</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,2" id="srcline2">  2</a></span><span class="line"><span class="comment">% Represents an underactuated cable driven finger.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,3" id="srcline3">  3</a></span><span class="line"><span class="comment">% The finger is composed of two phalanges driven by a tendon-pulley</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,4" id="srcline4">  4</a></span><span class="line"><span class="comment">% mechanism. This class has methods for calculating the kinematics and</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,5" id="srcline5">  5</a></span><span class="line"><span class="comment">% dynamics of the system.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,6" id="srcline6">  6</a></span><span class="line"><span class="comment">% Extends matlab.System class to allow Simulink implementation.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,7" id="srcline7">  7</a></span><span class="line"><span class="comment">% Author: Ricardo Garcia Rosas</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,8" id="srcline8">  8</a></span><span class="line"><span class="comment">% Change log:</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,9" id="srcline9">  9</a></span><span class="line"><span class="comment">%%%%%%%%%%%%|%%%%%%%%%%%|%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%|</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,10" id="srcline10"> 10</a></span><span class="line"><span class="comment">% Date      |   Author  | Notes                                     |</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,11" id="srcline11"> 11</a></span><span class="line"><span class="comment">% 16/03/23  |   RGR     | Added more comments.                      |</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,12" id="srcline12"> 12</a></span><span class="line"><span class="comment">% 16/03/24  |   RGR     | Compute fc and transform to [x,y].        |</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,13" id="srcline13"> 13</a></span><span class="line"><span class="comment">% 16/04/06  |   RGR     | Removed force class, using only magnitude.|</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,14" id="srcline14"> 14</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="29,15" id="srcline15"> 15</a></span><span class="line"><span class="keyword">classdef</span> Index &lt; handle &amp; matlab.System</span></span>
+<span class="srcline"><span class="lineno"><a href="29,16" id="srcline16"> 16</a></span><span class="line">    <span class="comment">% Finger Class</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,17" id="srcline17"> 17</a></span><span class="line">    <span class="comment">% Represents an underactuated cable driven finger.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,18" id="srcline18"> 18</a></span><span class="line">    <span class="comment">% The finger is composed of two phalanges driven by a tendon-pulley</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,19" id="srcline19"> 19</a></span><span class="line">    <span class="comment">% mechanism. This class has methods for calculating the kinematics and</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,20" id="srcline20"> 20</a></span><span class="line">    <span class="comment">% dynamics of the system.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,21" id="srcline21"> 21</a></span><span class="line">    <span class="keyword">properties</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,22" id="srcline22"> 22</a></span><span class="line">        kP; <span class="comment">% Proximal joiny stiffness coefficient (Nm/rad)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,23" id="srcline23"> 23</a></span><span class="line">        kD; <span class="comment">% Distal joint stiffness coefficient (Nm/rad)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,24" id="srcline24"> 24</a></span><span class="line">        dP; <span class="comment">% Proximal joint damping coefficient (Nm/(rad/s))</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,25" id="srcline25"> 25</a></span><span class="line">        dD; <span class="comment">% Distal joint damping coefficient (Nm/(rad/s))</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,26" id="srcline26"> 26</a></span><span class="line">        lP; <span class="comment">% Proximal link length (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,27" id="srcline27"> 27</a></span><span class="line">        lD; <span class="comment">% Distal link length (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,28" id="srcline28"> 28</a></span><span class="line">        rP; <span class="comment">% Proximal pulley radius (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,29" id="srcline29"> 29</a></span><span class="line">        rD; <span class="comment">% Distal pulley radius (m)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,30" id="srcline30"> 30</a></span><span class="line">        mP; <span class="comment">% Proximal link mass (kg)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,31" id="srcline31"> 31</a></span><span class="line">        mD; <span class="comment">% Distal link mass (kg)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,32" id="srcline32"> 32</a></span><span class="line">        thetaP; <span class="comment">% Proximal joint rest angle (rad)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,33" id="srcline33"> 33</a></span><span class="line">        thetaD; <span class="comment">% Distal joint rest angle (rad)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,34" id="srcline34"> 34</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,35" id="srcline35"> 35</a></span><span class="line">    <span class="keyword">properties</span> (SetAccess = private)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,36" id="srcline36"> 36</a></span><span class="line">        prox; <span class="comment">% Finger proximal phalanx</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,37" id="srcline37"> 37</a></span><span class="line">        dist; <span class="comment">% Finger distal phalanx</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,38" id="srcline38"> 38</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,39" id="srcline39"> 39</a></span><span class="line">    <span class="keyword">methods</span></span></span>
+</pre>
+</div>
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="29,40" id="srcline40"> 40</a></span><span class="line">        <span class="keyword">function</span> <span class="var type1" id="S19T35U45">obj</span> = Index(<span class="var type0" id="S20T0U48">varargin</span>)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,41" id="srcline41"> 41</a></span><span class="line">            <span class="comment">% System object constructor with default values.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,42" id="srcline42"> 42</a></span><span class="line">            <span class="comment">% @param varargin System object argument string.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,43" id="srcline43"> 43</a></span><span class="line">            <span class="comment">% @return Index object.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,44" id="srcline44"> 44</a></span><span class="line">            setProperties(<span class="var type1" id="S19T35U52">obj</span>, nargin, <span class="var type1" id="S20T14U56">varargin</span>{:});</span></span>
+<span class="srcline"><span class="lineno"><a href="29,45" id="srcline45"> 45</a></span><span class="line">            <span class="mxinfo " id="T1:U4"><span class="mxinfo " id="T1:U5"><span class="var type1" id="S19T35U61">obj</span>.kP</span> = <span class="mxinfo " id="T1:U7">-<span class="mxinfo " id="T1:U8">1</span></span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,46" id="srcline46"> 46</a></span><span class="line">            <span class="mxinfo " id="T1:U9"><span class="mxinfo " id="T1:U10"><span class="var type1" id="S19T35U68">obj</span>.kD</span> = <span class="mxinfo " id="T1:U12">-<span class="mxinfo " id="T1:U13">5</span></span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,47" id="srcline47"> 47</a></span><span class="line">            <span class="mxinfo " id="T1:U14"><span class="mxinfo " id="T1:U15"><span class="var type1" id="S19T35U75">obj</span>.dP</span> = <span class="mxinfo " id="T1:U17">-<span class="mxinfo " id="T1:U18">0.01</span></span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,48" id="srcline48"> 48</a></span><span class="line">            <span class="mxinfo " id="T1:U19"><span class="mxinfo " id="T1:U20"><span class="var type1" id="S19T35U82">obj</span>.dD</span> = <span class="mxinfo " id="T1:U22">-<span class="mxinfo " id="T1:U23">0.01</span></span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,49" id="srcline49"> 49</a></span><span class="line">            <span class="mxinfo " id="T1:U24"><span class="mxinfo " id="T1:U25"><span class="var type1" id="S19T35U89">obj</span>.lP</span> = <span class="mxinfo " id="T1:U27">0.1</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,50" id="srcline50"> 50</a></span><span class="line">            <span class="mxinfo " id="T1:U28"><span class="mxinfo " id="T1:U29"><span class="var type1" id="S19T35U95">obj</span>.lD</span> = <span class="mxinfo " id="T1:U31">0.1</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,51" id="srcline51"> 51</a></span><span class="line">            <span class="mxinfo " id="T1:U32"><span class="mxinfo " id="T1:U33"><span class="var type1" id="S19T35U101">obj</span>.rP</span> = <span class="mxinfo " id="T1:U35">0.02</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,52" id="srcline52"> 52</a></span><span class="line">            <span class="mxinfo " id="T1:U36"><span class="mxinfo " id="T1:U37"><span class="var type1" id="S19T35U107">obj</span>.rD</span> = <span class="mxinfo " id="T1:U39">0.012</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,53" id="srcline53"> 53</a></span><span class="line">            <span class="mxinfo " id="T1:U40"><span class="mxinfo " id="T1:U41"><span class="var type1" id="S19T35U113">obj</span>.mP</span> = <span class="mxinfo " id="T1:U43">0.02</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,54" id="srcline54"> 54</a></span><span class="line">            <span class="mxinfo " id="T1:U44"><span class="mxinfo " id="T1:U45"><span class="var type1" id="S19T35U119">obj</span>.mD</span> = <span class="mxinfo " id="T1:U47">0.02</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,55" id="srcline55"> 55</a></span><span class="line">            <span class="mxinfo " id="T1:U48"><span class="mxinfo " id="T1:U49"><span class="var type1" id="S19T35U125">obj</span>.thetaP</span> = <span class="mxinfo " id="T1:U51"><span class="mxinfo " id="T1:U52">pi</span>/<span class="mxinfo " id="T1:U53">10</span></span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,56" id="srcline56"> 56</a></span><span class="line">            <span class="mxinfo " id="T1:U54"><span class="mxinfo " id="T1:U55"><span class="var type1" id="S19T35U134">obj</span>.thetaD</span> = <span class="mxinfo " id="T1:U57"><span class="mxinfo " id="T1:U58">pi</span>/<span class="mxinfo " id="T1:U59">3</span></span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,57" id="srcline57"> 57</a></span><span class="line">            <span class="mxinfo " id="T36:U60"><span class="mxinfo " id="T36:U61"><span class="var type1" id="S19T35U143">obj</span>.prox</span> = <span class="mxinfo " id="T36:U63"><span class="fcn" id="F59N11:B146">Phalanx</span>(<span class="mxinfo " id="T1:U64"><span class="var type1" id="S19T35U148">obj</span>.kP</span>,<span class="mxinfo " id="T1:U66"><span class="var type1" id="S19T35U151">obj</span>.dP</span>,<span class="mxinfo " id="T1:U68"><span class="var type1" id="S19T35U154">obj</span>.lP</span>,<span class="mxinfo " id="T1:U70"><span class="var type1" id="S19T35U157">obj</span>.rP</span>,<span class="mxinfo " id="T1:U72"><span class="var type1" id="S19T35U160">obj</span>.mP</span>,<span class="mxinfo " id="T1:U74"><span class="var type1" id="S19T35U163">obj</span>.thetaP</span>,<span class="mxinfo " id="T1:U76">1</span>)</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,58" id="srcline58"> 58</a></span><span class="line">            <span class="mxinfo " id="T37:U77"><span class="mxinfo " id="T37:U78"><span class="var type1" id="S19T35U169">obj</span>.dist</span> = <span class="mxinfo " id="T37:U80"><span class="fcn" id="F59N11:B172">Phalanx</span>(<span class="mxinfo " id="T1:U81"><span class="var type1" id="S19T35U174">obj</span>.kD</span>,<span class="mxinfo " id="T1:U83"><span class="var type1" id="S19T35U177">obj</span>.dD</span>,<span class="mxinfo " id="T1:U85"><span class="var type1" id="S19T35U180">obj</span>.lD</span>,<span class="mxinfo " id="T1:U87"><span class="var type1" id="S19T35U183">obj</span>.rD</span>,<span class="mxinfo " id="T1:U89"><span class="var type1" id="S19T35U186">obj</span>.mD</span>,<span class="mxinfo " id="T1:U91"><span class="var type1" id="S19T35U189">obj</span>.thetaD</span>,<span class="mxinfo " id="T1:U93">2</span>)</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,59" id="srcline59"> 59</a></span><span class="line">        <span class="keyword">end</span></span></span>
+</pre>
+<div class="dead">
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="29,60" id="srcline60"> 60</a></span><span class="line">        <span class="keyword">function</span> Jc = computeJc(obj)  </span></span>
+<span class="srcline"><span class="lineno"><a href="29,61" id="srcline61"> 61</a></span><span class="line">            <span class="comment">% Compute contact jacobian. Maps contact forces to joint</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,62" id="srcline62"> 62</a></span><span class="line">            <span class="comment">% torques.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,63" id="srcline63"> 63</a></span><span class="line">            <span class="comment">% @return Jc the contact jacobian as a 2x2 matrix.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,64" id="srcline64"> 64</a></span><span class="line">            Jc = [obj.prox.a, 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,65" id="srcline65"> 65</a></span><span class="line">                  obj.dist.a+obj.prox.l*cos(obj.dist.theta),obj.dist.a];                    </span></span>
+<span class="srcline"><span class="lineno"><a href="29,66" id="srcline66"> 66</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,67" id="srcline67"> 67</a></span><span class="line">        <span class="keyword">function</span> Je = computeJe(obj)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,68" id="srcline68"> 68</a></span><span class="line">            <span class="comment">% Compute disturbance jacobian. Maps disturbance forces to</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,69" id="srcline69"> 69</a></span><span class="line">            <span class="comment">% joint torques.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,70" id="srcline70"> 70</a></span><span class="line">            <span class="comment">% @return Je the disturbance jacobian as a 2x2 matrix.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,71" id="srcline71"> 71</a></span><span class="line">            Je = [obj.prox.b, 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,72" id="srcline72"> 72</a></span><span class="line">                  obj.dist.b+obj.prox.l*cos(obj.dist.theta),obj.dist.b]; </span></span>
+<span class="srcline"><span class="lineno"><a href="29,73" id="srcline73"> 73</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,74" id="srcline74"> 74</a></span><span class="line">        <span class="keyword">function</span> rot = rotMat(~,theta)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,75" id="srcline75"> 75</a></span><span class="line">            <span class="comment">% 2D Z-Rotation matrix on theta.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,76" id="srcline76"> 76</a></span><span class="line">            <span class="comment">% @param theta the angle</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,77" id="srcline77"> 77</a></span><span class="line">            <span class="comment">% @return rot the rotation matrix as a 2x2 matrix.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,78" id="srcline78"> 78</a></span><span class="line">            rot = [cos(theta) -sin(theta);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,79" id="srcline79"> 79</a></span><span class="line">                   sin(theta) cos(theta)];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,80" id="srcline80"> 80</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,81" id="srcline81"> 81</a></span><span class="line">        <span class="keyword">function</span> [rOtoL, rOtoG] = fKine(obj,origin)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,82" id="srcline82"> 82</a></span><span class="line">            <span class="comment">% Forward kinematics to link ends and centre of gravity.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,83" id="srcline83"> 83</a></span><span class="line">            <span class="comment">% @param origin the finger's origin [x,y] (m).</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,84" id="srcline84"> 84</a></span><span class="line">            <span class="comment">% @return rOtoL vector from finger origin to link end, one 2D</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,85" id="srcline85"> 85</a></span><span class="line">            <span class="comment">% vector for each link.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,86" id="srcline86"> 86</a></span><span class="line">            <span class="comment">% @return rOtoG vector from finger origin to link center of</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,87" id="srcline87"> 87</a></span><span class="line">            <span class="comment">% gravity, one 2D vector for each link.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,88" id="srcline88"> 88</a></span><span class="line">            rOtoL = zeros(2,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,89" id="srcline89"> 89</a></span><span class="line">            rOtoG = zeros(2,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,90" id="srcline90"> 90</a></span><span class="line">            rOtoL(:,1) = origin + obj.rotMat(obj.prox.theta)*[obj.prox.l;0];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,91" id="srcline91"> 91</a></span><span class="line">            rOtoG(:,1) = origin + obj.rotMat(obj.prox.theta)*[obj.prox.l/2;0];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,92" id="srcline92"> 92</a></span><span class="line">            rOtoL(:,2) = rOtoL(:,2-1) + obj.rotMat(obj.prox.theta+obj.dist.theta)*[obj.dist.l;0];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,93" id="srcline93"> 93</a></span><span class="line">            rOtoG(:,2) = rOtoG(:,2-1) + obj.rotMat(obj.prox.theta+obj.dist.theta)*[obj.dist.l/2;0];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,94" id="srcline94"> 94</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,95" id="srcline95"> 95</a></span><span class="line">        <span class="keyword">function</span> fc = getContactForces(obj,fa)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,96" id="srcline96"> 96</a></span><span class="line">            <span class="comment">% Computes the contact force at contact location due to the</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,97" id="srcline97"> 97</a></span><span class="line">            <span class="comment">% kinetostatic analysis expressed in [x,y] coordinates.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,98" id="srcline98"> 98</a></span><span class="line">            <span class="comment">% @param fa Actuator force (N).</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,99" id="srcline99"> 99</a></span><span class="line">            <span class="comment">% @param rOtoL Finger position vector.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,100" id="srcline100">100</a></span><span class="line">            <span class="comment">% @return fc Force exerted at contact location (N) in [x,y].</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,101" id="srcline101">101</a></span><span class="line">            thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,102" id="srcline102">102</a></span><span class="line">            K = [obj.prox.k 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,103" id="srcline103">103</a></span><span class="line">                 0 obj.dist.k];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,104" id="srcline104">104</a></span><span class="line">            D = [obj.prox.d 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,105" id="srcline105">105</a></span><span class="line">                 0 obj.dist.d];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,106" id="srcline106">106</a></span><span class="line">            Ja = [obj.prox.r obj.dist.r];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,107" id="srcline107">107</a></span><span class="line">            Jc = obj.computeJc();</span></span>
+<span class="srcline"><span class="lineno"><a href="29,108" id="srcline108">108</a></span><span class="line">            Je = obj.computeJe();</span></span>
+<span class="srcline"><span class="lineno"><a href="29,109" id="srcline109">109</a></span><span class="line">            springTau = K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,110" id="srcline110">110</a></span><span class="line">            damperTau = D*thetaDot;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,111" id="srcline111">111</a></span><span class="line">            distTau = Je'*[obj.prox.fe; obj.dist.fe];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,112" id="srcline112">112</a></span><span class="line">            actTau = Ja'*fa;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,113" id="srcline113">113</a></span><span class="line">            <span class="comment">% Compute forces normal to proximal and distal links.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,114" id="srcline114">114</a></span><span class="line">            fcN = (inv(Jc')*-(springTau+damperTau+distTau+actTau));</span></span>
+<span class="srcline"><span class="lineno"><a href="29,115" id="srcline115">115</a></span><span class="line">            <span class="comment">% Distal normal and tangential (0, no tangential force due to</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,116" id="srcline116">116</a></span><span class="line">            <span class="comment">% actuation) forces and transform to [x,y] coordinate.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,117" id="srcline117">117</a></span><span class="line">            fc = inv(obj.rotMat(obj.prox.theta+obj.dist.theta))*[fcN(2);0];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,118" id="srcline118">118</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,119" id="srcline119">119</a></span><span class="line">        <span class="keyword">function</span> xDot = eom(obj,initVal,fa)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,120" id="srcline120">120</a></span><span class="line">            <span class="comment">% Solves the equations of motion given the initial condition</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,121" id="srcline121">121</a></span><span class="line">            <span class="comment">% initVal. The states x are: x1 = prox.theta, x2 = dist.theta, </span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,122" id="srcline122">122</a></span><span class="line">            <span class="comment">% x3 = prox.thetaDot, x4 = dist.thetaDot. For more information</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,123" id="srcline123">123</a></span><span class="line">            <span class="comment">% on the model consult: Murray, et.al. "A Mathematical</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,124" id="srcline124">124</a></span><span class="line">            <span class="comment">% Introduction to Robotic Manipulation", for the dynamic model. </span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,125" id="srcline125">125</a></span><span class="line">            <span class="comment">% Birglen, et.al. "Underactuated Robotic Hands". for the</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,126" id="srcline126">126</a></span><span class="line">            <span class="comment">% kinetostatic model.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,127" id="srcline127">127</a></span><span class="line">            <span class="comment">% @param initVal intial value of the states.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,128" id="srcline128">128</a></span><span class="line">            <span class="comment">% @param fa the actuator force (cable tension).</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,129" id="srcline129">129</a></span><span class="line">            <span class="comment">% @return xDot the first derivative of the states that solves</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,130" id="srcline130">130</a></span><span class="line">            <span class="comment">% the intial value problem.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,131" id="srcline131">131</a></span><span class="line">            obj.prox.theta = initVal(1);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,132" id="srcline132">132</a></span><span class="line">            obj.dist.theta = initVal(2);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,133" id="srcline133">133</a></span><span class="line">            obj.prox.thetaDot = initVal(3);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,134" id="srcline134">134</a></span><span class="line">            obj.dist.thetaDot = initVal(4);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,135" id="srcline135">135</a></span><span class="line">            thetaDot = [obj.prox.thetaDot; obj.dist.thetaDot];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,136" id="srcline136">136</a></span><span class="line">            <span class="comment">% Compute kinetostatic matrices.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,137" id="srcline137">137</a></span><span class="line">            K = [obj.prox.k 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,138" id="srcline138">138</a></span><span class="line">                 0 obj.dist.k];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,139" id="srcline139">139</a></span><span class="line">            D = [obj.prox.d 0;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,140" id="srcline140">140</a></span><span class="line">                 0 obj.dist.d];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,141" id="srcline141">141</a></span><span class="line">            Ja = [obj.prox.r obj.dist.r];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,142" id="srcline142">142</a></span><span class="line">            Jc = obj.computeJc();</span></span>
+<span class="srcline"><span class="lineno"><a href="29,143" id="srcline143">143</a></span><span class="line">            Je = obj.computeJe();</span></span>
+<span class="srcline"><span class="lineno"><a href="29,144" id="srcline144">144</a></span><span class="line">            <span class="comment">% Compute matrix parameters.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,145" id="srcline145">145</a></span><span class="line">            alpha = obj.prox.I + obj.dist.I + (obj.prox.m*(obj.prox.l/2)^2)+<span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,146" id="srcline146">146</a></span><span class="line">                    obj.dist.m*(obj.prox.l^2+(obj.dist.l/2)^2);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,147" id="srcline147">147</a></span><span class="line">            beta = obj.dist.m*obj.prox.l*(obj.dist.l/2);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,148" id="srcline148">148</a></span><span class="line">            delta = obj.dist.I+obj.dist.m*(obj.dist.l/2)^2;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,149" id="srcline149">149</a></span><span class="line">            <span class="comment">% Intertia matrix (M)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,150" id="srcline150">150</a></span><span class="line">            M = [alpha+2*beta*cos(obj.dist.theta) delta+beta*cos(obj.dist.theta);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,151" id="srcline151">151</a></span><span class="line">                delta+beta*cos(obj.dist.theta) delta];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,152" id="srcline152">152</a></span><span class="line">            <span class="comment">% Coriolis and Centrifugal matrix (C)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,153" id="srcline153">153</a></span><span class="line">            C = [-beta*sin(obj.dist.theta)*obj.dist.thetaDot <span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,154" id="srcline154">154</a></span><span class="line">                -beta*sin(obj.dist.theta)*(obj.prox.thetaDot+obj.dist.thetaDot);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,155" id="srcline155">155</a></span><span class="line">                beta*sin(obj.dist.theta)*obj.prox.thetaDot 0];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,156" id="srcline156">156</a></span><span class="line">            springTau = K*([obj.prox.theta; obj.dist.theta]-[obj.prox.theta0; obj.dist.theta0]);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,157" id="srcline157">157</a></span><span class="line">            damperTau = D*thetaDot;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,158" id="srcline158">158</a></span><span class="line">            contactTau = Jc'*[obj.prox.fc; obj.dist.fc];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,159" id="srcline159">159</a></span><span class="line">            distTau = Je'*[obj.prox.fe; obj.dist.fe];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,160" id="srcline160">160</a></span><span class="line">            actTau = Ja'*fa;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,161" id="srcline161">161</a></span><span class="line">            <span class="comment">% Compute angular acceleration</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,162" id="srcline162">162</a></span><span class="line">            thetaDotDot = inv(M)*(-C*thetaDot + springTau + damperTau + contactTau + distTau + actTau);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,163" id="srcline163">163</a></span><span class="line">            xDot = [thetaDot; thetaDotDot];</span></span>
+<span class="srcline"><span class="lineno"><a href="29,164" id="srcline164">164</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,165" id="srcline165">165</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,166" id="srcline166">166</a></span><span class="line">    <span class="keyword">methods</span> (Access = protected)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,167" id="srcline167">167</a></span><span class="line">        <span class="keyword">function</span> setupImpl(obj)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,168" id="srcline168">168</a></span><span class="line">            <span class="comment">% Set up routine. Performed once when setting up Simulink</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,169" id="srcline169">169</a></span><span class="line">            <span class="comment">% model. Initializes the finger phalanges.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,170" id="srcline170">170</a></span><span class="line">            obj.prox = Phalanx(obj.kP,obj.dP,obj.lP,obj.rP,obj.mP,obj.thetaP,1);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,171" id="srcline171">171</a></span><span class="line">            obj.dist = Phalanx(obj.kD,obj.dD,obj.lD,obj.rD,obj.mD,obj.thetaD,2);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,172" id="srcline172">172</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,173" id="srcline173">173</a></span><span class="line">        <span class="keyword">function</span> [xDot, rOtoL, fc] = stepImpl(obj,initVal,fa,fc,fe,origin)</span></span>
+<span class="srcline"><span class="lineno"><a href="29,174" id="srcline174">174</a></span><span class="line">            <span class="comment">% Step routine. Performed for every simulation step in</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,175" id="srcline175">175</a></span><span class="line">            <span class="comment">% Simulink.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,176" id="srcline176">176</a></span><span class="line">            <span class="comment">% @param initVal intial value of the states used for the </span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,177" id="srcline177">177</a></span><span class="line">            <span class="comment">% equation of motion.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,178" id="srcline178">178</a></span><span class="line">            <span class="comment">% @param fa the actuator force (cable tension).</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,179" id="srcline179">179</a></span><span class="line">            <span class="comment">% @param fc Force at contact location (N).</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,180" id="srcline180">180</a></span><span class="line">            <span class="comment">% @param fe Force at disturbance location (N).</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,181" id="srcline181">181</a></span><span class="line">            <span class="comment">% @param origin the finger's origin [x,y] (m).</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,182" id="srcline182">182</a></span><span class="line">            <span class="comment">% @return xDot the first derivative of the states that solves</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,183" id="srcline183">183</a></span><span class="line">            <span class="comment">% the intial value problem in the equation of motion.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,184" id="srcline184">184</a></span><span class="line">            <span class="comment">% @return rOtoL vector from finger origin to link end, one 2D</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,185" id="srcline185">185</a></span><span class="line">            <span class="comment">% vector for each link.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,186" id="srcline186">186</a></span><span class="line">            <span class="comment">% @return fc Force exerted at contact location (N).</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,187" id="srcline187">187</a></span><span class="line">            </span></span>
+<span class="srcline"><span class="lineno"><a href="29,188" id="srcline188">188</a></span><span class="line">            <span class="comment">% External forces to internal ([x,y] to Normal)</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,189" id="srcline189">189</a></span><span class="line">            <span class="comment">% Contact</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,190" id="srcline190">190</a></span><span class="line">            fcN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fc;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,191" id="srcline191">191</a></span><span class="line">            obj.dist.fc = fcN(1);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,192" id="srcline192">192</a></span><span class="line">            <span class="comment">% Disturbance</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,193" id="srcline193">193</a></span><span class="line">            feN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fe;</span></span>
+<span class="srcline"><span class="lineno"><a href="29,194" id="srcline194">194</a></span><span class="line">            obj.dist.fe = feN(1);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,195" id="srcline195">195</a></span><span class="line">            </span></span>
+<span class="srcline"><span class="lineno"><a href="29,196" id="srcline196">196</a></span><span class="line">            <span class="comment">% Equation of motion</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,197" id="srcline197">197</a></span><span class="line">            xDot = obj.eom(initVal,fa);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,198" id="srcline198">198</a></span><span class="line">            <span class="comment">% Forward kinematics</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,199" id="srcline199">199</a></span><span class="line">            [rOtoL, ~] = obj.fKine(origin);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,200" id="srcline200">200</a></span><span class="line">            <span class="comment">% Exerted contact force.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,201" id="srcline201">201</a></span><span class="line">            fc = obj.getContactForces(fa);</span></span>
+<span class="srcline"><span class="lineno"><a href="29,202" id="srcline202">202</a></span><span class="line">        <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,203" id="srcline203">203</a></span><span class="line">    <span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,204" id="srcline204">204</a></span><span class="line"><span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="29,205" id="srcline205">205</a></span><span class="line"> </span></span>
+</pre>
+</div>
