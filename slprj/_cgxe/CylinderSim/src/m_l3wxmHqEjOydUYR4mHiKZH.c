@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include "blas.h"
 #include "CylinderSim_cgxe.h"
-#include "m_YoHcJxtJIg4eEbvpceABdH.h"
+#include "m_l3wxmHqEjOydUYR4mHiKZH.h"
 #include "mwmathutil.h"
 
 /* Type Definitions */
@@ -19,26 +19,26 @@ static emlrtMCInfo emlrtMCI = { 1, 1, "SystemCore",
 
 /* Function Declarations */
 static boolean_T isequal(real_T varargin_1, real_T varargin_2);
-static void Cylinder_ReactionForceCalc(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void Cylinder_ReactionForceCalc(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance, Cylinder *obj, real_T CollisionCondition[2], real_T
   CollisionPosition[4], real_T IndexFext[2], real_T ThumbFext[2], real_T
   xPositionG3, real_T yPositionG3, real_T ReactionForcePerFinger[3]);
 static void Cylinder_ColissionConditionCalc
-  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance, Cylinder *obj, real_T
+  (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance, Cylinder *obj, real_T
    ColissionCondition[2], real_T IndexForce[2], real_T ThumbForce[2], real_T
    BunchOfTotalForces[4]);
 static void Cylinder_RotationToContactFrame
-  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance, Cylinder *obj, real_T
+  (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance, Cylinder *obj, real_T
    CollisionPosition[2], real_T xPositionG3, real_T yPositionG3, real_T
    RotMatrix_0_4[4]);
-static void cgxe_mdl_start(InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance);
-static void cgxe_mdl_initialize(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void cgxe_mdl_start(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance);
+static void cgxe_mdl_initialize(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance);
-static void cgxe_mdl_outputs(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void cgxe_mdl_outputs(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance);
-static void cgxe_mdl_update(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void cgxe_mdl_update(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance);
-static void cgxe_mdl_terminate(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void cgxe_mdl_terminate(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance);
 static const mxArray *mw__internal__name__resolution__fcn(void);
 static void info_helper(const mxArray **info);
@@ -47,7 +47,7 @@ static const mxArray *b_emlrt_marshallOut(const uint32_T u);
 static void b_info_helper(const mxArray **info);
 static const mxArray *mw__internal__autoInference__fcn(void);
 static const mxArray *mw__internal__getSimState__fcn
-  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance);
+  (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance);
 static void emlrt_marshallIn(const mxArray *b_sysobj, const char_T *identifier,
   Cylinder *y);
 static void b_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
@@ -62,7 +62,7 @@ static boolean_T f_emlrt_marshallIn(const mxArray *b_sysobj_not_empty, const
   char_T *identifier);
 static boolean_T g_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
   *parentId);
-static void mw__internal__setSimState__fcn(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void mw__internal__setSimState__fcn(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance, const mxArray *st);
 static const mxArray *message(const mxArray *b, const mxArray *c, emlrtMCInfo
   *location);
@@ -94,7 +94,7 @@ static boolean_T isequal(real_T varargin_1, real_T varargin_2)
   return p;
 }
 
-static void Cylinder_ReactionForceCalc(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void Cylinder_ReactionForceCalc(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance, Cylinder *obj, real_T CollisionCondition[2], real_T
   CollisionPosition[4], real_T IndexFext[2], real_T ThumbFext[2], real_T
   xPositionG3, real_T yPositionG3, real_T ReactionForcePerFinger[3])
@@ -334,7 +334,7 @@ static void Cylinder_ReactionForceCalc(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
 }
 
 static void Cylinder_ColissionConditionCalc
-  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance, Cylinder *obj, real_T
+  (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance, Cylinder *obj, real_T
    ColissionCondition[2], real_T IndexForce[2], real_T ThumbForce[2], real_T
    BunchOfTotalForces[4])
 {
@@ -390,7 +390,7 @@ static void Cylinder_ColissionConditionCalc
 }
 
 static void Cylinder_RotationToContactFrame
-  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance, Cylinder *obj, real_T
+  (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance, Cylinder *obj, real_T
    CollisionPosition[2], real_T xPositionG3, real_T yPositionG3, real_T
    RotMatrix_0_4[4])
 {
@@ -478,7 +478,7 @@ static void Cylinder_RotationToContactFrame
   RotMatrix_0_4[3] = muDoubleScalarCos(Theta);
 }
 
-static void cgxe_mdl_start(InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance)
+static void cgxe_mdl_start(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance)
 {
   int32_T postfix_exprs_0_0[3] = { 0, 1, -3 };
 
@@ -819,7 +819,7 @@ static void cgxe_mdl_start(InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance
   obj->isInitialized = 1;
 }
 
-static void cgxe_mdl_initialize(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void cgxe_mdl_initialize(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance)
 {
   real_T a;
@@ -997,7 +997,7 @@ static void cgxe_mdl_initialize(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   }
 }
 
-static void cgxe_mdl_outputs(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void cgxe_mdl_outputs(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance)
 {
   real_T Acceleration_o_P3_frame_0[2];
@@ -1006,7 +1006,6 @@ static void cgxe_mdl_outputs(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   real_T varargin_21[2];
   real_T varargin_22[2];
   int32_T k;
-  real_T varargin_23[4];
   real_T ForceEvaluation;
   boolean_T p;
   boolean_T b_p;
@@ -1126,10 +1125,6 @@ static void cgxe_mdl_outputs(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
     varargin_20[k] = (*u1)[k];
     varargin_21[k] = (*u2)[k];
     varargin_22[k] = (*u3)[k];
-  }
-
-  for (k = 0; k < 4; k++) {
-    varargin_23[k] = (*u4)[k];
   }
 
   if (!moduleInstance->sysobj_not_empty) {
@@ -1512,8 +1507,8 @@ static void cgxe_mdl_outputs(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   /* positions,velocities and accelerations for the cylinder */
   obj->Urk = *u0;
   obj->T_k = 0.66666666666666663 * obj->Urk * obj->R * obj->M * obj->g;
-  Cylinder_ReactionForceCalc(moduleInstance, obj, varargin_22, varargin_23,
-    varargin_20, varargin_21, *u8, *u9, GenCordExt);
+  Cylinder_ReactionForceCalc(moduleInstance, obj, varargin_22, *u4, varargin_20,
+    varargin_21, *u8, *u9, GenCordExt);
   covrtLogFcn(&moduleInstance->covInst, 0, 1);
   covrtLogIf(&moduleInstance->covInst, 0, 0, 0, false);
   covrtLogIf(&moduleInstance->covInst, 0, 0, 1, false);
@@ -1845,13 +1840,13 @@ static void cgxe_mdl_outputs(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   (*b_y0)[11] = (real_T)FrictionCondition;
 }
 
-static void cgxe_mdl_update(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void cgxe_mdl_update(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance)
 {
   (void)moduleInstance;
 }
 
-static void cgxe_mdl_terminate(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void cgxe_mdl_terminate(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance)
 {
   real_T a;
@@ -3160,14 +3155,15 @@ static const mxArray *mw__internal__autoInference__fcn(void)
 
   uint32_T RestoreInfo_cgxeChksum[4];
   uint32_T info_VerificationInfo_dlgPrmChksum_chksum[4];
-  static uint32_T uv0[4] = { 1574454650U, 2423622414U, 1975327039U, 108227308U };
+  static uint32_T uv0[4] = { 4283442150U, 1105907404U, 2711123900U, 1381787311U
+  };
 
   static uint32_T t0_dlgPrmChksum_chksum[4] = { 2021280251U, 267425603U,
     2478081018U, 3852170165U };
 
   s7UBIGHSehQY1gCsIQWwr5C info_VerificationInfo_propChksum[3];
-  static s7UBIGHSehQY1gCsIQWwr5C b_t0_propChksum[3] = { { { 5.37391114E+8,
-        5.00342697E+8, 1.8042443E+8, 2.857432388E+9 } }, { { 1.376859122E+9,
+  static s7UBIGHSehQY1gCsIQWwr5C b_t0_propChksum[3] = { { { 3.723667789E+9,
+        2.86529436E+9, 1.341829852E+9, 3.66985345E+9 } }, { { 1.376859122E+9,
         6.27219524E+8, 4.03650117E+8, 7.55949535E+8 } }, { { 1.32865086E+8,
         3.648002805E+9, 1.332818388E+9, 7.91134212E+8 } } };
 
@@ -3503,7 +3499,7 @@ static const mxArray *mw__internal__autoInference__fcn(void)
 }
 
 static const mxArray *mw__internal__getSimState__fcn
-  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance)
+  (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance)
 {
   const mxArray *st;
   const mxArray *y;
@@ -3762,7 +3758,7 @@ static boolean_T g_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
   return y;
 }
 
-static void mw__internal__setSimState__fcn(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+static void mw__internal__setSimState__fcn(InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
   *moduleInstance, const mxArray *st)
 {
   const mxArray *u;
@@ -3841,57 +3837,57 @@ static boolean_T k_emlrt_marshallIn(const mxArray *src, const emlrtMsgIdentifier
 }
 
 /* CGXE Glue Code */
-static void mdlOutputs_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, int_T tid)
+static void mdlOutputs_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S, int_T tid)
 {
-  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
-  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
+  InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance;
+  moduleInstance = (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_outputs(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlInitialize_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
+static void mdlInitialize_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S)
 {
-  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
-  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
+  InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance;
+  moduleInstance = (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_initialize(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlUpdate_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, int_T tid)
+static void mdlUpdate_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S, int_T tid)
 {
-  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
-  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
+  InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance;
+  moduleInstance = (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_update(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static mxArray* getSimState_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
+static mxArray* getSimState_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S)
 {
-  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
+  InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance;
   mxArray* mxSS;
-  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
+  moduleInstance = (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   mxSS = (mxArray *) mw__internal__getSimState__fcn(moduleInstance);
   CGXERT_LEAVE_CHECK();
   return mxSS;
 }
 
-static void setSimState_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, const mxArray *ss)
+static void setSimState_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S, const mxArray *ss)
 {
-  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
-  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
+  InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance;
+  moduleInstance = (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   mw__internal__setSimState__fcn(moduleInstance, emlrtAlias(ss));
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlTerminate_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
+static void mdlTerminate_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S)
 {
-  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
-  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
+  InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance;
+  moduleInstance = (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_terminate(moduleInstance);
   CGXERT_LEAVE_CHECK();
@@ -3899,11 +3895,11 @@ static void mdlTerminate_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
   ssSetUserData(S, NULL);
 }
 
-static void mdlStart_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
+static void mdlStart_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S)
 {
-  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
-  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)calloc(1, sizeof
-    (InstanceStruct_YoHcJxtJIg4eEbvpceABdH));
+  InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *moduleInstance;
+  moduleInstance = (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH *)calloc(1, sizeof
+    (InstanceStruct_l3wxmHqEjOydUYR4mHiKZH));
   moduleInstance->S = S;
   ssSetUserData(S, (void *)moduleInstance);
   CGXERT_ENTER_CHECK();
@@ -3916,48 +3912,48 @@ static void mdlStart_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
     ssSetOptions(S, options);
   }
 
-  ssSetmdlOutputs(S, mdlOutputs_YoHcJxtJIg4eEbvpceABdH);
-  ssSetmdlInitializeConditions(S, mdlInitialize_YoHcJxtJIg4eEbvpceABdH);
-  ssSetmdlUpdate(S, mdlUpdate_YoHcJxtJIg4eEbvpceABdH);
-  ssSetmdlTerminate(S, mdlTerminate_YoHcJxtJIg4eEbvpceABdH);
+  ssSetmdlOutputs(S, mdlOutputs_l3wxmHqEjOydUYR4mHiKZH);
+  ssSetmdlInitializeConditions(S, mdlInitialize_l3wxmHqEjOydUYR4mHiKZH);
+  ssSetmdlUpdate(S, mdlUpdate_l3wxmHqEjOydUYR4mHiKZH);
+  ssSetmdlTerminate(S, mdlTerminate_l3wxmHqEjOydUYR4mHiKZH);
 }
 
-static void mdlProcessParameters_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
+static void mdlProcessParameters_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S)
 {
 }
 
-void method_dispatcher_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, int_T method, void
+void method_dispatcher_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S, int_T method, void
   *data)
 {
   switch (method) {
    case SS_CALL_MDL_START:
-    mdlStart_YoHcJxtJIg4eEbvpceABdH(S);
+    mdlStart_l3wxmHqEjOydUYR4mHiKZH(S);
     break;
 
    case SS_CALL_MDL_PROCESS_PARAMETERS:
-    mdlProcessParameters_YoHcJxtJIg4eEbvpceABdH(S);
+    mdlProcessParameters_l3wxmHqEjOydUYR4mHiKZH(S);
     break;
 
    case SS_CALL_MDL_GET_SIM_STATE:
-    *((mxArray**) data) = getSimState_YoHcJxtJIg4eEbvpceABdH(S);
+    *((mxArray**) data) = getSimState_l3wxmHqEjOydUYR4mHiKZH(S);
     break;
 
    case SS_CALL_MDL_SET_SIM_STATE:
-    setSimState_YoHcJxtJIg4eEbvpceABdH(S, (const mxArray *) data);
+    setSimState_l3wxmHqEjOydUYR4mHiKZH(S, (const mxArray *) data);
     break;
 
    default:
     /* Unhandled method */
     /*
        sf_mex_error_message("Stateflow Internal Error:\n"
-       "Error calling method dispatcher for module: YoHcJxtJIg4eEbvpceABdH.\n"
+       "Error calling method dispatcher for module: l3wxmHqEjOydUYR4mHiKZH.\n"
        "Can't handle method %d.\n", method);
      */
     break;
   }
 }
 
-int autoInfer_dispatcher_YoHcJxtJIg4eEbvpceABdH(mxArray* plhs[], const char
+int autoInfer_dispatcher_l3wxmHqEjOydUYR4mHiKZH(mxArray* plhs[], const char
   * commandName)
 {
   if (strcmp(commandName, "NameResolution") == 0) {
@@ -3973,7 +3969,7 @@ int autoInfer_dispatcher_YoHcJxtJIg4eEbvpceABdH(mxArray* plhs[], const char
   return 0;
 }
 
-mxArray *cgxe_YoHcJxtJIg4eEbvpceABdH_BuildInfoUpdate(void)
+mxArray *cgxe_l3wxmHqEjOydUYR4mHiKZH_BuildInfoUpdate(void)
 {
   mxArray * mxBIArgs;
   mxArray * elem_1;
