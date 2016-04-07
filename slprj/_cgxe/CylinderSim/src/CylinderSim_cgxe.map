@@ -1,12 +1,12 @@
  CylinderSim_cgxe
 
- Timestamp is 5705b23b (Wed Apr 06 20:04:59 2016)
+ Timestamp is 5705bb99 (Wed Apr 06 20:44:57 2016)
 
  Preferred load address is 0000000180000000
 
  Start         Length     Name                   Class
- 0001:00000000 00019b74H .text                   CODE
- 0001:00019b80 00000092H .text$x                 CODE
+ 0001:00000000 00019b24H .text                   CODE
+ 0001:00019b30 00000092H .text$x                 CODE
  0002:00000000 00000388H .idata$5                DATA
  0002:00000388 00000008H .CRT$XCA                DATA
  0002:00000390 00000008H .CRT$XCZ                DATA
@@ -37,197 +37,197 @@
  0001:00000060       cgxe_CylinderSim_terminator 0000000180001060 f   CylinderSim_cgxe.obj
  0001:000000a0       cgxe_CylinderSim_method_dispatcher 00000001800010a0 f   CylinderSim_cgxe.obj
  0001:00000120       cgxe_CylinderSim_autoInfer_dispatcher 0000000180001120 f   CylinderSim_cgxe.obj
- 0001:000001e0       method_dispatcher_YoHcJxtJIg4eEbvpceABdH 00000001800011e0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:0000a680       autoInfer_dispatcher_YoHcJxtJIg4eEbvpceABdH 000000018000b680 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00012d40       cgxe_YoHcJxtJIg4eEbvpceABdH_BuildInfoUpdate 0000000180013d40 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00012ea0       _ssSetStateAbsTol          0000000180013ea0 f   CylinderSim_cgxe_registry.obj
- 0001:00012f80       _ssGetAbsTol               0000000180013f80 f   CylinderSim_cgxe_registry.obj
- 0001:00012ff0       _ssSetInputPortMatrixDimensions 0000000180013ff0 f   CylinderSim_cgxe_registry.obj
- 0001:00013100       _ssSetOutputPortMatrixDimensions 0000000180014100 f   CylinderSim_cgxe_registry.obj
- 0001:00013210       _ssSetInputPortVectorDimension 0000000180014210 f   CylinderSim_cgxe_registry.obj
- 0001:000132e0       _ssSetOutputPortVectorDimension 00000001800142e0 f   CylinderSim_cgxe_registry.obj
- 0001:000133b0       _ssSetSymbolicDimsSupport  00000001800143b0 f   CylinderSim_cgxe_registry.obj
- 0001:00013420       _ssRegisterSymbolicDimsExpr 0000000180014420 f   CylinderSim_cgxe_registry.obj
- 0001:000134a0       _ssRegisterSymbolicDims    00000001800144a0 f   CylinderSim_cgxe_registry.obj
- 0001:00013540       _ssRegisterSymbolicDimsString 0000000180014540 f   CylinderSim_cgxe_registry.obj
- 0001:000135c0       _ssRegisterSymbolicDimsIntValue 00000001800145c0 f   CylinderSim_cgxe_registry.obj
- 0001:00013630       _ssRegisterSymbolicDimsPlus 0000000180014630 f   CylinderSim_cgxe_registry.obj
- 0001:000136b0       _ssRegisterSymbolicDimsMinus 00000001800146b0 f   CylinderSim_cgxe_registry.obj
- 0001:00013730       _ssRegisterSymbolicDimsMultiply 0000000180014730 f   CylinderSim_cgxe_registry.obj
- 0001:000137b0       _ssRegisterSymbolicDimsDivide 00000001800147b0 f   CylinderSim_cgxe_registry.obj
- 0001:00013830       _ssGetNumSymbolicDims      0000000180014830 f   CylinderSim_cgxe_registry.obj
- 0001:000138a0       _ssGetSymbolicDim          00000001800148a0 f   CylinderSim_cgxe_registry.obj
- 0001:00013920       _ssSetInputPortSymbolicDimsId 0000000180014920 f   CylinderSim_cgxe_registry.obj
- 0001:00013990       _ssGetCompInputPortSymbolicDimsId 0000000180014990 f   CylinderSim_cgxe_registry.obj
- 0001:00013a00       _ssSetCompInputPortSymbolicDimsId 0000000180014a00 f   CylinderSim_cgxe_registry.obj
- 0001:00013a70       _ssSetOutputPortSymbolicDimsId 0000000180014a70 f   CylinderSim_cgxe_registry.obj
- 0001:00013ae0       _ssGetCompOutputPortSymbolicDimsId 0000000180014ae0 f   CylinderSim_cgxe_registry.obj
- 0001:00013b50       _ssSetCompOutputPortSymbolicDimsId 0000000180014b50 f   CylinderSim_cgxe_registry.obj
- 0001:00013bc0       _ssSetCompDWorkSymbolicDimsId 0000000180014bc0 f   CylinderSim_cgxe_registry.obj
- 0001:00013c30       ssIsRunTimeParamTunable    0000000180014c30 f   CylinderSim_cgxe_registry.obj
- 0001:00013ca0       ssGetSFuncBlockHandle      0000000180014ca0 f   CylinderSim_cgxe_registry.obj
- 0001:00013d10       _ssGetCurrentInputPortWidth 0000000180014d10 f   CylinderSim_cgxe_registry.obj
- 0001:00013e30       _ssGetCurrentOutputPortWidth 0000000180014e30 f   CylinderSim_cgxe_registry.obj
- 0001:00013f50       _ssGetCallSystemNumFcnCallDestinations 0000000180014f50 f   CylinderSim_cgxe_registry.obj
- 0001:00013fc0       ssWarning                  0000000180014fc0 f   CylinderSim_cgxe_registry.obj
- 0001:000140d0       ssGetIsZeroCrossControlDisabled 00000001800150d0 f   CylinderSim_cgxe_registry.obj
- 0001:00014140       ssSetIsInputPortUsedForContZcSignal 0000000180015140 f   CylinderSim_cgxe_registry.obj
- 0001:000141b0       ssSetZcSignalIsZcElementDisc 00000001800151b0 f   CylinderSim_cgxe_registry.obj
- 0001:00014260       ssSetZcSignalName          0000000180015260 f   CylinderSim_cgxe_registry.obj
- 0001:000142d0       ssSetZcSignalWidth         00000001800152d0 f   CylinderSim_cgxe_registry.obj
- 0001:00014340       ssSetZcSignalZcEventType   0000000180015340 f   CylinderSim_cgxe_registry.obj
- 0001:000143b0       ssSetZcSignalType          00000001800153b0 f   CylinderSim_cgxe_registry.obj
- 0001:00014420       ssSetZcSignalZcTol         0000000180015420 f   CylinderSim_cgxe_registry.obj
- 0001:00014490       ssSetZcSignalNeedsEventNotification 0000000180015490 f   CylinderSim_cgxe_registry.obj
- 0001:00014500       ssCreateAndAddZcSignalInfo 0000000180015500 f   CylinderSim_cgxe_registry.obj
- 0001:00014570       ssCloneAndAddZcSignalInfo  0000000180015570 f   CylinderSim_cgxe_registry.obj
- 0001:000145e0       ssGetNumZcSignals          00000001800155e0 f   CylinderSim_cgxe_registry.obj
- 0001:00014650       ssGetZcSignalVector        0000000180015650 f   CylinderSim_cgxe_registry.obj
- 0001:000146c0       ssGetZcSignalZcEvents      00000001800156c0 f   CylinderSim_cgxe_registry.obj
- 0001:00014730       ssGetZcSignalName          0000000180015730 f   CylinderSim_cgxe_registry.obj
- 0001:000147a0       ssGetZcSignalWidth         00000001800157a0 f   CylinderSim_cgxe_registry.obj
- 0001:00014810       ssGetZcSignalZcEventType   0000000180015810 f   CylinderSim_cgxe_registry.obj
- 0001:00014880       ssGetZcSignalType          0000000180015880 f   CylinderSim_cgxe_registry.obj
- 0001:000148f0       ssGetZcSignalZcTol         00000001800158f0 f   CylinderSim_cgxe_registry.obj
- 0001:00014970       ssGetZcSignalNeedsEventNotification 0000000180015970 f   CylinderSim_cgxe_registry.obj
- 0001:000149e0       ssGetZcSignalIsZcElementDisc 00000001800159e0 f   CylinderSim_cgxe_registry.obj
- 0001:00014a80       ssGetIsInputPortElementContinuous 0000000180015a80 f   CylinderSim_cgxe_registry.obj
- 0001:00014b20       _ssGetInputPortSignalPtrsFcn 0000000180015b20 f   CylinderSim_cgxe_registry.obj
- 0001:00014de0       _ssGetInputPortSignalFcn   0000000180015de0 f   CylinderSim_cgxe_registry.obj
- 0001:00015000       _ssSetInputPortDirectFeedThroughFcn 0000000180016000 f   CylinderSim_cgxe_registry.obj
- 0001:00015160       _ssSetInputPortReusableFcn 0000000180016160 f   CylinderSim_cgxe_registry.obj
- 0001:00015250       _ssSetOutputPortReusableFcn 0000000180016250 f   CylinderSim_cgxe_registry.obj
- 0001:00015330       ssGetDTypeIdFromMxArray    0000000180016330 f   CylinderSim_cgxe_registry.obj
- 0001:00015450       ssWriteRTWStr              0000000180016450 f   CylinderSim_cgxe_registry.obj
- 0001:000154b0       ssWriteRTWMxVectParam      00000001800164b0 f   CylinderSim_cgxe_registry.obj
- 0001:00015510       ssWriteRTWMx2dMatParam     0000000180016510 f   CylinderSim_cgxe_registry.obj
- 0001:00015590       ssWriteRTWNameValuePair    0000000180016590 f   CylinderSim_cgxe_registry.obj
- 0001:00015a80       ssWriteRTWParameters       0000000180016a80 f   CylinderSim_cgxe_registry.obj
- 0001:00016080       ssWriteRTWParamSettings    0000000180017080 f   CylinderSim_cgxe_registry.obj
- 0001:00016750       ssWriteRTWWorkVect         0000000180017750 f   CylinderSim_cgxe_registry.obj
- 0001:00016c50       mexFunction                0000000180017c50 f   CylinderSim_cgxe_registry.obj
- 0001:00018fd6       mxGetString_700            0000000180019fd6 f   libmx:libmx.dll
- 0001:00018fdc       mxGetPr                    0000000180019fdc f   libmx:libmx.dll
- 0001:00018fe2       mxGetData                  0000000180019fe2 f   libmx:libmx.dll
- 0001:00018fe8       mxGetLogicals              0000000180019fe8 f   libmx:libmx.dll
- 0001:00018fee       mxSetCell_700              0000000180019fee f   libmx:libmx.dll
- 0001:00018ff4       mxCreateCellMatrix_700     0000000180019ff4 f   libmx:libmx.dll
- 0001:00018ffa       mxCreateString             0000000180019ffa f   libmx:libmx.dll
- 0001:00019000       mxGetClassID               000000018001a000 f   libmx:libmx.dll
- 0001:00019006       mxIsChar                   000000018001a006 f   libmx:libmx.dll
- 0001:0001900c       mxCreateDoubleMatrix_700   000000018001a00c f   libmx:libmx.dll
- 0001:00019012       mxSetField_700             000000018001a012 f   libmx:libmx.dll
- 0001:00019018       mxCreateStructMatrix_700   000000018001a018 f   libmx:libmx.dll
- 0001:0001901e       mxCreateNumericMatrix_700  000000018001a01e f   libmx:libmx.dll
- 0001:00019024       mxIsNumeric                000000018001a024 f   libmx:libmx.dll
- 0001:0001902a       mxIsComplex                000000018001a02a f   libmx:libmx.dll
- 0001:00019030       mxGetN                     000000018001a030 f   libmx:libmx.dll
- 0001:00019036       mxGetM                     000000018001a036 f   libmx:libmx.dll
- 0001:0001903c       mxCalloc                   000000018001a03c f   libmx:libmx.dll
- 0001:00019042       mexWarnMsgTxt              000000018001a042 f   libmex:libmex.dll
- 0001:00019048       mexCallMATLABWithObject    000000018001a048 f   libmex:libmex.dll
- 0001:0001904e       mexPrintf                  000000018001a04e f   libmex:libmex.dll
- 0001:00019054       mexUnlock                  000000018001a054 f   libmex:libmex.dll
- 0001:0001905a       mexIsLocked                000000018001a05a f   libmex:libmex.dll
- 0001:00019060       mexErrMsgTxt               000000018001a060 f   libmex:libmex.dll
- 0001:00019066       muDoubleScalarSin          000000018001a066 f   libmwmathutil:libmwmathutil.dll
- 0001:0001906c       muDoubleScalarCos          000000018001a06c f   libmwmathutil:libmwmathutil.dll
- 0001:00019072       muDoubleScalarSign         000000018001a072 f   libmwmathutil:libmwmathutil.dll
- 0001:00019078       muDoubleScalarAbs          000000018001a078 f   libmwmathutil:libmwmathutil.dll
- 0001:0001907e       muDoubleScalarAtan         000000018001a07e f   libmwmathutil:libmwmathutil.dll
- 0001:00019084       emlrtCreateSimulinkRootTLS 000000018001a084 f   libemlrt:libemlrt.dll
- 0001:0001908a       emlrtDestroyRootTLS        000000018001a08a f   libemlrt:libemlrt.dll
- 0001:00019090       emlrtRetrieveRunTimeError  000000018001a090 f   libemlrt:libemlrt.dll
- 0001:00019096       emlrtSetJmpBuf             000000018001a096 f   libemlrt:libemlrt.dll
- 0001:0001909c       emlrtCreateLogicalScalar   000000018001a09c f   libemlrt:libemlrt.dll
- 0001:000190a2       emlrtSetCell               000000018001a0a2 f   libemlrt:libemlrt.dll
- 0001:000190a8       emlrtCreateNumericArray    000000018001a0a8 f   libemlrt:libemlrt.dll
- 0001:000190ae       emlrtCreateDoubleScalar    000000018001a0ae f   libemlrt:libemlrt.dll
- 0001:000190b4       emlrtAddField              000000018001a0b4 f   libemlrt:libemlrt.dll
- 0001:000190ba       emlrtCreateNumericMatrix   000000018001a0ba f   libemlrt:libemlrt.dll
- 0001:000190c0       emlrtCreateStructMatrix    000000018001a0c0 f   libemlrt:libemlrt.dll
- 0001:000190c6       emlrtAssign                000000018001a0c6 f   libemlrt:libemlrt.dll
- 0001:000190cc       emlrtCreateCellMatrix      000000018001a0cc f   libemlrt:libemlrt.dll
- 0001:000190d2       emlrtAlias                 000000018001a0d2 f   libemlrt:libemlrt.dll
- 0001:000190d8       emlrtDestroyArray          000000018001a0d8 f   libemlrt:libemlrt.dll
- 0001:000190de       emlrtGetCell               000000018001a0de f   libemlrt:libemlrt.dll
- 0001:000190e4       emlrtGetFieldR2013a        000000018001a0e4 f   libemlrt:libemlrt.dll
- 0001:000190ea       emlrtCheckStructR2012b     000000018001a0ea f   libemlrt:libemlrt.dll
- 0001:000190f0       emlrtCheckBuiltInR2012b    000000018001a0f0 f   libemlrt:libemlrt.dll
- 0001:000190f6       emlrtInitCharArrayR2013a   000000018001a0f6 f   libemlrt:libemlrt.dll
- 0001:000190fc       emlrtCreateCharArray       000000018001a0fc f   libemlrt:libemlrt.dll
- 0001:00019102       emlrtCallMATLABR2012b      000000018001a102 f   libemlrt:libemlrt.dll
- 0001:00019108       emlrtNameCapturePostProcessR2013b 000000018001a108 f   libemlrt:libemlrt.dll
- 0001:0001910e       emlrtCreateString          000000018001a10e f   libemlrt:libemlrt.dll
- 0001:00019114       emlrtCreateStructArray     000000018001a114 f   libemlrt:libemlrt.dll
- 0001:0001911a       covrtLogBasicBlock         000000018001a11a f   libcovrt:libcovrt.dll
- 0001:00019120       covrtLogFcn                000000018001a120 f   libcovrt:libcovrt.dll
- 0001:00019126       covrtScriptStart           000000018001a126 f   libcovrt:libcovrt.dll
- 0001:0001912c       covrtMcdcInit              000000018001a12c f   libcovrt:libcovrt.dll
- 0001:00019132       covrtIfInit                000000018001a132 f   libcovrt:libcovrt.dll
- 0001:00019138       covrtBasicBlockInit        000000018001a138 f   libcovrt:libcovrt.dll
- 0001:0001913e       covrtFcnInit               000000018001a13e f   libcovrt:libcovrt.dll
- 0001:00019144       covrtScriptInit            000000018001a144 f   libcovrt:libcovrt.dll
- 0001:0001914a       covrtAllocateInstanceData  000000018001a14a f   libcovrt:libcovrt.dll
- 0001:00019150       covrtLogIf                 000000018001a150 f   libcovrt:libcovrt.dll
- 0001:00019156       covrtLogMcdc               000000018001a156 f   libcovrt:libcovrt.dll
- 0001:0001915c       covrtLogCond               000000018001a15c f   libcovrt:libcovrt.dll
- 0001:00019162       covrtFreeInstanceData      000000018001a162 f   libcovrt:libcovrt.dll
- 0001:00019168       __GSHandlerCheckCommon     000000018001a168 f   MSVCRT:gshandler.obj
- 0001:000191cc       __GSHandlerCheck           000000018001a1cc f   MSVCRT:gshandler.obj
- 0001:000191ea       strcmp                     000000018001a1ea f   MSVCRT:MSVCR100.dll
- 0001:00019200       __security_check_cookie    000000018001a200 f   MSVCRT:amdsecgs.obj
- 0001:00019220       _setjmp                    000000018001a220 f   MSVCRT:MSVCR100.dll
- 0001:00019226       calloc                     000000018001a226 f   MSVCRT:MSVCR100.dll
- 0001:0001922c       free                       000000018001a22c f   MSVCRT:MSVCR100.dll
- 0001:00019232       sprintf                    000000018001a232 f   MSVCRT:MSVCR100.dll
- 0001:00019238       malloc                     000000018001a238 f   MSVCRT:MSVCR100.dll
- 0001:0001923e       strlen                     000000018001a23e f   MSVCRT:MSVCR100.dll
- 0001:00019244       strcat                     000000018001a244 f   MSVCRT:MSVCR100.dll
- 0001:0001924a       memcpy                     000000018001a24a f   MSVCRT:MSVCR100.dll
- 0001:00019250       NtCurrentTeb               000000018001a250 f i MSVCRT:crtdll.obj
- 0001:000192bc       _CRT_INIT                  000000018001a2bc f   MSVCRT:crtdll.obj
- 0001:00019654       _DllMainCRTStartup         000000018001a654 f   MSVCRT:crtdll.obj
- 0001:00019694       __report_gsfailure         000000018001a694 f   MSVCRT:gs_report.obj
- 0001:000197e0       __clean_type_info_names    000000018001a7e0 f   MSVCRT:tncleanup.obj
- 0001:000197ec       _onexit                    000000018001a7ec f   MSVCRT:atonexit.obj
- 0001:0001989c       atexit                     000000018001a89c f   MSVCRT:atonexit.obj
- 0001:000198b4       _RTC_Initialize            000000018001a8b4 f   MSVCRT:_initsect_.obj
- 0001:000198ec       _RTC_Terminate             000000018001a8ec f   MSVCRT:_initsect_.obj
- 0001:00019924       _malloc_crt                000000018001a924 f   MSVCRT:MSVCR100.dll
- 0001:00019930       _ValidateImageBase         000000018001a930 f   MSVCRT:pesect.obj
- 0001:00019960       _FindPESection             000000018001a960 f   MSVCRT:pesect.obj
- 0001:000199b0       _IsNonwritableInCurrentImage 000000018001a9b0 f   MSVCRT:pesect.obj
- 0001:000199f2       _initterm                  000000018001a9f2 f   MSVCRT:MSVCR100.dll
- 0001:000199f8       _initterm_e                000000018001a9f8 f   MSVCRT:MSVCR100.dll
- 0001:000199fe       _encoded_null              000000018001a9fe f   MSVCRT:MSVCR100.dll
- 0001:00019a04       _amsg_exit                 000000018001aa04 f   MSVCRT:MSVCR100.dll
- 0001:00019a0a       __C_specific_handler       000000018001aa0a f   MSVCRT:MSVCR100.dll
- 0001:00019a10       __CppXcptFilter            000000018001aa10 f   MSVCRT:MSVCR100.dll
- 0001:00019a18       DllMain                    000000018001aa18 f   MSVCRT:dllmain.obj
- 0001:00019a3c       __security_init_cookie     000000018001aa3c f   MSVCRT:gs_support.obj
- 0001:00019af0       __crt_debugger_hook        000000018001aaf0 f   MSVCRT:MSVCR100.dll
- 0001:00019af6       __clean_type_info_names_internal 000000018001aaf6 f   MSVCRT:MSVCR100.dll
- 0001:00019afc       _unlock                    000000018001aafc f   MSVCRT:MSVCR100.dll
- 0001:00019b02       __dllonexit                000000018001ab02 f   MSVCRT:MSVCR100.dll
- 0001:00019b08       _lock                      000000018001ab08 f   MSVCRT:MSVCR100.dll
- 0001:00019b0e       EncodePointer              000000018001ab0e f   kernel32:KERNEL32.dll
- 0001:00019b14       DecodePointer              000000018001ab14 f   kernel32:KERNEL32.dll
- 0001:00019b1a       Sleep                      000000018001ab1a f   kernel32:KERNEL32.dll
- 0001:00019b20       TerminateProcess           000000018001ab20 f   kernel32:KERNEL32.dll
- 0001:00019b26       GetCurrentProcess          000000018001ab26 f   kernel32:KERNEL32.dll
- 0001:00019b2c       UnhandledExceptionFilter   000000018001ab2c f   kernel32:KERNEL32.dll
- 0001:00019b32       SetUnhandledExceptionFilter 000000018001ab32 f   kernel32:KERNEL32.dll
- 0001:00019b38       IsDebuggerPresent          000000018001ab38 f   kernel32:KERNEL32.dll
- 0001:00019b3e       RtlVirtualUnwind           000000018001ab3e f   kernel32:KERNEL32.dll
- 0001:00019b44       RtlLookupFunctionEntry     000000018001ab44 f   kernel32:KERNEL32.dll
- 0001:00019b4a       RtlCaptureContext          000000018001ab4a f   kernel32:KERNEL32.dll
- 0001:00019b50       DisableThreadLibraryCalls  000000018001ab50 f   kernel32:KERNEL32.dll
- 0001:00019b56       QueryPerformanceCounter    000000018001ab56 f   kernel32:KERNEL32.dll
- 0001:00019b5c       GetTickCount               000000018001ab5c f   kernel32:KERNEL32.dll
- 0001:00019b62       GetCurrentThreadId         000000018001ab62 f   kernel32:KERNEL32.dll
- 0001:00019b68       GetCurrentProcessId        000000018001ab68 f   kernel32:KERNEL32.dll
- 0001:00019b6e       GetSystemTimeAsFileTime    000000018001ab6e f   kernel32:KERNEL32.dll
+ 0001:000001e0       method_dispatcher_l3wxmHqEjOydUYR4mHiKZH 00000001800011e0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:0000a630       autoInfer_dispatcher_l3wxmHqEjOydUYR4mHiKZH 000000018000b630 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00012cf0       cgxe_l3wxmHqEjOydUYR4mHiKZH_BuildInfoUpdate 0000000180013cf0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00012e50       _ssSetStateAbsTol          0000000180013e50 f   CylinderSim_cgxe_registry.obj
+ 0001:00012f30       _ssGetAbsTol               0000000180013f30 f   CylinderSim_cgxe_registry.obj
+ 0001:00012fa0       _ssSetInputPortMatrixDimensions 0000000180013fa0 f   CylinderSim_cgxe_registry.obj
+ 0001:000130b0       _ssSetOutputPortMatrixDimensions 00000001800140b0 f   CylinderSim_cgxe_registry.obj
+ 0001:000131c0       _ssSetInputPortVectorDimension 00000001800141c0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013290       _ssSetOutputPortVectorDimension 0000000180014290 f   CylinderSim_cgxe_registry.obj
+ 0001:00013360       _ssSetSymbolicDimsSupport  0000000180014360 f   CylinderSim_cgxe_registry.obj
+ 0001:000133d0       _ssRegisterSymbolicDimsExpr 00000001800143d0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013450       _ssRegisterSymbolicDims    0000000180014450 f   CylinderSim_cgxe_registry.obj
+ 0001:000134f0       _ssRegisterSymbolicDimsString 00000001800144f0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013570       _ssRegisterSymbolicDimsIntValue 0000000180014570 f   CylinderSim_cgxe_registry.obj
+ 0001:000135e0       _ssRegisterSymbolicDimsPlus 00000001800145e0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013660       _ssRegisterSymbolicDimsMinus 0000000180014660 f   CylinderSim_cgxe_registry.obj
+ 0001:000136e0       _ssRegisterSymbolicDimsMultiply 00000001800146e0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013760       _ssRegisterSymbolicDimsDivide 0000000180014760 f   CylinderSim_cgxe_registry.obj
+ 0001:000137e0       _ssGetNumSymbolicDims      00000001800147e0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013850       _ssGetSymbolicDim          0000000180014850 f   CylinderSim_cgxe_registry.obj
+ 0001:000138d0       _ssSetInputPortSymbolicDimsId 00000001800148d0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013940       _ssGetCompInputPortSymbolicDimsId 0000000180014940 f   CylinderSim_cgxe_registry.obj
+ 0001:000139b0       _ssSetCompInputPortSymbolicDimsId 00000001800149b0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013a20       _ssSetOutputPortSymbolicDimsId 0000000180014a20 f   CylinderSim_cgxe_registry.obj
+ 0001:00013a90       _ssGetCompOutputPortSymbolicDimsId 0000000180014a90 f   CylinderSim_cgxe_registry.obj
+ 0001:00013b00       _ssSetCompOutputPortSymbolicDimsId 0000000180014b00 f   CylinderSim_cgxe_registry.obj
+ 0001:00013b70       _ssSetCompDWorkSymbolicDimsId 0000000180014b70 f   CylinderSim_cgxe_registry.obj
+ 0001:00013be0       ssIsRunTimeParamTunable    0000000180014be0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013c50       ssGetSFuncBlockHandle      0000000180014c50 f   CylinderSim_cgxe_registry.obj
+ 0001:00013cc0       _ssGetCurrentInputPortWidth 0000000180014cc0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013de0       _ssGetCurrentOutputPortWidth 0000000180014de0 f   CylinderSim_cgxe_registry.obj
+ 0001:00013f00       _ssGetCallSystemNumFcnCallDestinations 0000000180014f00 f   CylinderSim_cgxe_registry.obj
+ 0001:00013f70       ssWarning                  0000000180014f70 f   CylinderSim_cgxe_registry.obj
+ 0001:00014080       ssGetIsZeroCrossControlDisabled 0000000180015080 f   CylinderSim_cgxe_registry.obj
+ 0001:000140f0       ssSetIsInputPortUsedForContZcSignal 00000001800150f0 f   CylinderSim_cgxe_registry.obj
+ 0001:00014160       ssSetZcSignalIsZcElementDisc 0000000180015160 f   CylinderSim_cgxe_registry.obj
+ 0001:00014210       ssSetZcSignalName          0000000180015210 f   CylinderSim_cgxe_registry.obj
+ 0001:00014280       ssSetZcSignalWidth         0000000180015280 f   CylinderSim_cgxe_registry.obj
+ 0001:000142f0       ssSetZcSignalZcEventType   00000001800152f0 f   CylinderSim_cgxe_registry.obj
+ 0001:00014360       ssSetZcSignalType          0000000180015360 f   CylinderSim_cgxe_registry.obj
+ 0001:000143d0       ssSetZcSignalZcTol         00000001800153d0 f   CylinderSim_cgxe_registry.obj
+ 0001:00014440       ssSetZcSignalNeedsEventNotification 0000000180015440 f   CylinderSim_cgxe_registry.obj
+ 0001:000144b0       ssCreateAndAddZcSignalInfo 00000001800154b0 f   CylinderSim_cgxe_registry.obj
+ 0001:00014520       ssCloneAndAddZcSignalInfo  0000000180015520 f   CylinderSim_cgxe_registry.obj
+ 0001:00014590       ssGetNumZcSignals          0000000180015590 f   CylinderSim_cgxe_registry.obj
+ 0001:00014600       ssGetZcSignalVector        0000000180015600 f   CylinderSim_cgxe_registry.obj
+ 0001:00014670       ssGetZcSignalZcEvents      0000000180015670 f   CylinderSim_cgxe_registry.obj
+ 0001:000146e0       ssGetZcSignalName          00000001800156e0 f   CylinderSim_cgxe_registry.obj
+ 0001:00014750       ssGetZcSignalWidth         0000000180015750 f   CylinderSim_cgxe_registry.obj
+ 0001:000147c0       ssGetZcSignalZcEventType   00000001800157c0 f   CylinderSim_cgxe_registry.obj
+ 0001:00014830       ssGetZcSignalType          0000000180015830 f   CylinderSim_cgxe_registry.obj
+ 0001:000148a0       ssGetZcSignalZcTol         00000001800158a0 f   CylinderSim_cgxe_registry.obj
+ 0001:00014920       ssGetZcSignalNeedsEventNotification 0000000180015920 f   CylinderSim_cgxe_registry.obj
+ 0001:00014990       ssGetZcSignalIsZcElementDisc 0000000180015990 f   CylinderSim_cgxe_registry.obj
+ 0001:00014a30       ssGetIsInputPortElementContinuous 0000000180015a30 f   CylinderSim_cgxe_registry.obj
+ 0001:00014ad0       _ssGetInputPortSignalPtrsFcn 0000000180015ad0 f   CylinderSim_cgxe_registry.obj
+ 0001:00014d90       _ssGetInputPortSignalFcn   0000000180015d90 f   CylinderSim_cgxe_registry.obj
+ 0001:00014fb0       _ssSetInputPortDirectFeedThroughFcn 0000000180015fb0 f   CylinderSim_cgxe_registry.obj
+ 0001:00015110       _ssSetInputPortReusableFcn 0000000180016110 f   CylinderSim_cgxe_registry.obj
+ 0001:00015200       _ssSetOutputPortReusableFcn 0000000180016200 f   CylinderSim_cgxe_registry.obj
+ 0001:000152e0       ssGetDTypeIdFromMxArray    00000001800162e0 f   CylinderSim_cgxe_registry.obj
+ 0001:00015400       ssWriteRTWStr              0000000180016400 f   CylinderSim_cgxe_registry.obj
+ 0001:00015460       ssWriteRTWMxVectParam      0000000180016460 f   CylinderSim_cgxe_registry.obj
+ 0001:000154c0       ssWriteRTWMx2dMatParam     00000001800164c0 f   CylinderSim_cgxe_registry.obj
+ 0001:00015540       ssWriteRTWNameValuePair    0000000180016540 f   CylinderSim_cgxe_registry.obj
+ 0001:00015a30       ssWriteRTWParameters       0000000180016a30 f   CylinderSim_cgxe_registry.obj
+ 0001:00016030       ssWriteRTWParamSettings    0000000180017030 f   CylinderSim_cgxe_registry.obj
+ 0001:00016700       ssWriteRTWWorkVect         0000000180017700 f   CylinderSim_cgxe_registry.obj
+ 0001:00016c00       mexFunction                0000000180017c00 f   CylinderSim_cgxe_registry.obj
+ 0001:00018f86       mxGetString_700            0000000180019f86 f   libmx:libmx.dll
+ 0001:00018f8c       mxGetPr                    0000000180019f8c f   libmx:libmx.dll
+ 0001:00018f92       mxGetData                  0000000180019f92 f   libmx:libmx.dll
+ 0001:00018f98       mxGetLogicals              0000000180019f98 f   libmx:libmx.dll
+ 0001:00018f9e       mxSetCell_700              0000000180019f9e f   libmx:libmx.dll
+ 0001:00018fa4       mxCreateCellMatrix_700     0000000180019fa4 f   libmx:libmx.dll
+ 0001:00018faa       mxCreateString             0000000180019faa f   libmx:libmx.dll
+ 0001:00018fb0       mxGetClassID               0000000180019fb0 f   libmx:libmx.dll
+ 0001:00018fb6       mxIsChar                   0000000180019fb6 f   libmx:libmx.dll
+ 0001:00018fbc       mxCreateDoubleMatrix_700   0000000180019fbc f   libmx:libmx.dll
+ 0001:00018fc2       mxSetField_700             0000000180019fc2 f   libmx:libmx.dll
+ 0001:00018fc8       mxCreateStructMatrix_700   0000000180019fc8 f   libmx:libmx.dll
+ 0001:00018fce       mxCreateNumericMatrix_700  0000000180019fce f   libmx:libmx.dll
+ 0001:00018fd4       mxIsNumeric                0000000180019fd4 f   libmx:libmx.dll
+ 0001:00018fda       mxIsComplex                0000000180019fda f   libmx:libmx.dll
+ 0001:00018fe0       mxGetN                     0000000180019fe0 f   libmx:libmx.dll
+ 0001:00018fe6       mxGetM                     0000000180019fe6 f   libmx:libmx.dll
+ 0001:00018fec       mxCalloc                   0000000180019fec f   libmx:libmx.dll
+ 0001:00018ff2       mexWarnMsgTxt              0000000180019ff2 f   libmex:libmex.dll
+ 0001:00018ff8       mexCallMATLABWithObject    0000000180019ff8 f   libmex:libmex.dll
+ 0001:00018ffe       mexPrintf                  0000000180019ffe f   libmex:libmex.dll
+ 0001:00019004       mexUnlock                  000000018001a004 f   libmex:libmex.dll
+ 0001:0001900a       mexIsLocked                000000018001a00a f   libmex:libmex.dll
+ 0001:00019010       mexErrMsgTxt               000000018001a010 f   libmex:libmex.dll
+ 0001:00019016       muDoubleScalarSin          000000018001a016 f   libmwmathutil:libmwmathutil.dll
+ 0001:0001901c       muDoubleScalarCos          000000018001a01c f   libmwmathutil:libmwmathutil.dll
+ 0001:00019022       muDoubleScalarSign         000000018001a022 f   libmwmathutil:libmwmathutil.dll
+ 0001:00019028       muDoubleScalarAbs          000000018001a028 f   libmwmathutil:libmwmathutil.dll
+ 0001:0001902e       muDoubleScalarAtan         000000018001a02e f   libmwmathutil:libmwmathutil.dll
+ 0001:00019034       emlrtCreateSimulinkRootTLS 000000018001a034 f   libemlrt:libemlrt.dll
+ 0001:0001903a       emlrtDestroyRootTLS        000000018001a03a f   libemlrt:libemlrt.dll
+ 0001:00019040       emlrtRetrieveRunTimeError  000000018001a040 f   libemlrt:libemlrt.dll
+ 0001:00019046       emlrtSetJmpBuf             000000018001a046 f   libemlrt:libemlrt.dll
+ 0001:0001904c       emlrtCreateLogicalScalar   000000018001a04c f   libemlrt:libemlrt.dll
+ 0001:00019052       emlrtSetCell               000000018001a052 f   libemlrt:libemlrt.dll
+ 0001:00019058       emlrtCreateNumericArray    000000018001a058 f   libemlrt:libemlrt.dll
+ 0001:0001905e       emlrtCreateDoubleScalar    000000018001a05e f   libemlrt:libemlrt.dll
+ 0001:00019064       emlrtAddField              000000018001a064 f   libemlrt:libemlrt.dll
+ 0001:0001906a       emlrtCreateNumericMatrix   000000018001a06a f   libemlrt:libemlrt.dll
+ 0001:00019070       emlrtCreateStructMatrix    000000018001a070 f   libemlrt:libemlrt.dll
+ 0001:00019076       emlrtAssign                000000018001a076 f   libemlrt:libemlrt.dll
+ 0001:0001907c       emlrtCreateCellMatrix      000000018001a07c f   libemlrt:libemlrt.dll
+ 0001:00019082       emlrtAlias                 000000018001a082 f   libemlrt:libemlrt.dll
+ 0001:00019088       emlrtDestroyArray          000000018001a088 f   libemlrt:libemlrt.dll
+ 0001:0001908e       emlrtGetCell               000000018001a08e f   libemlrt:libemlrt.dll
+ 0001:00019094       emlrtGetFieldR2013a        000000018001a094 f   libemlrt:libemlrt.dll
+ 0001:0001909a       emlrtCheckStructR2012b     000000018001a09a f   libemlrt:libemlrt.dll
+ 0001:000190a0       emlrtCheckBuiltInR2012b    000000018001a0a0 f   libemlrt:libemlrt.dll
+ 0001:000190a6       emlrtInitCharArrayR2013a   000000018001a0a6 f   libemlrt:libemlrt.dll
+ 0001:000190ac       emlrtCreateCharArray       000000018001a0ac f   libemlrt:libemlrt.dll
+ 0001:000190b2       emlrtCallMATLABR2012b      000000018001a0b2 f   libemlrt:libemlrt.dll
+ 0001:000190b8       emlrtNameCapturePostProcessR2013b 000000018001a0b8 f   libemlrt:libemlrt.dll
+ 0001:000190be       emlrtCreateString          000000018001a0be f   libemlrt:libemlrt.dll
+ 0001:000190c4       emlrtCreateStructArray     000000018001a0c4 f   libemlrt:libemlrt.dll
+ 0001:000190ca       covrtLogBasicBlock         000000018001a0ca f   libcovrt:libcovrt.dll
+ 0001:000190d0       covrtLogFcn                000000018001a0d0 f   libcovrt:libcovrt.dll
+ 0001:000190d6       covrtScriptStart           000000018001a0d6 f   libcovrt:libcovrt.dll
+ 0001:000190dc       covrtMcdcInit              000000018001a0dc f   libcovrt:libcovrt.dll
+ 0001:000190e2       covrtIfInit                000000018001a0e2 f   libcovrt:libcovrt.dll
+ 0001:000190e8       covrtBasicBlockInit        000000018001a0e8 f   libcovrt:libcovrt.dll
+ 0001:000190ee       covrtFcnInit               000000018001a0ee f   libcovrt:libcovrt.dll
+ 0001:000190f4       covrtScriptInit            000000018001a0f4 f   libcovrt:libcovrt.dll
+ 0001:000190fa       covrtAllocateInstanceData  000000018001a0fa f   libcovrt:libcovrt.dll
+ 0001:00019100       covrtLogIf                 000000018001a100 f   libcovrt:libcovrt.dll
+ 0001:00019106       covrtLogMcdc               000000018001a106 f   libcovrt:libcovrt.dll
+ 0001:0001910c       covrtLogCond               000000018001a10c f   libcovrt:libcovrt.dll
+ 0001:00019112       covrtFreeInstanceData      000000018001a112 f   libcovrt:libcovrt.dll
+ 0001:00019118       __GSHandlerCheckCommon     000000018001a118 f   MSVCRT:gshandler.obj
+ 0001:0001917c       __GSHandlerCheck           000000018001a17c f   MSVCRT:gshandler.obj
+ 0001:0001919a       strcmp                     000000018001a19a f   MSVCRT:MSVCR100.dll
+ 0001:000191b0       __security_check_cookie    000000018001a1b0 f   MSVCRT:amdsecgs.obj
+ 0001:000191d0       _setjmp                    000000018001a1d0 f   MSVCRT:MSVCR100.dll
+ 0001:000191d6       calloc                     000000018001a1d6 f   MSVCRT:MSVCR100.dll
+ 0001:000191dc       free                       000000018001a1dc f   MSVCRT:MSVCR100.dll
+ 0001:000191e2       sprintf                    000000018001a1e2 f   MSVCRT:MSVCR100.dll
+ 0001:000191e8       malloc                     000000018001a1e8 f   MSVCRT:MSVCR100.dll
+ 0001:000191ee       strlen                     000000018001a1ee f   MSVCRT:MSVCR100.dll
+ 0001:000191f4       strcat                     000000018001a1f4 f   MSVCRT:MSVCR100.dll
+ 0001:000191fa       memcpy                     000000018001a1fa f   MSVCRT:MSVCR100.dll
+ 0001:00019200       NtCurrentTeb               000000018001a200 f i MSVCRT:crtdll.obj
+ 0001:0001926c       _CRT_INIT                  000000018001a26c f   MSVCRT:crtdll.obj
+ 0001:00019604       _DllMainCRTStartup         000000018001a604 f   MSVCRT:crtdll.obj
+ 0001:00019644       __report_gsfailure         000000018001a644 f   MSVCRT:gs_report.obj
+ 0001:00019790       __clean_type_info_names    000000018001a790 f   MSVCRT:tncleanup.obj
+ 0001:0001979c       _onexit                    000000018001a79c f   MSVCRT:atonexit.obj
+ 0001:0001984c       atexit                     000000018001a84c f   MSVCRT:atonexit.obj
+ 0001:00019864       _RTC_Initialize            000000018001a864 f   MSVCRT:_initsect_.obj
+ 0001:0001989c       _RTC_Terminate             000000018001a89c f   MSVCRT:_initsect_.obj
+ 0001:000198d4       _malloc_crt                000000018001a8d4 f   MSVCRT:MSVCR100.dll
+ 0001:000198e0       _ValidateImageBase         000000018001a8e0 f   MSVCRT:pesect.obj
+ 0001:00019910       _FindPESection             000000018001a910 f   MSVCRT:pesect.obj
+ 0001:00019960       _IsNonwritableInCurrentImage 000000018001a960 f   MSVCRT:pesect.obj
+ 0001:000199a2       _initterm                  000000018001a9a2 f   MSVCRT:MSVCR100.dll
+ 0001:000199a8       _initterm_e                000000018001a9a8 f   MSVCRT:MSVCR100.dll
+ 0001:000199ae       _encoded_null              000000018001a9ae f   MSVCRT:MSVCR100.dll
+ 0001:000199b4       _amsg_exit                 000000018001a9b4 f   MSVCRT:MSVCR100.dll
+ 0001:000199ba       __C_specific_handler       000000018001a9ba f   MSVCRT:MSVCR100.dll
+ 0001:000199c0       __CppXcptFilter            000000018001a9c0 f   MSVCRT:MSVCR100.dll
+ 0001:000199c8       DllMain                    000000018001a9c8 f   MSVCRT:dllmain.obj
+ 0001:000199ec       __security_init_cookie     000000018001a9ec f   MSVCRT:gs_support.obj
+ 0001:00019aa0       __crt_debugger_hook        000000018001aaa0 f   MSVCRT:MSVCR100.dll
+ 0001:00019aa6       __clean_type_info_names_internal 000000018001aaa6 f   MSVCRT:MSVCR100.dll
+ 0001:00019aac       _unlock                    000000018001aaac f   MSVCRT:MSVCR100.dll
+ 0001:00019ab2       __dllonexit                000000018001aab2 f   MSVCRT:MSVCR100.dll
+ 0001:00019ab8       _lock                      000000018001aab8 f   MSVCRT:MSVCR100.dll
+ 0001:00019abe       EncodePointer              000000018001aabe f   kernel32:KERNEL32.dll
+ 0001:00019ac4       DecodePointer              000000018001aac4 f   kernel32:KERNEL32.dll
+ 0001:00019aca       Sleep                      000000018001aaca f   kernel32:KERNEL32.dll
+ 0001:00019ad0       TerminateProcess           000000018001aad0 f   kernel32:KERNEL32.dll
+ 0001:00019ad6       GetCurrentProcess          000000018001aad6 f   kernel32:KERNEL32.dll
+ 0001:00019adc       UnhandledExceptionFilter   000000018001aadc f   kernel32:KERNEL32.dll
+ 0001:00019ae2       SetUnhandledExceptionFilter 000000018001aae2 f   kernel32:KERNEL32.dll
+ 0001:00019ae8       IsDebuggerPresent          000000018001aae8 f   kernel32:KERNEL32.dll
+ 0001:00019aee       RtlVirtualUnwind           000000018001aaee f   kernel32:KERNEL32.dll
+ 0001:00019af4       RtlLookupFunctionEntry     000000018001aaf4 f   kernel32:KERNEL32.dll
+ 0001:00019afa       RtlCaptureContext          000000018001aafa f   kernel32:KERNEL32.dll
+ 0001:00019b00       DisableThreadLibraryCalls  000000018001ab00 f   kernel32:KERNEL32.dll
+ 0001:00019b06       QueryPerformanceCounter    000000018001ab06 f   kernel32:KERNEL32.dll
+ 0001:00019b0c       GetTickCount               000000018001ab0c f   kernel32:KERNEL32.dll
+ 0001:00019b12       GetCurrentThreadId         000000018001ab12 f   kernel32:KERNEL32.dll
+ 0001:00019b18       GetCurrentProcessId        000000018001ab18 f   kernel32:KERNEL32.dll
+ 0001:00019b1e       GetSystemTimeAsFileTime    000000018001ab1e f   kernel32:KERNEL32.dll
  0002:00000000       __imp_GetSystemTimeAsFileTime 000000018001b000     kernel32:KERNEL32.dll
  0002:00000008       __imp_GetCurrentProcessId  000000018001b008     kernel32:KERNEL32.dll
  0002:00000010       __imp_GetCurrentThreadId   000000018001b010     kernel32:KERNEL32.dll
@@ -345,20 +345,20 @@
  0002:00000390       __xc_z                     000000018001b390     MSVCRT:cinitexe.obj
  0002:00000398       __xi_a                     000000018001b398     MSVCRT:cinitexe.obj
  0002:000003a8       __xi_z                     000000018001b3a8     MSVCRT:cinitexe.obj
- 0002:00000468       __real@3fe5555555555555    000000018001b468     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:00000470       __real@4000000000000000    000000018001b470     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:00000478       __real@3fd999999999999a    000000018001b478     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:00000480       __real@3fdeb851eb851eb8    000000018001b480     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:00000488       __real@3fe0000000000000    000000018001b488     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:00000490       __real@40239eb851eb851f    000000018001b490     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:00000498       __real@3f689374bc6a7efa    000000018001b498     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:000004a0       __real@3f947ae147ae147b    000000018001b4a0     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:000004b0       __mask@@NegDouble@         000000018001b4b0     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:000004c0       __real@0000000000000000    000000018001b4c0     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:000004c8       __real@3ff0000000000000    000000018001b4c8     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:000004d0       __real@400921fb54442d18    000000018001b4d0     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:000004d8       __real@4012d97c7f3321d2    000000018001b4d8     m_YoHcJxtJIg4eEbvpceABdH.obj
- 0002:000004e0       __real@3ff921fb54442d18    000000018001b4e0     m_YoHcJxtJIg4eEbvpceABdH.obj
+ 0002:00000468       __real@3fe5555555555555    000000018001b468     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:00000470       __real@4000000000000000    000000018001b470     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:00000478       __real@3fd999999999999a    000000018001b478     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:00000480       __real@3fdeb851eb851eb8    000000018001b480     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:00000488       __real@3fe0000000000000    000000018001b488     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:00000490       __real@40239eb851eb851f    000000018001b490     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:00000498       __real@3f689374bc6a7efa    000000018001b498     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:000004a0       __real@3f947ae147ae147b    000000018001b4a0     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:000004b0       __mask@@NegDouble@         000000018001b4b0     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:000004c0       __real@0000000000000000    000000018001b4c0     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:000004c8       __real@3ff0000000000000    000000018001b4c8     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:000004d0       __real@400921fb54442d18    000000018001b4d0     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:000004d8       __real@4012d97c7f3321d2    000000018001b4d8     m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0002:000004e0       __real@3ff921fb54442d18    000000018001b4e0     m_l3wxmHqEjOydUYR4mHiKZH.obj
  0002:000004f0       DYNAMIC_DIMENSION_DEF      000000018001b4f0     CylinderSim_cgxe_registry.obj
  0002:00000510       _ssBadLevel2InputAccessMsg 000000018001b510     CylinderSim_cgxe_registry.obj
  0002:000006a0       _ssBadLevel2DirectFeedMsg  000000018001b6a0     CylinderSim_cgxe_registry.obj
@@ -366,22 +366,22 @@
  0002:00000850       _ssBadLevel2ZeroDirectFeedMsg 000000018001b850     CylinderSim_cgxe_registry.obj
  0002:00000990       _ssBadLevel2ZeroDirectFeedMsg2 000000018001b990     CylinderSim_cgxe_registry.obj
  0002:00000a78       __real@bff0000000000000    000000018001ba78     CylinderSim_cgxe_registry.obj
- 0002:00000a80       __real@41ea0939a6000000    000000018001ba80     CylinderSim_cgxe_registry.obj
- 0002:00000a88       __real@41c6e24025800000    000000018001ba88     CylinderSim_cgxe_registry.obj
- 0002:00000a90       __real@41e05f12b6c00000    000000018001ba90     CylinderSim_cgxe_registry.obj
- 0002:00000a98       __real@41ee0c67c2400000    000000018001ba98     CylinderSim_cgxe_registry.obj
+ 0002:00000a80       __real@41e94435e8c00000    000000018001ba80     CylinderSim_cgxe_registry.obj
+ 0002:00000a88       __real@41ef2468a6000000    000000018001ba88     CylinderSim_cgxe_registry.obj
+ 0002:00000a90       __real@41ef92c4a4400000    000000018001ba90     CylinderSim_cgxe_registry.obj
+ 0002:00000a98       __real@41c63e9f39800000    000000018001ba98     CylinderSim_cgxe_registry.obj
  0002:00000aa0       __real@41dcd0098d400000    000000018001baa0     CylinderSim_cgxe_registry.obj
  0002:00000aa8       __real@41e704b96b000000    000000018001baa8     CylinderSim_cgxe_registry.obj
  0002:00000ab0       __real@41bb93748c000000    000000018001bab0     CylinderSim_cgxe_registry.obj
  0002:00000ab8       __real@41ef4ccd0ce00000    000000018001bab8     CylinderSim_cgxe_registry.obj
- 0002:00000ac0       __real@41ee01bcd5e00000    000000018001bac0     CylinderSim_cgxe_registry.obj
- 0002:00000ac8       __real@41ebc407e6200000    000000018001bac8     CylinderSim_cgxe_registry.obj
- 0002:00000ad0       __real@41b60188a7000000    000000018001bad0     CylinderSim_cgxe_registry.obj
- 0002:00000ad8       __real@41ed59006ba00000    000000018001bad8     CylinderSim_cgxe_registry.obj
- 0002:00000ae0       __real@41eae67845400000    000000018001bae0     CylinderSim_cgxe_registry.obj
- 0002:00000ae8       __real@41e24be184800000    000000018001bae8     CylinderSim_cgxe_registry.obj
- 0002:00000af0       __real@41a9b1556e000000    000000018001baf0     CylinderSim_cgxe_registry.obj
- 0002:00000af8       __real@41db17c7aa000000    000000018001baf8     CylinderSim_cgxe_registry.obj
+ 0002:00000ac0       __real@41ef77c04a200000    000000018001bac0     CylinderSim_cgxe_registry.obj
+ 0002:00000ac8       __real@41c691c73f800000    000000018001bac8     CylinderSim_cgxe_registry.obj
+ 0002:00000ad0       __real@41dd9f49a4c00000    000000018001bad0     CylinderSim_cgxe_registry.obj
+ 0002:00000ad8       __real@41d44128b6800000    000000018001bad8     CylinderSim_cgxe_registry.obj
+ 0002:00000ae0       __real@41e7165625600000    000000018001bae0     CylinderSim_cgxe_registry.obj
+ 0002:00000ae8       __real@41d16b27dec00000    000000018001bae8     CylinderSim_cgxe_registry.obj
+ 0002:00000af0       __real@41d0c8f724800000    000000018001baf0     CylinderSim_cgxe_registry.obj
+ 0002:00000af8       __real@41ec2975f8a00000    000000018001baf8     CylinderSim_cgxe_registry.obj
  0002:00000b00       __real@41602cbca0000000    000000018001bb00     CylinderSim_cgxe_registry.obj
  0002:00000b08       _pDefaultRawDllMain        000000018001bb08     MSVCRT:crtdll.obj
  0002:00000b08       _pRawDllMain               000000018001bb08     MSVCRT:crtdll.obj
@@ -418,73 +418,73 @@
  0003:000096f8       __onexitbegin              00000001800266f8     <common>
  0003:00009700       __dyn_tls_init_callback    0000000180026700     <common>
 
- entry point at        0001:00019654
+ entry point at        0001:00019604
 
  Static symbols
 
- 0001:00000270       getSimState_YoHcJxtJIg4eEbvpceABdH 0000000180001270 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00000340       mw__internal__getSimState__fcn 0000000180001340 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00000b10       setSimState_YoHcJxtJIg4eEbvpceABdH 0000000180001b10 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00000bf0       mw__internal__setSimState__fcn 0000000180001bf0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00000cc0       emlrt_marshallIn           0000000180001cc0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00000d20       b_emlrt_marshallIn         0000000180001d20 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00001320       c_emlrt_marshallIn         0000000180002320 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00001370       d_emlrt_marshallIn         0000000180002370 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:000013c0       e_emlrt_marshallIn         00000001800023c0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00001410       f_emlrt_marshallIn         0000000180002410 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00001470       g_emlrt_marshallIn         0000000180002470 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:000014c0       h_emlrt_marshallIn         00000001800024c0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00001530       i_emlrt_marshallIn         0000000180002530 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:000015a0       j_emlrt_marshallIn         00000001800025a0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00001650       k_emlrt_marshallIn         0000000180002650 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:000016c0       mdlStart_YoHcJxtJIg4eEbvpceABdH 00000001800026c0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00001840       cgxe_mdl_start             0000000180002840 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00003b50       message                    0000000180004b50 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00003bd0       error                      0000000180004bd0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00003c30       mdlOutputs_YoHcJxtJIg4eEbvpceABdH 0000000180004c30 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00003d00       cgxe_mdl_outputs           0000000180004d00 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00006610       isequal                    0000000180007610 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00006660       Cylinder_ReactionForceCalc 0000000180007660 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00007cc0       Cylinder_ColissionConditionCalc 0000000180008cc0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00008270       Cylinder_RotationToContactFrame 0000000180009270 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00008cc0       mdlInitialize_YoHcJxtJIg4eEbvpceABdH 0000000180009cc0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00008d90       cgxe_mdl_initialize        0000000180009d90 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00009930       mdlUpdate_YoHcJxtJIg4eEbvpceABdH 000000018000a930 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00009a00       cgxe_mdl_update            000000018000aa00 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00009a10       mdlTerminate_YoHcJxtJIg4eEbvpceABdH 000000018000aa10 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00009b00       cgxe_mdl_terminate         000000018000ab00 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:0000a670       mdlProcessParameters_YoHcJxtJIg4eEbvpceABdH 000000018000b670 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:0000a6f0       mw__internal__name__resolution__fcn 000000018000b6f0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:0000a750       info_helper                000000018000b750 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:0000f510       emlrt_marshallOut          0000000180010510 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:0000f550       b_emlrt_marshallOut        0000000180010550 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:0000f5b0       b_info_helper              00000001800105b0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:000116a0       mw__internal__autoInference__fcn 00000001800126a0 f   m_YoHcJxtJIg4eEbvpceABdH.obj
- 0001:00014d40       _ssFatalError              0000000180015d40 f   CylinderSim_cgxe_registry.obj
- 0001:00017c90       mdlStart                   0000000180018c90 f   CylinderSim_cgxe_registry.obj
- 0001:00017cd0       mdlInitializeConditions    0000000180018cd0 f   CylinderSim_cgxe_registry.obj
- 0001:00017cf0       mdlUpdate                  0000000180018cf0 f   CylinderSim_cgxe_registry.obj
- 0001:00017d20       mdlOutputs                 0000000180018d20 f   CylinderSim_cgxe_registry.obj
- 0001:00017d50       mdlTerminate               0000000180018d50 f   CylinderSim_cgxe_registry.obj
- 0001:00017d70       mdlInitializeSampleTimes   0000000180018d70 f   CylinderSim_cgxe_registry.obj
- 0001:00017d80       ProcessMexSfunctionCmdLineCall 0000000180018d80 f   CylinderSim_cgxe_registry.obj
- 0001:00018000       cgxe_process_get_checksums 0000000180019000 f   CylinderSim_cgxe_registry.obj
- 0001:000182e0       cgxe_get_supported_modules 00000001800192e0 f   CylinderSim_cgxe_registry.obj
- 0001:00018390       cgxe_mex_unlock_call       0000000180019390 f   CylinderSim_cgxe_registry.obj
- 0001:000183d0       cgxe_get_sim_state         00000001800193d0 f   CylinderSim_cgxe_registry.obj
- 0001:00018440       cgxe_unpack_simstruct      0000000180019440 f   CylinderSim_cgxe_registry.obj
- 0001:000184e0       cgxe_set_sim_state         00000001800194e0 f   CylinderSim_cgxe_registry.obj
- 0001:00018550       cgxe_get_BuildInfoUpdate   0000000180019550 f   CylinderSim_cgxe_registry.obj
- 0001:000185f0       mdlZeroCrossings           00000001800195f0 f   CylinderSim_cgxe_registry.obj
- 0001:00018640       mdlGetTimeOfNextVarHit     0000000180019640 f   CylinderSim_cgxe_registry.obj
- 0001:00018690       _ProcessMexSfunctionCmdLineCall 0000000180019690 f   CylinderSim_cgxe_registry.obj
- 0001:00018d40       mdlInitializeSizes         0000000180019d40 f   CylinderSim_cgxe_registry.obj
- 0001:00018d50       _CreateSimStruct           0000000180019d50 f   CylinderSim_cgxe_registry.obj
- 0001:00018ee0       _RegNumInputPortsCB        0000000180019ee0 f   CylinderSim_cgxe_registry.obj
- 0001:00018f60       _RegNumOutputPortsCB       0000000180019f60 f   CylinderSim_cgxe_registry.obj
- 0001:0001925c       pre_c_init                 000000018001a25c f   MSVCRT:crtdll.obj
- 0001:00019518       __DllMainCRTStartup        000000018001a518 f   MSVCRT:crtdll.obj
- 0001:00019b80       __DllMainCRTStartup$filt$0 000000018001ab80 f   MSVCRT:crtdll.obj
- 0001:00019bb0       __DllMainCRTStartup$fin$1  000000018001abb0 f   MSVCRT:crtdll.obj
- 0001:00019bca       _onexit$fin$0              000000018001abca f   MSVCRT:atonexit.obj
- 0001:00019bf0       _IsNonwritableInCurrentImage$filt$0 000000018001abf0 f   MSVCRT:pesect.obj
+ 0001:00000270       getSimState_l3wxmHqEjOydUYR4mHiKZH 0000000180001270 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00000340       mw__internal__getSimState__fcn 0000000180001340 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00000b10       setSimState_l3wxmHqEjOydUYR4mHiKZH 0000000180001b10 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00000bf0       mw__internal__setSimState__fcn 0000000180001bf0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00000cc0       emlrt_marshallIn           0000000180001cc0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00000d20       b_emlrt_marshallIn         0000000180001d20 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00001320       c_emlrt_marshallIn         0000000180002320 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00001370       d_emlrt_marshallIn         0000000180002370 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:000013c0       e_emlrt_marshallIn         00000001800023c0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00001410       f_emlrt_marshallIn         0000000180002410 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00001470       g_emlrt_marshallIn         0000000180002470 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:000014c0       h_emlrt_marshallIn         00000001800024c0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00001530       i_emlrt_marshallIn         0000000180002530 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:000015a0       j_emlrt_marshallIn         00000001800025a0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00001650       k_emlrt_marshallIn         0000000180002650 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:000016c0       mdlStart_l3wxmHqEjOydUYR4mHiKZH 00000001800026c0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00001840       cgxe_mdl_start             0000000180002840 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00003b50       message                    0000000180004b50 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00003bd0       error                      0000000180004bd0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00003c30       mdlOutputs_l3wxmHqEjOydUYR4mHiKZH 0000000180004c30 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00003d00       cgxe_mdl_outputs           0000000180004d00 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:000065c0       isequal                    00000001800075c0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00006610       Cylinder_ReactionForceCalc 0000000180007610 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00007c70       Cylinder_ColissionConditionCalc 0000000180008c70 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00008220       Cylinder_RotationToContactFrame 0000000180009220 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00008c70       mdlInitialize_l3wxmHqEjOydUYR4mHiKZH 0000000180009c70 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00008d40       cgxe_mdl_initialize        0000000180009d40 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:000098e0       mdlUpdate_l3wxmHqEjOydUYR4mHiKZH 000000018000a8e0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:000099b0       cgxe_mdl_update            000000018000a9b0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:000099c0       mdlTerminate_l3wxmHqEjOydUYR4mHiKZH 000000018000a9c0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00009ab0       cgxe_mdl_terminate         000000018000aab0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:0000a620       mdlProcessParameters_l3wxmHqEjOydUYR4mHiKZH 000000018000b620 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:0000a6a0       mw__internal__name__resolution__fcn 000000018000b6a0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:0000a700       info_helper                000000018000b700 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:0000f4c0       emlrt_marshallOut          00000001800104c0 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:0000f500       b_emlrt_marshallOut        0000000180010500 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:0000f560       b_info_helper              0000000180010560 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00011650       mw__internal__autoInference__fcn 0000000180012650 f   m_l3wxmHqEjOydUYR4mHiKZH.obj
+ 0001:00014cf0       _ssFatalError              0000000180015cf0 f   CylinderSim_cgxe_registry.obj
+ 0001:00017c40       mdlStart                   0000000180018c40 f   CylinderSim_cgxe_registry.obj
+ 0001:00017c80       mdlInitializeConditions    0000000180018c80 f   CylinderSim_cgxe_registry.obj
+ 0001:00017ca0       mdlUpdate                  0000000180018ca0 f   CylinderSim_cgxe_registry.obj
+ 0001:00017cd0       mdlOutputs                 0000000180018cd0 f   CylinderSim_cgxe_registry.obj
+ 0001:00017d00       mdlTerminate               0000000180018d00 f   CylinderSim_cgxe_registry.obj
+ 0001:00017d20       mdlInitializeSampleTimes   0000000180018d20 f   CylinderSim_cgxe_registry.obj
+ 0001:00017d30       ProcessMexSfunctionCmdLineCall 0000000180018d30 f   CylinderSim_cgxe_registry.obj
+ 0001:00017fb0       cgxe_process_get_checksums 0000000180018fb0 f   CylinderSim_cgxe_registry.obj
+ 0001:00018290       cgxe_get_supported_modules 0000000180019290 f   CylinderSim_cgxe_registry.obj
+ 0001:00018340       cgxe_mex_unlock_call       0000000180019340 f   CylinderSim_cgxe_registry.obj
+ 0001:00018380       cgxe_get_sim_state         0000000180019380 f   CylinderSim_cgxe_registry.obj
+ 0001:000183f0       cgxe_unpack_simstruct      00000001800193f0 f   CylinderSim_cgxe_registry.obj
+ 0001:00018490       cgxe_set_sim_state         0000000180019490 f   CylinderSim_cgxe_registry.obj
+ 0001:00018500       cgxe_get_BuildInfoUpdate   0000000180019500 f   CylinderSim_cgxe_registry.obj
+ 0001:000185a0       mdlZeroCrossings           00000001800195a0 f   CylinderSim_cgxe_registry.obj
+ 0001:000185f0       mdlGetTimeOfNextVarHit     00000001800195f0 f   CylinderSim_cgxe_registry.obj
+ 0001:00018640       _ProcessMexSfunctionCmdLineCall 0000000180019640 f   CylinderSim_cgxe_registry.obj
+ 0001:00018cf0       mdlInitializeSizes         0000000180019cf0 f   CylinderSim_cgxe_registry.obj
+ 0001:00018d00       _CreateSimStruct           0000000180019d00 f   CylinderSim_cgxe_registry.obj
+ 0001:00018e90       _RegNumInputPortsCB        0000000180019e90 f   CylinderSim_cgxe_registry.obj
+ 0001:00018f10       _RegNumOutputPortsCB       0000000180019f10 f   CylinderSim_cgxe_registry.obj
+ 0001:0001920c       pre_c_init                 000000018001a20c f   MSVCRT:crtdll.obj
+ 0001:000194c8       __DllMainCRTStartup        000000018001a4c8 f   MSVCRT:crtdll.obj
+ 0001:00019b30       __DllMainCRTStartup$filt$0 000000018001ab30 f   MSVCRT:crtdll.obj
+ 0001:00019b60       __DllMainCRTStartup$fin$1  000000018001ab60 f   MSVCRT:crtdll.obj
+ 0001:00019b7a       _onexit$fin$0              000000018001ab7a f   MSVCRT:atonexit.obj
+ 0001:00019ba0       _IsNonwritableInCurrentImage$filt$0 000000018001aba0 f   MSVCRT:pesect.obj

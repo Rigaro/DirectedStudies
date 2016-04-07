@@ -1,5 +1,5 @@
-#ifndef __YoHcJxtJIg4eEbvpceABdH_h__
-#define __YoHcJxtJIg4eEbvpceABdH_h__
+#ifndef __l3wxmHqEjOydUYR4mHiKZH_h__
+#define __l3wxmHqEjOydUYR4mHiKZH_h__
 
 /* Include files */
 #include "simstruc.h"
@@ -188,17 +188,17 @@ typedef struct sznE3FlCyo7TBPrpitCkVZC sznE3FlCyo7TBPrpitCkVZC;
 
 #endif                                 /*typedef_sznE3FlCyo7TBPrpitCkVZC*/
 
-#ifndef typedef_InstanceStruct_YoHcJxtJIg4eEbvpceABdH
-#define typedef_InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+#ifndef typedef_InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
+#define typedef_InstanceStruct_l3wxmHqEjOydUYR4mHiKZH
 
 typedef struct {
   SimStruct *S;
   covrtInstance covInst;
   Cylinder sysobj;
   boolean_T sysobj_not_empty;
-} InstanceStruct_YoHcJxtJIg4eEbvpceABdH;
+} InstanceStruct_l3wxmHqEjOydUYR4mHiKZH;
 
-#endif                                 /*typedef_InstanceStruct_YoHcJxtJIg4eEbvpceABdH*/
+#endif                                 /*typedef_InstanceStruct_l3wxmHqEjOydUYR4mHiKZH*/
 
 /* Named Constants */
 
@@ -209,9 +209,9 @@ typedef struct {
 /* Function Declarations */
 
 /* Function Definitions */
-extern void method_dispatcher_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, int_T method,
+extern void method_dispatcher_l3wxmHqEjOydUYR4mHiKZH(SimStruct *S, int_T method,
   void* data);
-extern int autoInfer_dispatcher_YoHcJxtJIg4eEbvpceABdH(mxArray *lhs[], const
+extern int autoInfer_dispatcher_l3wxmHqEjOydUYR4mHiKZH(mxArray *lhs[], const
   char* commandName);
 
 #endif
