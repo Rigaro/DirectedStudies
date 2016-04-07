@@ -6,7 +6,7 @@ CPU = AMD64
 
 MODEL  = CylinderSim
 TARGET = cgxe
-MODULE_SRCS 	= m_eJG1O6WbMNFUvHWZ3mwzSC.c
+MODULE_SRCS 	= m_YoHcJxtJIg4eEbvpceABdH.c
 MODEL_SRC	= CylinderSim_cgxe.c
 MODEL_REG = CylinderSim_cgxe_registry.c
 MAKEFILE    = CylinderSim_cgxe.mak

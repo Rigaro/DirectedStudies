@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include "blas.h"
 #include "CylinderSim_cgxe.h"
-#include "m_eJG1O6WbMNFUvHWZ3mwzSC.h"
+#include "m_YoHcJxtJIg4eEbvpceABdH.h"
 #include "mwmathutil.h"
 
 /* Type Definitions */
@@ -18,14 +18,27 @@ static emlrtMCInfo emlrtMCI = { 1, 1, "SystemCore",
 };
 
 /* Function Declarations */
-static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance);
-static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static boolean_T isequal(real_T varargin_1, real_T varargin_2);
+static void Cylinder_ReactionForceCalc(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+  *moduleInstance, Cylinder *obj, real_T CollisionCondition[2], real_T
+  CollisionPosition[4], real_T IndexFext[2], real_T ThumbFext[2], real_T
+  xPositionG3, real_T yPositionG3, real_T ReactionForcePerFinger[3]);
+static void Cylinder_ColissionConditionCalc
+  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance, Cylinder *obj, real_T
+   ColissionCondition[2], real_T IndexForce[2], real_T ThumbForce[2], real_T
+   BunchOfTotalForces[4]);
+static void Cylinder_RotationToContactFrame
+  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance, Cylinder *obj, real_T
+   CollisionPosition[2], real_T xPositionG3, real_T yPositionG3, real_T
+   RotMatrix_0_4[4]);
+static void cgxe_mdl_start(InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance);
+static void cgxe_mdl_initialize(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance);
-static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void cgxe_mdl_outputs(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance);
-static void cgxe_mdl_update(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void cgxe_mdl_update(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance);
-static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void cgxe_mdl_terminate(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance);
 static const mxArray *mw__internal__name__resolution__fcn(void);
 static void info_helper(const mxArray **info);
@@ -34,7 +47,7 @@ static const mxArray *b_emlrt_marshallOut(const uint32_T u);
 static void b_info_helper(const mxArray **info);
 static const mxArray *mw__internal__autoInference__fcn(void);
 static const mxArray *mw__internal__getSimState__fcn
-  (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance);
+  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance);
 static void emlrt_marshallIn(const mxArray *b_sysobj, const char_T *identifier,
   Cylinder *y);
 static void b_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
@@ -49,7 +62,7 @@ static boolean_T f_emlrt_marshallIn(const mxArray *b_sysobj_not_empty, const
   char_T *identifier);
 static boolean_T g_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
   *parentId);
-static void mw__internal__setSimState__fcn(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void mw__internal__setSimState__fcn(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance, const mxArray *st);
 static const mxArray *message(const mxArray *b, const mxArray *c, emlrtMCInfo
   *location);
@@ -64,10 +77,465 @@ static boolean_T k_emlrt_marshallIn(const mxArray *src, const emlrtMsgIdentifier
   *msgId);
 
 /* Function Definitions */
-static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance)
+static boolean_T isequal(real_T varargin_1, real_T varargin_2)
 {
-  real_T a;
+  boolean_T p;
+  boolean_T b_p;
+  p = false;
+  b_p = true;
+  if (!(varargin_1 == varargin_2)) {
+    b_p = false;
+  }
+
+  if (b_p) {
+    p = true;
+  }
+
+  return p;
+}
+
+static void Cylinder_ReactionForceCalc(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
+  *moduleInstance, Cylinder *obj, real_T CollisionCondition[2], real_T
+  CollisionPosition[4], real_T IndexFext[2], real_T ThumbFext[2], real_T
+  xPositionG3, real_T yPositionG3, real_T ReactionForcePerFinger[3])
+{
+  real_T BunchOfTotalForces[4];
+  real_T ResultantTorqueIndex;
+  real_T ResultantTorqueThumb;
+  real_T RotatedForceToFrame0Index[2];
+  real_T RotatedForceToFrame0Thumb[2];
   int32_T i0;
+  real_T RotMatrix_0_4_Index[4];
+  real_T RotatedForceIndex[2];
+  int32_T i1;
+  Cylinder *b_obj;
+  real_T RotMatrix_0_4_Thumb[4];
+  real_T RotatedForceThumb[2];
+  real_T unusedExpr[4];
+  covrtLogFcn(&moduleInstance->covInst, 0, 14);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 37);
+  Cylinder_ColissionConditionCalc(moduleInstance, obj, CollisionCondition,
+    IndexFext, ThumbFext, BunchOfTotalForces);
+  ResultantTorqueIndex = 0.0;
+  ResultantTorqueThumb = 0.0;
+  for (i0 = 0; i0 < 2; i0++) {
+    RotatedForceToFrame0Index[i0] = 0.0;
+    RotatedForceToFrame0Thumb[i0] = 0.0;
+  }
+
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 17, CollisionCondition[0] ==
+                 1.0)) {
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 38);
+    Cylinder_RotationToContactFrame(moduleInstance, obj, *(real_T (*)[2])&
+      CollisionPosition[0], xPositionG3, yPositionG3, RotMatrix_0_4_Index);
+    covrtLogFcn(&moduleInstance->covInst, 0, 7);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 26);
+    for (i0 = 0; i0 < 2; i0++) {
+      RotatedForceIndex[i0] = 0.0;
+      for (i1 = 0; i1 < 2; i1++) {
+        RotatedForceIndex[i0] += RotMatrix_0_4_Index[i1 + (i0 << 1)] *
+          BunchOfTotalForces[i1];
+      }
+    }
+
+    b_obj = obj;
+    covrtLogFcn(&moduleInstance->covInst, 0, 8);
+    if (covrtLogIf(&moduleInstance->covInst, 0, 0, 13, RotatedForceIndex[1] <=
+                   b_obj->Ucs * RotatedForceIndex[0])) {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 27);
+      RotatedForceToFrame0Index[0] = RotatedForceIndex[0];
+      RotatedForceToFrame0Index[1] = RotatedForceIndex[1] + -muDoubleScalarSign
+        (RotatedForceIndex[1]);
+    } else {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 28);
+      for (i0 = 0; i0 < 2; i0++) {
+        RotatedForceToFrame0Index[i0] = RotatedForceIndex[i0];
+      }
+    }
+
+    RotatedForceIndex[1] = RotatedForceToFrame0Index[1];
+    b_obj = obj;
+    covrtLogFcn(&moduleInstance->covInst, 0, 10);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 30);
+    ResultantTorqueIndex = b_obj->R * RotatedForceToFrame0Index[1] + b_obj->R *
+      0.0;
+    covrtLogFcn(&moduleInstance->covInst, 0, 9);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 29);
+    for (i0 = 0; i0 < 2; i0++) {
+      RotatedForceToFrame0Index[i0] = 0.0;
+      for (i1 = 0; i1 < 2; i1++) {
+        RotatedForceToFrame0Index[i0] += RotMatrix_0_4_Index[i0 + (i1 << 1)] *
+          RotatedForceIndex[i1];
+      }
+    }
+  } else if (covrtLogIf(&moduleInstance->covInst, 0, 0, 18, CollisionCondition[1]
+                        == 1.0)) {
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 39);
+    Cylinder_RotationToContactFrame(moduleInstance, obj, *(real_T (*)[2])&
+      CollisionPosition[2], xPositionG3, yPositionG3, RotMatrix_0_4_Thumb);
+    covrtLogFcn(&moduleInstance->covInst, 0, 7);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 26);
+    for (i0 = 0; i0 < 2; i0++) {
+      RotatedForceThumb[i0] = 0.0;
+      for (i1 = 0; i1 < 2; i1++) {
+        RotatedForceThumb[i0] += RotMatrix_0_4_Thumb[i1 + (i0 << 1)] *
+          BunchOfTotalForces[2 + i1];
+      }
+    }
+
+    b_obj = obj;
+    covrtLogFcn(&moduleInstance->covInst, 0, 8);
+    if (covrtLogIf(&moduleInstance->covInst, 0, 0, 13, RotatedForceThumb[1] <=
+                   b_obj->Ucs * RotatedForceThumb[0])) {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 27);
+      RotatedForceToFrame0Thumb[0] = RotatedForceThumb[0];
+      RotatedForceToFrame0Thumb[1] = RotatedForceThumb[1] + -muDoubleScalarSign
+        (RotatedForceThumb[1]);
+    } else {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 28);
+      for (i0 = 0; i0 < 2; i0++) {
+        RotatedForceToFrame0Thumb[i0] = RotatedForceThumb[i0];
+      }
+    }
+
+    RotatedForceThumb[1] = RotatedForceToFrame0Thumb[1];
+    b_obj = obj;
+    covrtLogFcn(&moduleInstance->covInst, 0, 10);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 30);
+    ResultantTorqueThumb = b_obj->R * 0.0 + b_obj->R *
+      RotatedForceToFrame0Thumb[1];
+    covrtLogFcn(&moduleInstance->covInst, 0, 9);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 29);
+    for (i0 = 0; i0 < 2; i0++) {
+      RotatedForceToFrame0Thumb[i0] = 0.0;
+      for (i1 = 0; i1 < 2; i1++) {
+        RotatedForceToFrame0Thumb[i0] += RotMatrix_0_4_Thumb[i0 + (i1 << 1)] *
+          RotatedForceThumb[i1];
+      }
+    }
+  } else if (covrtLogCond(&moduleInstance->covInst, 0, 0, 0, CollisionCondition
+                          [1] == 1.0) && covrtLogCond(&moduleInstance->covInst,
+              0, 0, 1, CollisionCondition[0] == 1.0)) {
+    covrtLogMcdc(&moduleInstance->covInst, 0, 0, 7, true);
+    covrtLogIf(&moduleInstance->covInst, 0, 0, 19, true);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 40);
+    Cylinder_RotationToContactFrame(moduleInstance, obj, *(real_T (*)[2])&
+      CollisionPosition[0], xPositionG3, yPositionG3, RotMatrix_0_4_Index);
+    Cylinder_RotationToContactFrame(moduleInstance, obj, *(real_T (*)[2])&
+      CollisionPosition[2], xPositionG3, yPositionG3, RotMatrix_0_4_Thumb);
+    covrtLogFcn(&moduleInstance->covInst, 0, 7);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 26);
+    for (i0 = 0; i0 < 2; i0++) {
+      RotatedForceIndex[i0] = 0.0;
+      for (i1 = 0; i1 < 2; i1++) {
+        RotatedForceIndex[i0] += RotMatrix_0_4_Index[i1 + (i0 << 1)] *
+          BunchOfTotalForces[i1];
+      }
+    }
+
+    covrtLogFcn(&moduleInstance->covInst, 0, 7);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 26);
+    for (i0 = 0; i0 < 2; i0++) {
+      RotatedForceThumb[i0] = 0.0;
+      for (i1 = 0; i1 < 2; i1++) {
+        RotatedForceThumb[i0] += RotMatrix_0_4_Thumb[i1 + (i0 << 1)] *
+          BunchOfTotalForces[2 + i1];
+      }
+    }
+
+    b_obj = obj;
+    covrtLogFcn(&moduleInstance->covInst, 0, 8);
+    if (covrtLogIf(&moduleInstance->covInst, 0, 0, 13, RotatedForceIndex[1] <=
+                   b_obj->Ucs * RotatedForceIndex[0])) {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 27);
+      RotatedForceToFrame0Index[0] = RotatedForceIndex[0];
+      RotatedForceToFrame0Index[1] = RotatedForceIndex[1] + -muDoubleScalarSign
+        (RotatedForceIndex[1]);
+    } else {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 28);
+      for (i0 = 0; i0 < 2; i0++) {
+        RotatedForceToFrame0Index[i0] = RotatedForceIndex[i0];
+      }
+    }
+
+    b_obj = obj;
+    covrtLogFcn(&moduleInstance->covInst, 0, 8);
+    if (covrtLogIf(&moduleInstance->covInst, 0, 0, 13, RotatedForceThumb[1] <=
+                   b_obj->Ucs * RotatedForceThumb[0])) {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 27);
+      RotatedForceToFrame0Thumb[0] = RotatedForceThumb[0];
+      RotatedForceToFrame0Thumb[1] = RotatedForceThumb[1] + -muDoubleScalarSign
+        (RotatedForceThumb[1]);
+    } else {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 28);
+      for (i0 = 0; i0 < 2; i0++) {
+        RotatedForceToFrame0Thumb[i0] = RotatedForceThumb[i0];
+      }
+    }
+
+    RotatedForceIndex[1] = RotatedForceToFrame0Index[1];
+    RotatedForceThumb[1] = RotatedForceToFrame0Thumb[1];
+    b_obj = obj;
+    covrtLogFcn(&moduleInstance->covInst, 0, 10);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 30);
+    ResultantTorqueIndex = b_obj->R * RotatedForceToFrame0Index[1] + b_obj->R *
+      0.0;
+    b_obj = obj;
+    covrtLogFcn(&moduleInstance->covInst, 0, 10);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 30);
+    ResultantTorqueThumb = b_obj->R * 0.0 + b_obj->R *
+      RotatedForceToFrame0Thumb[1];
+    covrtLogFcn(&moduleInstance->covInst, 0, 9);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 29);
+    for (i0 = 0; i0 < 2; i0++) {
+      RotatedForceToFrame0Index[i0] = 0.0;
+      for (i1 = 0; i1 < 2; i1++) {
+        RotatedForceToFrame0Index[i0] += RotMatrix_0_4_Index[i0 + (i1 << 1)] *
+          RotatedForceIndex[i1];
+      }
+    }
+
+    covrtLogFcn(&moduleInstance->covInst, 0, 9);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 29);
+    for (i0 = 0; i0 < 2; i0++) {
+      RotatedForceToFrame0Thumb[i0] = 0.0;
+      for (i1 = 0; i1 < 2; i1++) {
+        RotatedForceToFrame0Thumb[i0] += RotMatrix_0_4_Thumb[i0 + (i1 << 1)] *
+          RotatedForceThumb[i1];
+      }
+    }
+  } else {
+    covrtLogMcdc(&moduleInstance->covInst, 0, 0, 7, false);
+    covrtLogIf(&moduleInstance->covInst, 0, 0, 19, false);
+    if (covrtLogCond(&moduleInstance->covInst, 0, 0, 2, CollisionCondition[1] ==
+                     0.0) && covrtLogCond(&moduleInstance->covInst, 0, 0, 3,
+         CollisionCondition[0] == 0.0)) {
+      covrtLogMcdc(&moduleInstance->covInst, 0, 0, 8, true);
+      covrtLogIf(&moduleInstance->covInst, 0, 0, 20, true);
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 41);
+    } else {
+      covrtLogMcdc(&moduleInstance->covInst, 0, 0, 8, false);
+      covrtLogIf(&moduleInstance->covInst, 0, 0, 20, false);
+    }
+  }
+
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 42);
+  Cylinder_ColissionConditionCalc(moduleInstance, obj, CollisionCondition,
+    RotatedForceToFrame0Index, RotatedForceToFrame0Thumb, unusedExpr);
+  covrtLogFcn(&moduleInstance->covInst, 0, 11);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 31);
+  covrtLogFcn(&moduleInstance->covInst, 0, 12);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 32);
+  ReactionForcePerFinger[0] = RotatedForceToFrame0Index[0] +
+    RotatedForceToFrame0Thumb[0];
+  ReactionForcePerFinger[1] = RotatedForceToFrame0Index[0] +
+    RotatedForceToFrame0Thumb[0];
+  ReactionForcePerFinger[2] = ResultantTorqueIndex + ResultantTorqueThumb;
+}
+
+static void Cylinder_ColissionConditionCalc
+  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance, Cylinder *obj, real_T
+   ColissionCondition[2], real_T IndexForce[2], real_T ThumbForce[2], real_T
+   BunchOfTotalForces[4])
+{
+  int32_T i2;
+  (void)obj;
+  covrtLogFcn(&moduleInstance->covInst, 0, 13);
+  if (covrtLogCond(&moduleInstance->covInst, 0, 0, 4, ColissionCondition[0] ==
+                   1.0) && covrtLogCond(&moduleInstance->covInst, 0, 0, 5,
+       ColissionCondition[1] == 1.0)) {
+    covrtLogMcdc(&moduleInstance->covInst, 0, 0, 4, true);
+    covrtLogIf(&moduleInstance->covInst, 0, 0, 14, true);
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 33);
+    for (i2 = 0; i2 < 2; i2++) {
+      BunchOfTotalForces[i2] = IndexForce[i2];
+      BunchOfTotalForces[2 + i2] = ThumbForce[i2];
+    }
+  } else {
+    covrtLogMcdc(&moduleInstance->covInst, 0, 0, 4, false);
+    covrtLogIf(&moduleInstance->covInst, 0, 0, 14, false);
+    if (covrtLogCond(&moduleInstance->covInst, 0, 0, 6, ColissionCondition[0] ==
+                     0.0) && covrtLogCond(&moduleInstance->covInst, 0, 0, 7,
+         ColissionCondition[1] == 1.0)) {
+      covrtLogMcdc(&moduleInstance->covInst, 0, 0, 5, true);
+      covrtLogIf(&moduleInstance->covInst, 0, 0, 15, true);
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 34);
+      for (i2 = 0; i2 < 2; i2++) {
+        BunchOfTotalForces[i2] = 0.0;
+        BunchOfTotalForces[2 + i2] = ThumbForce[i2];
+      }
+    } else {
+      covrtLogMcdc(&moduleInstance->covInst, 0, 0, 5, false);
+      covrtLogIf(&moduleInstance->covInst, 0, 0, 15, false);
+      if (covrtLogCond(&moduleInstance->covInst, 0, 0, 8, ColissionCondition[0] ==
+                       1.0) && covrtLogCond(&moduleInstance->covInst, 0, 0, 9,
+           ColissionCondition[1] == 0.0)) {
+        covrtLogMcdc(&moduleInstance->covInst, 0, 0, 6, true);
+        covrtLogIf(&moduleInstance->covInst, 0, 0, 16, true);
+        covrtLogBasicBlock(&moduleInstance->covInst, 0, 35);
+        for (i2 = 0; i2 < 2; i2++) {
+          BunchOfTotalForces[i2] = IndexForce[i2];
+          BunchOfTotalForces[2 + i2] = 0.0;
+        }
+      } else {
+        covrtLogMcdc(&moduleInstance->covInst, 0, 0, 6, false);
+        covrtLogIf(&moduleInstance->covInst, 0, 0, 16, false);
+        covrtLogBasicBlock(&moduleInstance->covInst, 0, 36);
+        for (i2 = 0; i2 < 4; i2++) {
+          BunchOfTotalForces[i2] = 0.0;
+        }
+      }
+    }
+  }
+}
+
+static void Cylinder_RotationToContactFrame
+  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance, Cylinder *obj, real_T
+   CollisionPosition[2], real_T xPositionG3, real_T yPositionG3, real_T
+   RotMatrix_0_4[4])
+{
+  real_T Theta;
+  real_T tan_angle;
+  (void)obj;
+  covrtLogFcn(&moduleInstance->covInst, 0, 6);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 16);
+  Theta = 0.0;
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 6, CollisionPosition[0] -
+                 xPositionG3 == 0.0)) {
+    if (covrtLogIf(&moduleInstance->covInst, 0, 0, 7, CollisionPosition[1] -
+                   yPositionG3 > 0.0)) {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 17);
+      Theta = 1.5707963267948966;
+    } else {
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 18);
+      Theta = 4.71238898038469;
+    }
+  } else {
+    covrtLogBasicBlock(&moduleInstance->covInst, 0, 19);
+    tan_angle = (CollisionPosition[1] - yPositionG3) / (CollisionPosition[0] -
+      xPositionG3);
+    if (covrtLogCond(&moduleInstance->covInst, 0, 0, 10, tan_angle > 0.0) &&
+        covrtLogCond(&moduleInstance->covInst, 0, 0, 11, CollisionPosition[0] -
+                     xPositionG3 > 0.0) && covrtLogCond(&moduleInstance->covInst,
+         0, 0, 12, CollisionPosition[1] - yPositionG3 > 0.0)) {
+      covrtLogMcdc(&moduleInstance->covInst, 0, 0, 0, true);
+      covrtLogIf(&moduleInstance->covInst, 0, 0, 8, true);
+      covrtLogBasicBlock(&moduleInstance->covInst, 0, 20);
+      Theta = muDoubleScalarAtan(tan_angle);
+    } else {
+      covrtLogMcdc(&moduleInstance->covInst, 0, 0, 0, false);
+      covrtLogIf(&moduleInstance->covInst, 0, 0, 8, false);
+      if (covrtLogCond(&moduleInstance->covInst, 0, 0, 13, tan_angle > 0.0) &&
+          covrtLogCond(&moduleInstance->covInst, 0, 0, 14, CollisionPosition[0]
+                       - xPositionG3 < 0.0) && covrtLogCond
+          (&moduleInstance->covInst, 0, 0, 15, CollisionPosition[1] -
+           yPositionG3 < 0.0)) {
+        covrtLogMcdc(&moduleInstance->covInst, 0, 0, 1, true);
+        covrtLogIf(&moduleInstance->covInst, 0, 0, 9, true);
+        covrtLogBasicBlock(&moduleInstance->covInst, 0, 21);
+        Theta = muDoubleScalarAtan(tan_angle) + 3.1415926535897931;
+      } else {
+        covrtLogMcdc(&moduleInstance->covInst, 0, 0, 1, false);
+        covrtLogIf(&moduleInstance->covInst, 0, 0, 9, false);
+        if (covrtLogCond(&moduleInstance->covInst, 0, 0, 16, tan_angle < 0.0) &&
+            covrtLogCond(&moduleInstance->covInst, 0, 0, 17, CollisionPosition[0]
+                         - xPositionG3 < 0.0) && covrtLogCond
+            (&moduleInstance->covInst, 0, 0, 18, CollisionPosition[1] -
+             yPositionG3 > 0.0)) {
+          covrtLogMcdc(&moduleInstance->covInst, 0, 0, 2, true);
+          covrtLogIf(&moduleInstance->covInst, 0, 0, 10, true);
+          covrtLogBasicBlock(&moduleInstance->covInst, 0, 22);
+          Theta = muDoubleScalarAtan(tan_angle);
+        } else {
+          covrtLogMcdc(&moduleInstance->covInst, 0, 0, 2, false);
+          covrtLogIf(&moduleInstance->covInst, 0, 0, 10, false);
+          if (covrtLogCond(&moduleInstance->covInst, 0, 0, 19, tan_angle < 0.0) &&
+              covrtLogCond(&moduleInstance->covInst, 0, 0, 20,
+                           CollisionPosition[0] - xPositionG3 > 0.0) &&
+              covrtLogCond(&moduleInstance->covInst, 0, 0, 21,
+                           CollisionPosition[1] - yPositionG3 < 0.0)) {
+            covrtLogMcdc(&moduleInstance->covInst, 0, 0, 3, true);
+            covrtLogIf(&moduleInstance->covInst, 0, 0, 11, true);
+            covrtLogBasicBlock(&moduleInstance->covInst, 0, 23);
+            Theta = muDoubleScalarAtan(tan_angle) + 3.1415926535897931;
+          } else {
+            covrtLogMcdc(&moduleInstance->covInst, 0, 0, 3, false);
+            covrtLogIf(&moduleInstance->covInst, 0, 0, 11, false);
+            if (covrtLogIf(&moduleInstance->covInst, 0, 0, 12, tan_angle == 0.0))
+            {
+              covrtLogBasicBlock(&moduleInstance->covInst, 0, 24);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 25);
+  RotMatrix_0_4[0] = muDoubleScalarCos(Theta);
+  RotMatrix_0_4[2] = -muDoubleScalarSin(Theta);
+  RotMatrix_0_4[1] = muDoubleScalarSin(Theta);
+  RotMatrix_0_4[3] = muDoubleScalarCos(Theta);
+}
+
+static void cgxe_mdl_start(InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance)
+{
+  int32_T postfix_exprs_0_0[3] = { 0, 1, -3 };
+
+  int32_T cond_ends_0_0[2] = { 13072, 13102 };
+
+  int32_T cond_starts_0_0[2] = { 13046, 13076 };
+
+  int32_T postfix_exprs_0_1[3] = { 0, 1, -3 };
+
+  int32_T cond_ends_0_1[2] = { 14398, 14428 };
+
+  int32_T cond_starts_0_1[2] = { 14372, 14402 };
+
+  int32_T postfix_exprs_0_2[3] = { 0, 1, -3 };
+
+  int32_T cond_ends_0_2[2] = { 10553, 10581 };
+
+  int32_T cond_starts_0_2[2] = { 10529, 10557 };
+
+  int32_T postfix_exprs_0_3[3] = { 0, 1, -3 };
+
+  int32_T cond_ends_0_3[2] = { 10686, 10714 };
+
+  int32_T cond_starts_0_3[2] = { 10662, 10690 };
+
+  int32_T postfix_exprs_0_4[3] = { 0, 1, -3 };
+
+  int32_T cond_ends_0_4[2] = { 10814, 10842 };
+
+  int32_T cond_starts_0_4[2] = { 10790, 10818 };
+
+  int32_T postfix_exprs_0_5[5] = { 0, 1, -3, 2, -3 };
+
+  int32_T cond_ends_0_5[3] = { 6844, 6884, 6924 };
+
+  int32_T cond_starts_0_5[3] = { 6833, 6848, 6888 };
+
+  int32_T postfix_exprs_0_6[5] = { 0, 1, -3, 2, -3 };
+
+  int32_T cond_ends_0_6[3] = { 7003, 7043, 7083 };
+
+  int32_T cond_starts_0_6[3] = { 6992, 7007, 7047 };
+
+  int32_T postfix_exprs_0_7[5] = { 0, 1, -3, 2, -3 };
+
+  int32_T cond_ends_0_7[3] = { 7165, 7205, 7245 };
+
+  int32_T cond_starts_0_7[3] = { 7154, 7169, 7209 };
+
+  int32_T postfix_exprs_0_8[5] = { 0, 1, -3, 2, -3 };
+
+  int32_T cond_ends_0_8[3] = { 7324, 7364, 7404 };
+
+  int32_T cond_starts_0_8[3] = { 7313, 7328, 7368 };
+
+  real_T a;
+  int32_T i3;
   Cylinder *obj;
   static char_T cv0[51] = { 'M', 'A', 'T', 'L', 'A', 'B', ':', 's', 'y', 's',
     't', 'e', 'm', ':', 'm', 'e', 't', 'h', 'o', 'd', 'C', 'a', 'l', 'l', 'e',
@@ -92,6 +560,8 @@ static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance
   real_T *Uk;
   real_T *Urs;
   real_T *Urk;
+  real_T *Ucs;
+  real_T *Uck;
   real_T *Iz;
   real_T *F_s_x;
   real_T *F_s_y;
@@ -102,16 +572,18 @@ static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance
   real_T (*Position_G3_P3_frame_cylinder)[2];
   real_T (*Position_o_G3)[2];
   Position_G3_P3_frame_cylinder = (real_T (*)[2])(ssGetRunTimeParamInfo
-    (moduleInstance->S, 15U))->data;
-  Position_o_G3 = (real_T (*)[2])(ssGetRunTimeParamInfo(moduleInstance->S, 14U)
+    (moduleInstance->S, 17U))->data;
+  Position_o_G3 = (real_T (*)[2])(ssGetRunTimeParamInfo(moduleInstance->S, 16U)
     )->data;
-  T_k = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 13U))->data;
-  T_s = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 12U))->data;
-  F_k_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 11U))->data;
-  F_k_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 10U))->data;
-  F_s_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 9U))->data;
-  F_s_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 8U))->data;
-  Iz = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 7U))->data;
+  T_k = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 15U))->data;
+  T_s = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 14U))->data;
+  F_k_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 13U))->data;
+  F_k_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 12U))->data;
+  F_s_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 11U))->data;
+  F_s_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 10U))->data;
+  Iz = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 9U))->data;
+  Uck = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 8U))->data;
+  Ucs = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 7U))->data;
   Urk = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 6U))->data;
   Urs = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 5U))->data;
   Uk = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 4U))->data;
@@ -126,52 +598,134 @@ static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance
   /* Initialize Coverage Information */
   covrtScriptInit(&moduleInstance->covInst,
                   "C:\\Jhon\\UNIMELB\\cursos\\Directed studies\\GithubDirected\\Simulation\\Classes\\Cylinder.m",
-                  0, 7, 17, 6, 0, 0, 0, 0, 0, 0, 0);
+                  0, 17, 45, 21, 0, 0, 0, 0, 0, 22, 9);
 
   /* Initialize Function Information */
-  covrtFcnInit(&moduleInstance->covInst, 0, 5, "Cylinder_AccCalculation", 5476,
-               -1, 5978);
-  covrtFcnInit(&moduleInstance->covInst, 0, 4, "Cylinder_VelCalculation", 4933,
-               -1, 5240);
-  covrtFcnInit(&moduleInstance->covInst, 0, 3, "Cylinder_PosCalculation", 4327,
-               -1, 4700);
+  covrtFcnInit(&moduleInstance->covInst, 0, 15, "Cylinder_ForceReactionFinger",
+               15481, -1, 15836);
+  covrtFcnInit(&moduleInstance->covInst, 0, 14, "Cylinder_ReactionForceCalc",
+               11229, -1, 15245);
+  covrtFcnInit(&moduleInstance->covInst, 0, 13,
+               "Cylinder_ColissionConditionCalc", 10417, -1, 10993);
+  covrtFcnInit(&moduleInstance->covInst, 0, 12,
+               "Cylinder_ResultantXForceWithoutFloorFrictionY", 10026, -1, 10181);
+  covrtFcnInit(&moduleInstance->covInst, 0, 11,
+               "Cylinder_ResultantXForceWithoutFloorFrictionX", 9635, -1, 9790);
+  covrtFcnInit(&moduleInstance->covInst, 0, 10, "Cylinder_ResultantTorqueCalc",
+               9223, -1, 9399);
+  covrtFcnInit(&moduleInstance->covInst, 0, 9,
+               "Cylinder_ConvesrsionContactPointFrame0", 8835, -1, 8987);
+  covrtFcnInit(&moduleInstance->covInst, 0, 8,
+               "Cylinder_EvaluateFrictionInContactPoint", 8248, -1, 8599);
+  covrtFcnInit(&moduleInstance->covInst, 0, 7,
+               "Cylinder_ConvesrsionForceContactPoint", 7876, -1, 8012);
+  covrtFcnInit(&moduleInstance->covInst, 0, 6, "Cylinder_RotationToContactFrame",
+               6367, -1, 7640);
+  covrtFcnInit(&moduleInstance->covInst, 0, 5, "Cylinder_AccCalculation", 5629,
+               -1, 6131);
+  covrtFcnInit(&moduleInstance->covInst, 0, 4, "Cylinder_VelCalculation", 5086,
+               -1, 5393);
+  covrtFcnInit(&moduleInstance->covInst, 0, 3, "Cylinder_PosCalculation", 4480,
+               -1, 4853);
   covrtFcnInit(&moduleInstance->covInst, 0, 2, "Cylinder_Equation_Of_Motion",
-               3019, -1, 4095);
+               3172, -1, 4248);
   covrtFcnInit(&moduleInstance->covInst, 0, 1, "Cylinder_NonLinearFriction",
-               2036, -1, 2717);
-  covrtFcnInit(&moduleInstance->covInst, 0, 0, "Cylinder_Cylinder", 1145, -1,
-               1767);
-  covrtFcnInit(&moduleInstance->covInst, 0, 6, "Cylinder_stepImpl", 6315, -1,
-               7328);
+               2189, -1, 2870);
+  covrtFcnInit(&moduleInstance->covInst, 0, 0, "Cylinder_Cylinder", 1248, -1,
+               1920);
+  covrtFcnInit(&moduleInstance->covInst, 0, 16, "Cylinder_stepImpl", 16173, -1,
+               17579);
 
   /* Initialize Basic Block Information */
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 15, 5586, -1, 5965);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 14, 5017, -1, 5227);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 13, 4410, -1, 4687);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 12, 4033, -1, 4066);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 11, 3920, -1, 3998);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 10, 3735, -1, 3768);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 9, 3621, -1, 3700);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 8, 3438, -1, 3471);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 7, 3324, -1, 3403);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 6, 3105, -1, 3236);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 5, 2620, -1, 2639);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 4, 2514, -1, 2533);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 3, 2382, -1, 2405);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 2, 2322, -1, 2347);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 1, 2231, -1, 2256);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 0, 1189, -1, 1754);
-  covrtBasicBlockInit(&moduleInstance->covInst, 0, 16, 6505, -1, 7315);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 43, 15580, -1, 15823);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 42, 14630, -1, 15232);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 41, 14445, -1, 14602);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 40, 13119, -1, 14352);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 39, 12418, -1, 13026);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 38, 11747, -1, 12355);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 37, 11440, -1, 11687);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 36, 10932, -1, 10964);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 35, 10860, -1, 10897);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 34, 10732, -1, 10769);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 33, 10599, -1, 10641);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 32, 10129, -1, 10168);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 31, 9738, -1, 9777);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 30, 9323, -1, 9386);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 29, 8934, -1, 8974);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 28, 8530, -1, 8570);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 27, 8407, -1, 8495);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 26, 7966, -1, 7999);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 25, 7567, -1, 7627);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 24, 7509, -1, 7516);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 23, 7426, -1, 7450);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 22, 7267, -1, 7288);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 21, 7105, -1, 7129);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 20, 6946, -1, 6967);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 19, 6733, -1, 6812);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 18, 6666, -1, 6678);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 17, 6613, -1, 6623);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 16, 6472, -1, 6479);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 15, 5739, -1, 6118);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 14, 5170, -1, 5380);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 13, 4563, -1, 4840);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 12, 4186, -1, 4219);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 11, 4073, -1, 4151);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 10, 3888, -1, 3921);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 9, 3774, -1, 3853);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 8, 3591, -1, 3624);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 7, 3477, -1, 3556);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 6, 3258, -1, 3389);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 5, 2773, -1, 2792);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 4, 2667, -1, 2686);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 3, 2535, -1, 2558);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 2, 2475, -1, 2500);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 1, 2384, -1, 2409);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 0, 1292, -1, 1907);
+  covrtBasicBlockInit(&moduleInstance->covInst, 0, 44, 16386, -1, 17566);
 
   /* Initialize If Information */
-  covrtIfInit(&moduleInstance->covInst, 0, 3, 3250, 3307, 3417, 3488);
-  covrtIfInit(&moduleInstance->covInst, 0, 4, 3547, 3604, 3714, 3785);
-  covrtIfInit(&moduleInstance->covInst, 0, 5, 3848, 3903, 4012, 4083);
-  covrtIfInit(&moduleInstance->covInst, 0, 0, 2182, 2214, 2270, 2422);
-  covrtIfInit(&moduleInstance->covInst, 0, 1, 2270, 2305, 2361, 2422);
-  covrtIfInit(&moduleInstance->covInst, 0, 2, 2466, 2497, 2599, 2705);
+  covrtIfInit(&moduleInstance->covInst, 0, 17, 11700, 11731, 12368, 12402);
+  covrtIfInit(&moduleInstance->covInst, 0, 18, 12368, 12402, 13039, 14618);
+  covrtIfInit(&moduleInstance->covInst, 0, 19, 13039, 13103, 14365, 14618);
+  covrtIfInit(&moduleInstance->covInst, 0, 20, 14365, 14429, -1, 14429);
+  covrtIfInit(&moduleInstance->covInst, 0, 14, 10526, 10582, 10655, 10981);
+  covrtIfInit(&moduleInstance->covInst, 0, 15, 10655, 10715, 10783, 10981);
+  covrtIfInit(&moduleInstance->covInst, 0, 16, 10783, 10843, 10911, 10981);
+  covrtIfInit(&moduleInstance->covInst, 0, 13, 8346, 8390, 8509, 8587);
+  covrtIfInit(&moduleInstance->covInst, 0, 6, 6493, 6535, 6712, 7553);
+  covrtIfInit(&moduleInstance->covInst, 0, 7, 6552, 6592, 6641, 6699);
+  covrtIfInit(&moduleInstance->covInst, 0, 8, 6830, 6925, 6985, 7084);
+  covrtIfInit(&moduleInstance->covInst, 0, 9, 6985, 7084, 7147, 7537);
+  covrtIfInit(&moduleInstance->covInst, 0, 10, 7147, 7246, 7306, 7537);
+  covrtIfInit(&moduleInstance->covInst, 0, 11, 7306, 7405, 7468, 7537);
+  covrtIfInit(&moduleInstance->covInst, 0, 12, 7468, 7488, -1, 7488);
+  covrtIfInit(&moduleInstance->covInst, 0, 3, 3403, 3460, 3570, 3641);
+  covrtIfInit(&moduleInstance->covInst, 0, 4, 3700, 3757, 3867, 3938);
+  covrtIfInit(&moduleInstance->covInst, 0, 5, 4001, 4056, 4165, 4236);
+  covrtIfInit(&moduleInstance->covInst, 0, 0, 2335, 2367, 2423, 2575);
+  covrtIfInit(&moduleInstance->covInst, 0, 1, 2423, 2458, 2514, 2575);
+  covrtIfInit(&moduleInstance->covInst, 0, 2, 2619, 2650, 2752, 2858);
 
   /* Initialize MCDC Information */
+  covrtMcdcInit(&moduleInstance->covInst, 0, 7, 13046, 13102, 2, 0,
+                cond_starts_0_0, cond_ends_0_0, 3, postfix_exprs_0_0);
+  covrtMcdcInit(&moduleInstance->covInst, 0, 8, 14372, 14428, 2, 2,
+                cond_starts_0_1, cond_ends_0_1, 3, postfix_exprs_0_1);
+  covrtMcdcInit(&moduleInstance->covInst, 0, 4, 10529, 10581, 2, 4,
+                cond_starts_0_2, cond_ends_0_2, 3, postfix_exprs_0_2);
+  covrtMcdcInit(&moduleInstance->covInst, 0, 5, 10662, 10714, 2, 6,
+                cond_starts_0_3, cond_ends_0_3, 3, postfix_exprs_0_3);
+  covrtMcdcInit(&moduleInstance->covInst, 0, 6, 10790, 10842, 2, 8,
+                cond_starts_0_4, cond_ends_0_4, 3, postfix_exprs_0_4);
+  covrtMcdcInit(&moduleInstance->covInst, 0, 0, 6833, 6924, 3, 10,
+                cond_starts_0_5, cond_ends_0_5, 5, postfix_exprs_0_5);
+  covrtMcdcInit(&moduleInstance->covInst, 0, 1, 6992, 7083, 3, 13,
+                cond_starts_0_6, cond_ends_0_6, 5, postfix_exprs_0_6);
+  covrtMcdcInit(&moduleInstance->covInst, 0, 2, 7154, 7245, 3, 16,
+                cond_starts_0_7, cond_ends_0_7, 5, postfix_exprs_0_7);
+  covrtMcdcInit(&moduleInstance->covInst, 0, 3, 7313, 7404, 3, 19,
+                cond_starts_0_8, cond_ends_0_8, 5, postfix_exprs_0_8);
+
   /* Initialize For Information */
   /* Initialize While Information */
   /* Initialize Switch Information */
@@ -188,6 +742,8 @@ static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance
     moduleInstance->sysobj.Uk = 0.48;
     moduleInstance->sysobj.Urs = 0.5;
     moduleInstance->sysobj.Urk = 0.48;
+    moduleInstance->sysobj.Ucs = 0.5;
+    moduleInstance->sysobj.Uck = 0.4;
     a = moduleInstance->sysobj.R;
     a = moduleInstance->sysobj.M * (a * a);
     moduleInstance->sysobj.Iz = a / 2.0;
@@ -205,8 +761,8 @@ static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance
     moduleInstance->sysobj.T_k = 0.66666666666666663 *
       moduleInstance->sysobj.Urk * moduleInstance->sysobj.R *
       moduleInstance->sysobj.M * moduleInstance->sysobj.g;
-    for (i0 = 0; i0 < 2; i0++) {
-      moduleInstance->sysobj.Position_o_G3[i0] = 0.0;
+    for (i3 = 0; i3 < 2; i3++) {
+      moduleInstance->sysobj.Position_o_G3[i3] = 0.0;
     }
 
     moduleInstance->sysobj.Position_G3_P3_frame_cylinder[0] = 0.0;
@@ -220,6 +776,8 @@ static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance
     moduleInstance->sysobj.Uk = *Uk;
     moduleInstance->sysobj.Urs = *Urs;
     moduleInstance->sysobj.Urk = *Urk;
+    moduleInstance->sysobj.Ucs = *Ucs;
+    moduleInstance->sysobj.Uck = *Uck;
     moduleInstance->sysobj.Iz = *Iz;
     moduleInstance->sysobj.F_s_x = *F_s_x;
     moduleInstance->sysobj.F_s_y = *F_s_y;
@@ -227,28 +785,28 @@ static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance
     moduleInstance->sysobj.F_k_y = *F_k_y;
     moduleInstance->sysobj.T_s = *T_s;
     moduleInstance->sysobj.T_k = *T_k;
-    for (i0 = 0; i0 < 2; i0++) {
-      moduleInstance->sysobj.Position_o_G3[i0] = (*Position_o_G3)[i0];
+    for (i3 = 0; i3 < 2; i3++) {
+      moduleInstance->sysobj.Position_o_G3[i3] = (*Position_o_G3)[i3];
     }
 
-    for (i0 = 0; i0 < 2; i0++) {
-      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[i0] =
-        (*Position_G3_P3_frame_cylinder)[i0];
+    for (i3 = 0; i3 < 2; i3++) {
+      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[i3] =
+        (*Position_G3_P3_frame_cylinder)[i3];
     }
   }
 
   obj = &moduleInstance->sysobj;
   if (moduleInstance->sysobj.isInitialized != 0) {
-    for (i0 = 0; i0 < 51; i0++) {
-      u[i0] = cv0[i0];
+    for (i3 = 0; i3 < 51; i3++) {
+      u[i3] = cv0[i3];
     }
 
     y = NULL;
     m0 = emlrtCreateCharArray(2, iv0);
     emlrtInitCharArrayR2013a(emlrtRootTLSGlobal, 51, m0, &u[0]);
     emlrtAssign(&y, m0);
-    for (i0 = 0; i0 < 5; i0++) {
-      b_u[i0] = cv1[i0];
+    for (i3 = 0; i3 < 5; i3++) {
+      b_u[i3] = cv1[i3];
     }
 
     b_y = NULL;
@@ -261,11 +819,11 @@ static void cgxe_mdl_start(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance
   obj->isInitialized = 1;
 }
 
-static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void cgxe_mdl_initialize(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance)
 {
   real_T a;
-  int32_T i1;
+  int32_T i4;
   Cylinder *obj;
   static char_T cv2[45] = { 'M', 'A', 'T', 'L', 'A', 'B', ':', 's', 'y', 's',
     't', 'e', 'm', ':', 'm', 'e', 't', 'h', 'o', 'd', 'C', 'a', 'l', 'l', 'e',
@@ -301,6 +859,8 @@ static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   real_T *Uk;
   real_T *Urs;
   real_T *Urk;
+  real_T *Ucs;
+  real_T *Uck;
   real_T *Iz;
   real_T *F_s_x;
   real_T *F_s_y;
@@ -311,16 +871,18 @@ static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   real_T (*Position_G3_P3_frame_cylinder)[2];
   real_T (*Position_o_G3)[2];
   Position_G3_P3_frame_cylinder = (real_T (*)[2])(ssGetRunTimeParamInfo
-    (moduleInstance->S, 15U))->data;
-  Position_o_G3 = (real_T (*)[2])(ssGetRunTimeParamInfo(moduleInstance->S, 14U)
+    (moduleInstance->S, 17U))->data;
+  Position_o_G3 = (real_T (*)[2])(ssGetRunTimeParamInfo(moduleInstance->S, 16U)
     )->data;
-  T_k = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 13U))->data;
-  T_s = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 12U))->data;
-  F_k_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 11U))->data;
-  F_k_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 10U))->data;
-  F_s_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 9U))->data;
-  F_s_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 8U))->data;
-  Iz = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 7U))->data;
+  T_k = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 15U))->data;
+  T_s = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 14U))->data;
+  F_k_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 13U))->data;
+  F_k_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 12U))->data;
+  F_s_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 11U))->data;
+  F_s_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 10U))->data;
+  Iz = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 9U))->data;
+  Uck = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 8U))->data;
+  Ucs = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 7U))->data;
   Urk = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 6U))->data;
   Urs = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 5U))->data;
   Uk = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 4U))->data;
@@ -339,6 +901,8 @@ static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.Uk = 0.48;
     moduleInstance->sysobj.Urs = 0.5;
     moduleInstance->sysobj.Urk = 0.48;
+    moduleInstance->sysobj.Ucs = 0.5;
+    moduleInstance->sysobj.Uck = 0.4;
     a = moduleInstance->sysobj.R;
     a = moduleInstance->sysobj.M * (a * a);
     moduleInstance->sysobj.Iz = a / 2.0;
@@ -356,8 +920,8 @@ static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.T_k = 0.66666666666666663 *
       moduleInstance->sysobj.Urk * moduleInstance->sysobj.R *
       moduleInstance->sysobj.M * moduleInstance->sysobj.g;
-    for (i1 = 0; i1 < 2; i1++) {
-      moduleInstance->sysobj.Position_o_G3[i1] = 0.0;
+    for (i4 = 0; i4 < 2; i4++) {
+      moduleInstance->sysobj.Position_o_G3[i4] = 0.0;
     }
 
     moduleInstance->sysobj.Position_G3_P3_frame_cylinder[0] = 0.0;
@@ -371,6 +935,8 @@ static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.Uk = *Uk;
     moduleInstance->sysobj.Urs = *Urs;
     moduleInstance->sysobj.Urk = *Urk;
+    moduleInstance->sysobj.Ucs = *Ucs;
+    moduleInstance->sysobj.Uck = *Uck;
     moduleInstance->sysobj.Iz = *Iz;
     moduleInstance->sysobj.F_s_x = *F_s_x;
     moduleInstance->sysobj.F_s_y = *F_s_y;
@@ -378,28 +944,28 @@ static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.F_k_y = *F_k_y;
     moduleInstance->sysobj.T_s = *T_s;
     moduleInstance->sysobj.T_k = *T_k;
-    for (i1 = 0; i1 < 2; i1++) {
-      moduleInstance->sysobj.Position_o_G3[i1] = (*Position_o_G3)[i1];
+    for (i4 = 0; i4 < 2; i4++) {
+      moduleInstance->sysobj.Position_o_G3[i4] = (*Position_o_G3)[i4];
     }
 
-    for (i1 = 0; i1 < 2; i1++) {
-      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[i1] =
-        (*Position_G3_P3_frame_cylinder)[i1];
+    for (i4 = 0; i4 < 2; i4++) {
+      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[i4] =
+        (*Position_G3_P3_frame_cylinder)[i4];
     }
   }
 
   obj = &moduleInstance->sysobj;
   if (moduleInstance->sysobj.isInitialized == 2) {
-    for (i1 = 0; i1 < 45; i1++) {
-      u[i1] = cv2[i1];
+    for (i4 = 0; i4 < 45; i4++) {
+      u[i4] = cv2[i4];
     }
 
     y = NULL;
     m1 = emlrtCreateCharArray(2, iv2);
     emlrtInitCharArrayR2013a(emlrtRootTLSGlobal, 45, m1, &u[0]);
     emlrtAssign(&y, m1);
-    for (i1 = 0; i1 < 8; i1++) {
-      b_u[i1] = cv3[i1];
+    for (i4 = 0; i4 < 8; i4++) {
+      b_u[i4] = cv3[i4];
     }
 
     b_y = NULL;
@@ -411,16 +977,16 @@ static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
 
   flag = (obj->isInitialized == 1);
   if (flag && (moduleInstance->sysobj.isInitialized == 2)) {
-    for (i1 = 0; i1 < 45; i1++) {
-      c_u[i1] = cv2[i1];
+    for (i4 = 0; i4 < 45; i4++) {
+      c_u[i4] = cv2[i4];
     }
 
     c_y = NULL;
     m1 = emlrtCreateCharArray(2, iv4);
     emlrtInitCharArrayR2013a(emlrtRootTLSGlobal, 45, m1, &c_u[0]);
     emlrtAssign(&c_y, m1);
-    for (i1 = 0; i1 < 5; i1++) {
-      d_u[i1] = cv4[i1];
+    for (i4 = 0; i4 < 5; i4++) {
+      d_u[i4] = cv4[i4];
     }
 
     d_y = NULL;
@@ -431,12 +997,16 @@ static void cgxe_mdl_initialize(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   }
 }
 
-static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void cgxe_mdl_outputs(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance)
 {
   real_T Acceleration_o_P3_frame_0[2];
-  real_T varargin_16[2];
+  real_T varargin_18[2];
+  real_T varargin_20[2];
+  real_T varargin_21[2];
+  real_T varargin_22[2];
   int32_T k;
+  real_T varargin_23[4];
   real_T ForceEvaluation;
   boolean_T p;
   boolean_T b_p;
@@ -478,12 +1048,14 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   real_T GenCordExt[3];
   int32_T FrictionCondition;
   real_T SignOposite[3];
-  real_T B;
+  real_T GeneralCoordinatesDoubleDot_idx_2;
   real_T GeneralCoordinatesDoubleDot_idx_0;
   real_T GeneralCoordinatesDoubleDot_idx_1;
+  real_T ForceReactionIndex[2];
+  real_T ForceReactionThumb[2];
   real_T dv0[4];
-  real_T varargin_8[2];
-  int32_T i2;
+  real_T varargin_9[2];
+  int32_T i5;
   real_T Positions[4];
   real_T GeneralCoordinatesDoubleDot[2];
   real_T b_GeneralCoordinatesDoubleDot[2];
@@ -497,6 +1069,8 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   real_T *Uk;
   real_T *Urs;
   real_T *Urk;
+  real_T *Ucs;
+  real_T *Uck;
   real_T *Iz;
   real_T *F_s_x;
   real_T *F_s_y;
@@ -505,27 +1079,30 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   real_T *T_s;
   real_T *T_k;
   real_T *u0;
-  real_T *u1;
-  real_T *u2;
-  real_T *u3;
-  real_T *u9;
-  real_T *u7;
   real_T *u8;
-  real_T *u6;
-  real_T (*b_y0)[9];
+  real_T *u9;
+  real_T *u10;
+  real_T *u7;
+  real_T (*b_y0)[12];
+  real_T (*u4)[4];
   real_T (*Position_o_G3)[2];
   real_T (*Position_G3_P3_frame_cylinder)[2];
+  real_T (*u1)[2];
+  real_T (*u2)[2];
+  real_T (*u3)[2];
   Position_G3_P3_frame_cylinder = (real_T (*)[2])(ssGetRunTimeParamInfo
-    (moduleInstance->S, 15U))->data;
-  Position_o_G3 = (real_T (*)[2])(ssGetRunTimeParamInfo(moduleInstance->S, 14U)
+    (moduleInstance->S, 17U))->data;
+  Position_o_G3 = (real_T (*)[2])(ssGetRunTimeParamInfo(moduleInstance->S, 16U)
     )->data;
-  T_k = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 13U))->data;
-  T_s = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 12U))->data;
-  F_k_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 11U))->data;
-  F_k_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 10U))->data;
-  F_s_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 9U))->data;
-  F_s_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 8U))->data;
-  Iz = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 7U))->data;
+  T_k = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 15U))->data;
+  T_s = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 14U))->data;
+  F_k_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 13U))->data;
+  F_k_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 12U))->data;
+  F_s_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 11U))->data;
+  F_s_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 10U))->data;
+  Iz = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 9U))->data;
+  Uck = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 8U))->data;
+  Ucs = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 7U))->data;
   Urk = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 6U))->data;
   Urs = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 5U))->data;
   Uk = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 4U))->data;
@@ -533,18 +1110,26 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   g = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 2U))->data;
   M = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 1U))->data;
   R = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 0U))->data;
-  b_y0 = (real_T (*)[9])ssGetOutputPortSignal(moduleInstance->S, 0U);
+  b_y0 = (real_T (*)[12])ssGetOutputPortSignal(moduleInstance->S, 0U);
+  u10 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 10U);
   u9 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 9U);
   u8 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 8U);
   u7 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 7U);
-  u6 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 6U);
-  u3 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 3U);
-  u2 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 2U);
-  u1 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 1U);
+  u4 = (real_T (*)[4])ssGetInputPortSignal(moduleInstance->S, 4U);
+  u3 = (real_T (*)[2])ssGetInputPortSignal(moduleInstance->S, 3U);
+  u2 = (real_T (*)[2])ssGetInputPortSignal(moduleInstance->S, 2U);
+  u1 = (real_T (*)[2])ssGetInputPortSignal(moduleInstance->S, 1U);
   u0 = (real_T *)ssGetInputPortSignal(moduleInstance->S, 0U);
   for (k = 0; k < 2; k++) {
     Acceleration_o_P3_frame_0[k] = (*Position_o_G3)[k];
-    varargin_16[k] = (*Position_G3_P3_frame_cylinder)[k];
+    varargin_18[k] = (*Position_G3_P3_frame_cylinder)[k];
+    varargin_20[k] = (*u1)[k];
+    varargin_21[k] = (*u2)[k];
+    varargin_22[k] = (*u3)[k];
+  }
+
+  for (k = 0; k < 4; k++) {
+    varargin_23[k] = (*u4)[k];
   }
 
   if (!moduleInstance->sysobj_not_empty) {
@@ -558,6 +1143,8 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.Uk = 0.48;
     moduleInstance->sysobj.Urs = 0.5;
     moduleInstance->sysobj.Urk = 0.48;
+    moduleInstance->sysobj.Ucs = 0.5;
+    moduleInstance->sysobj.Uck = 0.4;
     ForceEvaluation = moduleInstance->sysobj.R;
     ForceEvaluation = moduleInstance->sysobj.M * (ForceEvaluation *
       ForceEvaluation);
@@ -591,6 +1178,8 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.Uk = *Uk;
     moduleInstance->sysobj.Urs = *Urs;
     moduleInstance->sysobj.Urk = *Urk;
+    moduleInstance->sysobj.Ucs = *Ucs;
+    moduleInstance->sysobj.Uck = *Uck;
     moduleInstance->sysobj.Iz = *Iz;
     moduleInstance->sysobj.F_s_x = *F_s_x;
     moduleInstance->sysobj.F_s_y = *F_s_y;
@@ -603,7 +1192,7 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     }
 
     for (k = 0; k < 2; k++) {
-      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[k] = varargin_16[k];
+      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[k] = varargin_18[k];
     }
   }
 
@@ -622,48 +1211,15 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.R = *R;
   }
 
-  ForceEvaluation = moduleInstance->sysobj.M;
-  p = false;
-  b_p = true;
-  if (!(ForceEvaluation == *M)) {
-    b_p = false;
-  }
-
-  if (b_p) {
-    p = true;
-  }
-
-  if (!p) {
+  if (!isequal(moduleInstance->sysobj.M, *M)) {
     moduleInstance->sysobj.M = *M;
   }
 
-  ForceEvaluation = moduleInstance->sysobj.g;
-  p = false;
-  b_p = true;
-  if (!(ForceEvaluation == *g)) {
-    b_p = false;
-  }
-
-  if (b_p) {
-    p = true;
-  }
-
-  if (!p) {
+  if (!isequal(moduleInstance->sysobj.g, *g)) {
     moduleInstance->sysobj.g = *g;
   }
 
-  ForceEvaluation = moduleInstance->sysobj.Us;
-  p = false;
-  b_p = true;
-  if (!(ForceEvaluation == *Us)) {
-    b_p = false;
-  }
-
-  if (b_p) {
-    p = true;
-  }
-
-  if (!p) {
+  if (!isequal(moduleInstance->sysobj.Us, *Us)) {
     moduleInstance->sysobj.Us = *Us;
   }
 
@@ -710,6 +1266,36 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
 
   if (!p) {
     moduleInstance->sysobj.Urk = *Urk;
+  }
+
+  ForceEvaluation = moduleInstance->sysobj.Ucs;
+  p = false;
+  b_p = true;
+  if (!(ForceEvaluation == *Ucs)) {
+    b_p = false;
+  }
+
+  if (b_p) {
+    p = true;
+  }
+
+  if (!p) {
+    moduleInstance->sysobj.Ucs = *Ucs;
+  }
+
+  ForceEvaluation = moduleInstance->sysobj.Uck;
+  p = false;
+  b_p = true;
+  if (!(ForceEvaluation == *Uck)) {
+    b_p = false;
+  }
+
+  if (b_p) {
+    p = true;
+  }
+
+  if (!p) {
+    moduleInstance->sysobj.Uck = *Uck;
   }
 
   ForceEvaluation = moduleInstance->sysobj.Iz;
@@ -854,7 +1440,7 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   k = 0;
   exitg1 = false;
   while ((exitg1 == false) && (k < 2)) {
-    if (!(hoistedGlobal_Position_o_G3[k] == varargin_16[k])) {
+    if (!(hoistedGlobal_Position_o_G3[k] == varargin_18[k])) {
       b_p = false;
       exitg1 = true;
     } else {
@@ -868,7 +1454,7 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
 
   if (!p) {
     for (k = 0; k < 2; k++) {
-      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[k] = varargin_16[k];
+      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[k] = varargin_18[k];
     }
   }
 
@@ -917,8 +1503,8 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     obj->isInitialized = 1;
   }
 
-  covrtLogFcn(&moduleInstance->covInst, 0, 6);
-  covrtLogBasicBlock(&moduleInstance->covInst, 0, 16);
+  covrtLogFcn(&moduleInstance->covInst, 0, 16);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 44);
 
   /* ............................................................................ */
   /* ............................................................................ */
@@ -926,16 +1512,15 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   /* positions,velocities and accelerations for the cylinder */
   obj->Urk = *u0;
   obj->T_k = 0.66666666666666663 * obj->Urk * obj->R * obj->M * obj->g;
-  GenCordExt[0] = *u1;
-  GenCordExt[1] = *u2;
-  GenCordExt[2] = *u3;
+  Cylinder_ReactionForceCalc(moduleInstance, obj, varargin_22, varargin_23,
+    varargin_20, varargin_21, *u8, *u9, GenCordExt);
   covrtLogFcn(&moduleInstance->covInst, 0, 1);
   covrtLogIf(&moduleInstance->covInst, 0, 0, 0, false);
   covrtLogIf(&moduleInstance->covInst, 0, 0, 1, false);
   covrtLogBasicBlock(&moduleInstance->covInst, 0, 3);
   ForceEvaluation = obj->T_s;
-  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u3) <=
-                 ForceEvaluation)) {
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs
+                 (GenCordExt[2]) <= ForceEvaluation)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 4);
     FrictionCondition = 0;
   } else {
@@ -953,8 +1538,8 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   covrtLogIf(&moduleInstance->covInst, 0, 0, 0, true);
   covrtLogBasicBlock(&moduleInstance->covInst, 0, 1);
   ForceEvaluation = obj->F_s_x;
-  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u1) <=
-                 ForceEvaluation)) {
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs
+                 (GenCordExt[0]) <= ForceEvaluation)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 4);
     k = 0;
   } else {
@@ -964,9 +1549,10 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
 
   if (covrtLogIf(&moduleInstance->covInst, 0, 0, 3, k == 1)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 7);
-    ForceEvaluation = *u1 + SignOposite[0] * obj->F_k_x;
-    B = obj->M;
-    GeneralCoordinatesDoubleDot_idx_0 = ForceEvaluation / B;
+    ForceEvaluation = GenCordExt[0] + SignOposite[0] * obj->F_k_x;
+    GeneralCoordinatesDoubleDot_idx_2 = obj->M;
+    GeneralCoordinatesDoubleDot_idx_0 = ForceEvaluation /
+      GeneralCoordinatesDoubleDot_idx_2;
   } else {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 8);
     GeneralCoordinatesDoubleDot_idx_0 = 0.0;
@@ -977,8 +1563,8 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   covrtLogIf(&moduleInstance->covInst, 0, 0, 1, true);
   covrtLogBasicBlock(&moduleInstance->covInst, 0, 2);
   ForceEvaluation = obj->F_s_y;
-  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u2) <=
-                 ForceEvaluation)) {
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs
+                 (GenCordExt[1]) <= ForceEvaluation)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 4);
     k = 0;
   } else {
@@ -988,9 +1574,10 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
 
   if (covrtLogIf(&moduleInstance->covInst, 0, 0, 4, k == 1)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 9);
-    ForceEvaluation = *u2 + SignOposite[1] * obj->F_k_y;
-    B = obj->M;
-    GeneralCoordinatesDoubleDot_idx_1 = ForceEvaluation / B;
+    ForceEvaluation = GenCordExt[1] + SignOposite[1] * obj->F_k_y;
+    GeneralCoordinatesDoubleDot_idx_2 = obj->M;
+    GeneralCoordinatesDoubleDot_idx_1 = ForceEvaluation /
+      GeneralCoordinatesDoubleDot_idx_2;
   } else {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 10);
     GeneralCoordinatesDoubleDot_idx_1 = 0.0;
@@ -1001,8 +1588,8 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   covrtLogIf(&moduleInstance->covInst, 0, 0, 1, false);
   covrtLogBasicBlock(&moduleInstance->covInst, 0, 3);
   ForceEvaluation = obj->T_s;
-  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs(*u3) <=
-                 ForceEvaluation)) {
+  if (covrtLogIf(&moduleInstance->covInst, 0, 0, 2, muDoubleScalarAbs
+                 (GenCordExt[2]) <= ForceEvaluation)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 4);
     k = 0;
   } else {
@@ -1012,46 +1599,17 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
 
   if (covrtLogIf(&moduleInstance->covInst, 0, 0, 5, k == 1)) {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 11);
-    ForceEvaluation = *u3 + SignOposite[2] * obj->T_k;
-    B = obj->Iz;
-    ForceEvaluation /= B;
+    ForceEvaluation = GenCordExt[2] + SignOposite[2] * obj->T_k;
+    GeneralCoordinatesDoubleDot_idx_2 = obj->Iz;
+    GeneralCoordinatesDoubleDot_idx_2 = ForceEvaluation /
+      GeneralCoordinatesDoubleDot_idx_2;
   } else {
     covrtLogBasicBlock(&moduleInstance->covInst, 0, 12);
-    ForceEvaluation = 0.0;
+    GeneralCoordinatesDoubleDot_idx_2 = 0.0;
   }
 
-  covrtLogFcn(&moduleInstance->covInst, 0, 3);
-  covrtLogBasicBlock(&moduleInstance->covInst, 0, 13);
-  for (k = 0; k < 2; k++) {
-    Acceleration_o_P3_frame_0[k] = obj->Position_G3_P3_frame_cylinder[k];
-  }
-
-  dv0[0] = muDoubleScalarCos(*u9);
-  dv0[2] = -muDoubleScalarSin(*u9);
-  dv0[1] = muDoubleScalarSin(*u9);
-  dv0[3] = muDoubleScalarCos(*u9);
-  varargin_8[0] = *u7;
-  varargin_8[1] = *u8;
-  for (k = 0; k < 2; k++) {
-    hoistedGlobal_Position_o_G3[k] = 0.0;
-    for (i2 = 0; i2 < 2; i2++) {
-      hoistedGlobal_Position_o_G3[k] += dv0[k + (i2 << 1)] *
-        Acceleration_o_P3_frame_0[i2];
-    }
-  }
-
-  for (k = 0; k < 2; k++) {
-    Positions[k] = obj->Position_o_G3[k];
-  }
-
-  for (k = 0; k < 2; k++) {
-    Positions[2 + k] = varargin_8[k] + hoistedGlobal_Position_o_G3[k];
-  }
-
-  covrtLogFcn(&moduleInstance->covInst, 0, 4);
-  covrtLogBasicBlock(&moduleInstance->covInst, 0, 14);
-  covrtLogFcn(&moduleInstance->covInst, 0, 5);
-  covrtLogBasicBlock(&moduleInstance->covInst, 0, 15);
+  covrtLogFcn(&moduleInstance->covInst, 0, 15);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 43);
 
   /* Radius of the cylindrical object in meters */
   /* Mass of the object in Kg */
@@ -1060,6 +1618,8 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   /* Kinetic coefficient of friction */
   /* Static rotational coefficient of friction */
   /* Kinetic rotational coefficient of friction */
+  /* Static contact coefficient of friction */
+  /* Kinetic contact coefficient of friction */
   /* Inertia of the cylindrical object in Z */
   /* Static friction force in X */
   /* Static friction force in Y */
@@ -1096,15 +1656,167 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   /* ............................................................................ */
   /* ............................................................................ */
   /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  ForceReactionIndex[0] = varargin_20[0] - GeneralCoordinatesDoubleDot_idx_0 *
+    obj->M;
+  ForceReactionIndex[1] = varargin_20[1] - GeneralCoordinatesDoubleDot_idx_0 *
+    obj->M;
+  ForceEvaluation = ForceReactionIndex[1];
+  ForceReactionIndex[1] = ForceEvaluation;
+  covrtLogFcn(&moduleInstance->covInst, 0, 15);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 43);
+
+  /* Radius of the cylindrical object in meters */
+  /* Mass of the object in Kg */
+  /* Acceleration of gravity in m/s^2 */
+  /* Static coefficient of friction */
+  /* Kinetic coefficient of friction */
+  /* Static rotational coefficient of friction */
+  /* Kinetic rotational coefficient of friction */
+  /* Static contact coefficient of friction */
+  /* Kinetic contact coefficient of friction */
+  /* Inertia of the cylindrical object in Z */
+  /* Static friction force in X */
+  /* Static friction force in Y */
+  /* Kinetic friction force in X */
+  /* Kinetic friction force in Y */
+  /* Static friction torque see derivation notes to verify the expression */
+  /* Kinetic friction torque see derivation notes to verify the expression */
+  /* Position from frame 0 to the centre of gravity of the cylinder */
+  /* Position to second point of the cylinder */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Constructor */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Evaluates if the external force is greater than the static */
+  /* friction forces or torques */
+  /* Evaluates wich static friction have to be compared */
+  /* Condition checker */
+  /* if the Friction condition is 0 there is no movement */
+  /* if the Friction condition is 1 there is movement */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Calculates the acceleration components in X and Y for the centre of */
+  /* gravity of the object and the angular acceleration */
+  /* Ecuation of motion for X coordinates */
+  /* Ecuation of motion for y coordinates */
+  /* Ecuation of motion for Tetha coordinates */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute positions for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute velocities for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  /* ............................................................................ */
+  /* ............................................................................ */
+  /* Absolute Accelerations for G3 and P3 updated from frame 0 */
+  ForceReactionThumb[0] = varargin_21[0] - GeneralCoordinatesDoubleDot_idx_0 *
+    obj->M;
+  ForceReactionThumb[1] = varargin_21[1] - GeneralCoordinatesDoubleDot_idx_0 *
+    obj->M;
+  ForceEvaluation = ForceReactionThumb[1];
+  ForceReactionThumb[1] = ForceEvaluation;
+  covrtLogFcn(&moduleInstance->covInst, 0, 3);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 13);
+  for (k = 0; k < 2; k++) {
+    Acceleration_o_P3_frame_0[k] = obj->Position_G3_P3_frame_cylinder[k];
+  }
+
+  dv0[0] = muDoubleScalarCos(*u10);
+  dv0[2] = -muDoubleScalarSin(*u10);
+  dv0[1] = muDoubleScalarSin(*u10);
+  dv0[3] = muDoubleScalarCos(*u10);
+  varargin_9[0] = *u8;
+  varargin_9[1] = *u9;
+  for (k = 0; k < 2; k++) {
+    hoistedGlobal_Position_o_G3[k] = 0.0;
+    for (i5 = 0; i5 < 2; i5++) {
+      hoistedGlobal_Position_o_G3[k] += dv0[k + (i5 << 1)] *
+        Acceleration_o_P3_frame_0[i5];
+    }
+  }
+
+  for (k = 0; k < 2; k++) {
+    Positions[k] = obj->Position_o_G3[k];
+  }
+
+  for (k = 0; k < 2; k++) {
+    Positions[2 + k] = varargin_9[k] + hoistedGlobal_Position_o_G3[k];
+  }
+
+  covrtLogFcn(&moduleInstance->covInst, 0, 4);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 14);
+  covrtLogFcn(&moduleInstance->covInst, 0, 5);
+  covrtLogBasicBlock(&moduleInstance->covInst, 0, 15);
   Acceleration_o_P3_frame_0[0] = (GeneralCoordinatesDoubleDot_idx_0 + obj->R *
-    muDoubleScalarSin(*u9) * (*u6 * *u6)) - obj->R * muDoubleScalarCos(*u9) *
-    ForceEvaluation;
+    muDoubleScalarSin(*u10) * (*u7 * *u7)) - obj->R * muDoubleScalarCos(*u10) *
+    GeneralCoordinatesDoubleDot_idx_2;
   Acceleration_o_P3_frame_0[1] = (GeneralCoordinatesDoubleDot_idx_1 - obj->R *
-    muDoubleScalarCos(*u9) * (*u6 * *u6)) - obj->R * muDoubleScalarSin(*u9) *
-    ForceEvaluation;
+    muDoubleScalarCos(*u10) * (*u7 * *u7)) - obj->R * muDoubleScalarSin(*u10) *
+    GeneralCoordinatesDoubleDot_idx_2;
   GeneralCoordinatesDoubleDot[0] = GeneralCoordinatesDoubleDot_idx_0;
   GeneralCoordinatesDoubleDot[1] = GeneralCoordinatesDoubleDot_idx_1;
-  b_GeneralCoordinatesDoubleDot[0] = ForceEvaluation;
+  b_GeneralCoordinatesDoubleDot[0] = GeneralCoordinatesDoubleDot_idx_2;
   b_GeneralCoordinatesDoubleDot[1] = 0.0;
   for (k = 0; k < 2; k++) {
     c_GeneralCoordinatesDoubleDot[k] = GeneralCoordinatesDoubleDot[k];
@@ -1121,22 +1833,29 @@ static void cgxe_mdl_outputs(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   }
 
   (*b_y0)[5] = obj->R;
-  (*b_y0)[6] = obj->Urk;
-  (*b_y0)[7] = obj->T_k;
-  (*b_y0)[8] = (real_T)FrictionCondition;
+  for (k = 0; k < 2; k++) {
+    (*b_y0)[k + 6] = ForceReactionIndex[k];
+  }
+
+  for (k = 0; k < 2; k++) {
+    (*b_y0)[k + 8] = ForceReactionThumb[k];
+  }
+
+  (*b_y0)[10] = obj->Urk;
+  (*b_y0)[11] = (real_T)FrictionCondition;
 }
 
-static void cgxe_mdl_update(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void cgxe_mdl_update(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance)
 {
   (void)moduleInstance;
 }
 
-static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void cgxe_mdl_terminate(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance)
 {
   real_T a;
-  int32_T i3;
+  int32_T i6;
   Cylinder *obj;
   static char_T cv9[45] = { 'M', 'A', 'T', 'L', 'A', 'B', ':', 's', 'y', 's',
     't', 'e', 'm', ':', 'm', 'e', 't', 'h', 'o', 'd', 'C', 'a', 'l', 'l', 'e',
@@ -1172,6 +1891,8 @@ static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   real_T *Uk;
   real_T *Urs;
   real_T *Urk;
+  real_T *Ucs;
+  real_T *Uck;
   real_T *Iz;
   real_T *F_s_x;
   real_T *F_s_y;
@@ -1182,16 +1903,18 @@ static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   real_T (*Position_G3_P3_frame_cylinder)[2];
   real_T (*Position_o_G3)[2];
   Position_G3_P3_frame_cylinder = (real_T (*)[2])(ssGetRunTimeParamInfo
-    (moduleInstance->S, 15U))->data;
-  Position_o_G3 = (real_T (*)[2])(ssGetRunTimeParamInfo(moduleInstance->S, 14U)
+    (moduleInstance->S, 17U))->data;
+  Position_o_G3 = (real_T (*)[2])(ssGetRunTimeParamInfo(moduleInstance->S, 16U)
     )->data;
-  T_k = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 13U))->data;
-  T_s = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 12U))->data;
-  F_k_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 11U))->data;
-  F_k_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 10U))->data;
-  F_s_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 9U))->data;
-  F_s_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 8U))->data;
-  Iz = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 7U))->data;
+  T_k = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 15U))->data;
+  T_s = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 14U))->data;
+  F_k_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 13U))->data;
+  F_k_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 12U))->data;
+  F_s_y = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 11U))->data;
+  F_s_x = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 10U))->data;
+  Iz = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 9U))->data;
+  Uck = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 8U))->data;
+  Ucs = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 7U))->data;
   Urk = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 6U))->data;
   Urs = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 5U))->data;
   Uk = (real_T *)(ssGetRunTimeParamInfo(moduleInstance->S, 4U))->data;
@@ -1210,6 +1933,8 @@ static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.Uk = 0.48;
     moduleInstance->sysobj.Urs = 0.5;
     moduleInstance->sysobj.Urk = 0.48;
+    moduleInstance->sysobj.Ucs = 0.5;
+    moduleInstance->sysobj.Uck = 0.4;
     a = moduleInstance->sysobj.R;
     a = moduleInstance->sysobj.M * (a * a);
     moduleInstance->sysobj.Iz = a / 2.0;
@@ -1227,8 +1952,8 @@ static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.T_k = 0.66666666666666663 *
       moduleInstance->sysobj.Urk * moduleInstance->sysobj.R *
       moduleInstance->sysobj.M * moduleInstance->sysobj.g;
-    for (i3 = 0; i3 < 2; i3++) {
-      moduleInstance->sysobj.Position_o_G3[i3] = 0.0;
+    for (i6 = 0; i6 < 2; i6++) {
+      moduleInstance->sysobj.Position_o_G3[i6] = 0.0;
     }
 
     moduleInstance->sysobj.Position_G3_P3_frame_cylinder[0] = 0.0;
@@ -1242,6 +1967,8 @@ static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.Uk = *Uk;
     moduleInstance->sysobj.Urs = *Urs;
     moduleInstance->sysobj.Urk = *Urk;
+    moduleInstance->sysobj.Ucs = *Ucs;
+    moduleInstance->sysobj.Uck = *Uck;
     moduleInstance->sysobj.Iz = *Iz;
     moduleInstance->sysobj.F_s_x = *F_s_x;
     moduleInstance->sysobj.F_s_y = *F_s_y;
@@ -1249,28 +1976,28 @@ static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
     moduleInstance->sysobj.F_k_y = *F_k_y;
     moduleInstance->sysobj.T_s = *T_s;
     moduleInstance->sysobj.T_k = *T_k;
-    for (i3 = 0; i3 < 2; i3++) {
-      moduleInstance->sysobj.Position_o_G3[i3] = (*Position_o_G3)[i3];
+    for (i6 = 0; i6 < 2; i6++) {
+      moduleInstance->sysobj.Position_o_G3[i6] = (*Position_o_G3)[i6];
     }
 
-    for (i3 = 0; i3 < 2; i3++) {
-      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[i3] =
-        (*Position_G3_P3_frame_cylinder)[i3];
+    for (i6 = 0; i6 < 2; i6++) {
+      moduleInstance->sysobj.Position_G3_P3_frame_cylinder[i6] =
+        (*Position_G3_P3_frame_cylinder)[i6];
     }
   }
 
   obj = &moduleInstance->sysobj;
   if (moduleInstance->sysobj.isInitialized == 2) {
-    for (i3 = 0; i3 < 45; i3++) {
-      u[i3] = cv9[i3];
+    for (i6 = 0; i6 < 45; i6++) {
+      u[i6] = cv9[i6];
     }
 
     y = NULL;
     m3 = emlrtCreateCharArray(2, iv11);
     emlrtInitCharArrayR2013a(emlrtRootTLSGlobal, 45, m3, &u[0]);
     emlrtAssign(&y, m3);
-    for (i3 = 0; i3 < 8; i3++) {
-      b_u[i3] = cv10[i3];
+    for (i6 = 0; i6 < 8; i6++) {
+      b_u[i6] = cv10[i6];
     }
 
     b_y = NULL;
@@ -1284,16 +2011,16 @@ static void cgxe_mdl_terminate(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
   if (flag) {
     obj = &moduleInstance->sysobj;
     if (moduleInstance->sysobj.isInitialized == 2) {
-      for (i3 = 0; i3 < 45; i3++) {
-        c_u[i3] = cv9[i3];
+      for (i6 = 0; i6 < 45; i6++) {
+        c_u[i6] = cv9[i6];
       }
 
       c_y = NULL;
       m3 = emlrtCreateCharArray(2, iv13);
       emlrtInitCharArrayR2013a(emlrtRootTLSGlobal, 45, m3, &c_u[0]);
       emlrtAssign(&c_y, m3);
-      for (i3 = 0; i3 < 7; i3++) {
-        d_u[i3] = cv11[i3];
+      for (i6 = 0; i6 < 7; i6++) {
+        d_u[i6] = cv11[i6];
       }
 
       d_y = NULL;
@@ -1316,7 +2043,7 @@ static const mxArray *mw__internal__name__resolution__fcn(void)
 {
   const mxArray *nameCaptureInfo;
   nameCaptureInfo = NULL;
-  emlrtAssign(&nameCaptureInfo, emlrtCreateStructMatrix(89, 1, 0, NULL));
+  emlrtAssign(&nameCaptureInfo, emlrtCreateStructMatrix(91, 1, 0, NULL));
   info_helper(&nameCaptureInfo);
   b_info_helper(&nameCaptureInfo);
   emlrtNameCapturePostProcessR2013b(&nameCaptureInfo);
@@ -1822,7 +2549,7 @@ static void info_helper(const mxArray **info)
   emlrtAddField(*info, emlrt_marshallOut(
     "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
                 "resolved", 41);
-  emlrtAddField(*info, b_emlrt_marshallOut(1459953258U), "fileTimeLo", 41);
+  emlrtAddField(*info, b_emlrt_marshallOut(1459990500U), "fileTimeLo", 41);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 41);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 41);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 41);
@@ -2141,68 +2868,66 @@ static void b_info_helper(const mxArray **info)
   emlrtAddField(*info, emlrt_marshallOut(
     "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
                 "context", 67);
-  emlrtAddField(*info, emlrt_marshallOut("abs"), "name", 67);
+  emlrtAddField(*info, emlrt_marshallOut("atan"), "name", 67);
   emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 67);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/abs.m"), "resolved", 67);
-  emlrtAddField(*info, b_emlrt_marshallOut(1363735452U), "fileTimeLo", 67);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/atan.m"), "resolved", 67);
+  emlrtAddField(*info, b_emlrt_marshallOut(1395350096U), "fileTimeLo", 67);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 67);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 67);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 67);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/abs.m"), "context", 68);
-  emlrtAddField(*info, emlrt_marshallOut("coder.internal.isBuiltInNumeric"),
-                "name", 68);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/atan.m"), "context", 68);
+  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_atan"), "name", 68);
   emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 68);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/shared/coder/coder/+coder/+internal/isBuiltInNumeric.m"),
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_atan.m"),
                 "resolved", 68);
-  emlrtAddField(*info, b_emlrt_marshallOut(1395953456U), "fileTimeLo", 68);
+  emlrtAddField(*info, b_emlrt_marshallOut(1286843918U), "fileTimeLo", 68);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 68);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 68);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 68);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/abs.m"), "context", 69);
-  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_abs"), "name", 69);
+    "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
+                "context", 69);
+  emlrtAddField(*info, emlrt_marshallOut("cos"), "name", 69);
   emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 69);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_abs.m"),
-                "resolved", 69);
-  emlrtAddField(*info, b_emlrt_marshallOut(1286843912U), "fileTimeLo", 69);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/cos.m"), "resolved", 69);
+  emlrtAddField(*info, b_emlrt_marshallOut(1395350096U), "fileTimeLo", 69);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 69);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 69);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 69);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
-                "context", 70);
-  emlrtAddField(*info, emlrt_marshallOut("sign"), "name", 70);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/cos.m"), "context", 70);
+  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_cos"), "name", 70);
   emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 70);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sign.m"), "resolved", 70);
-  emlrtAddField(*info, b_emlrt_marshallOut(1363735456U), "fileTimeLo", 70);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_cos.m"),
+                "resolved", 70);
+  emlrtAddField(*info, b_emlrt_marshallOut(1286843922U), "fileTimeLo", 70);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 70);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 70);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 70);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sign.m"), "context", 71);
-  emlrtAddField(*info, emlrt_marshallOut("coder.internal.isBuiltInNumeric"),
-                "name", 71);
+    "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
+                "context", 71);
+  emlrtAddField(*info, emlrt_marshallOut("sin"), "name", 71);
   emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 71);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/shared/coder/coder/+coder/+internal/isBuiltInNumeric.m"),
-                "resolved", 71);
-  emlrtAddField(*info, b_emlrt_marshallOut(1395953456U), "fileTimeLo", 71);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sin.m"), "resolved", 71);
+  emlrtAddField(*info, b_emlrt_marshallOut(1395350104U), "fileTimeLo", 71);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 71);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 71);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 71);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sign.m"), "context", 72);
-  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_sign"), "name", 72);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sin.m"), "context", 72);
+  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_sin"), "name", 72);
   emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 72);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_sign.m"),
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_sin.m"),
                 "resolved", 72);
-  emlrtAddField(*info, b_emlrt_marshallOut(1356563094U), "fileTimeLo", 72);
+  emlrtAddField(*info, b_emlrt_marshallOut(1286843936U), "fileTimeLo", 72);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 72);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 72);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 72);
@@ -2232,195 +2957,219 @@ static void b_info_helper(const mxArray **info)
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 74);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 74);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"),
                 "context", 75);
-  emlrtAddField(*info, emlrt_marshallOut("cos"), "name", 75);
-  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 75);
+  emlrtAddField(*info, emlrt_marshallOut("eml_index_class"), "name", 75);
+  emlrtAddField(*info, emlrt_marshallOut(""), "dominantType", 75);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/cos.m"), "resolved", 75);
-  emlrtAddField(*info, b_emlrt_marshallOut(1395350096U), "fileTimeLo", 75);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_class.m"),
+                "resolved", 75);
+  emlrtAddField(*info, b_emlrt_marshallOut(1323192178U), "fileTimeLo", 75);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 75);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 75);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 75);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/cos.m"), "context", 76);
-  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_cos"), "name", 76);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"),
+                "context", 76);
+  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_eg"), "name", 76);
   emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 76);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_cos.m"),
-                "resolved", 76);
-  emlrtAddField(*info, b_emlrt_marshallOut(1286843922U), "fileTimeLo", 76);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_scalar_eg.m"), "resolved",
+                76);
+  emlrtAddField(*info, b_emlrt_marshallOut(1376005888U), "fileTimeLo", 76);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 76);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 76);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 76);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"),
                 "context", 77);
-  emlrtAddField(*info, emlrt_marshallOut("sin"), "name", 77);
-  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 77);
+  emlrtAddField(*info, emlrt_marshallOut("eml_xgemm"), "name", 77);
+  emlrtAddField(*info, emlrt_marshallOut("char"), "dominantType", 77);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sin.m"), "resolved", 77);
-  emlrtAddField(*info, b_emlrt_marshallOut(1395350104U), "fileTimeLo", 77);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xgemm.m"),
+                "resolved", 77);
+  emlrtAddField(*info, b_emlrt_marshallOut(1376005890U), "fileTimeLo", 77);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 77);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 77);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 77);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sin.m"), "context", 78);
-  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_sin"), "name", 78);
-  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 78);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xgemm.m"), "context",
+                78);
+  emlrtAddField(*info, emlrt_marshallOut("coder.internal.blas.inline"), "name",
+                78);
+  emlrtAddField(*info, emlrt_marshallOut(""), "dominantType", 78);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_sin.m"),
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/inline.p"),
                 "resolved", 78);
-  emlrtAddField(*info, b_emlrt_marshallOut(1286843936U), "fileTimeLo", 78);
+  emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 78);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 78);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 78);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 78);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"),
-                "context", 79);
-  emlrtAddField(*info, emlrt_marshallOut("eml_index_class"), "name", 79);
-  emlrtAddField(*info, emlrt_marshallOut(""), "dominantType", 79);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xgemm.m"), "context",
+                79);
+  emlrtAddField(*info, emlrt_marshallOut("coder.internal.blas.xgemm"), "name",
+                79);
+  emlrtAddField(*info, emlrt_marshallOut("char"), "dominantType", 79);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_class.m"),
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/xgemm.p"),
                 "resolved", 79);
-  emlrtAddField(*info, b_emlrt_marshallOut(1323192178U), "fileTimeLo", 79);
+  emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 79);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 79);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 79);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 79);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"),
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/xgemm.p"),
                 "context", 80);
-  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_eg"), "name", 80);
-  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 80);
+  emlrtAddField(*info, emlrt_marshallOut("coder.internal.blas.use_refblas"),
+                "name", 80);
+  emlrtAddField(*info, emlrt_marshallOut(""), "dominantType", 80);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_scalar_eg.m"), "resolved",
-                80);
-  emlrtAddField(*info, b_emlrt_marshallOut(1376005888U), "fileTimeLo", 80);
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/use_refblas.p"),
+                "resolved", 80);
+  emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 80);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 80);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 80);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 80);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m"),
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/xgemm.p!below_threshold"),
                 "context", 81);
-  emlrtAddField(*info, emlrt_marshallOut("eml_xgemm"), "name", 81);
+  emlrtAddField(*info, emlrt_marshallOut("coder.internal.blas.threshold"),
+                "name", 81);
   emlrtAddField(*info, emlrt_marshallOut("char"), "dominantType", 81);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xgemm.m"),
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/threshold.p"),
                 "resolved", 81);
-  emlrtAddField(*info, b_emlrt_marshallOut(1376005890U), "fileTimeLo", 81);
+  emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 81);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 81);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 81);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 81);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xgemm.m"), "context",
-                82);
-  emlrtAddField(*info, emlrt_marshallOut("coder.internal.blas.inline"), "name",
-                82);
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/threshold.p"),
+                "context", 82);
+  emlrtAddField(*info, emlrt_marshallOut("eml_switch_helper"), "name", 82);
   emlrtAddField(*info, emlrt_marshallOut(""), "dominantType", 82);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/inline.p"),
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_switch_helper.m"),
                 "resolved", 82);
-  emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 82);
+  emlrtAddField(*info, b_emlrt_marshallOut(1393352458U), "fileTimeLo", 82);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 82);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 82);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 82);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xgemm.m"), "context",
-                83);
-  emlrtAddField(*info, emlrt_marshallOut("coder.internal.blas.xgemm"), "name",
-                83);
-  emlrtAddField(*info, emlrt_marshallOut("char"), "dominantType", 83);
-  emlrtAddField(*info, emlrt_marshallOut(
     "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/xgemm.p"),
+                "context", 83);
+  emlrtAddField(*info, emlrt_marshallOut("coder.internal.scalarEg"), "name", 83);
+  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 83);
+  emlrtAddField(*info, emlrt_marshallOut(
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/scalarEg.p"),
                 "resolved", 83);
-  emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 83);
+  emlrtAddField(*info, b_emlrt_marshallOut(1419973028U), "fileTimeLo", 83);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 83);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 83);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 83);
   emlrtAddField(*info, emlrt_marshallOut(
     "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/xgemm.p"),
                 "context", 84);
-  emlrtAddField(*info, emlrt_marshallOut("coder.internal.blas.use_refblas"),
-                "name", 84);
-  emlrtAddField(*info, emlrt_marshallOut(""), "dominantType", 84);
+  emlrtAddField(*info, emlrt_marshallOut("coder.internal.refblas.xgemm"), "name",
+                84);
+  emlrtAddField(*info, emlrt_marshallOut("char"), "dominantType", 84);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/use_refblas.p"),
+    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+refblas/xgemm.p"),
                 "resolved", 84);
   emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 84);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 84);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 84);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 84);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/xgemm.p!below_threshold"),
+    "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
                 "context", 85);
-  emlrtAddField(*info, emlrt_marshallOut("coder.internal.blas.threshold"),
-                "name", 85);
-  emlrtAddField(*info, emlrt_marshallOut("char"), "dominantType", 85);
+  emlrtAddField(*info, emlrt_marshallOut("sign"), "name", 85);
+  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 85);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/threshold.p"),
-                "resolved", 85);
-  emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 85);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sign.m"), "resolved", 85);
+  emlrtAddField(*info, b_emlrt_marshallOut(1363735456U), "fileTimeLo", 85);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 85);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 85);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 85);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/threshold.p"),
-                "context", 86);
-  emlrtAddField(*info, emlrt_marshallOut("eml_switch_helper"), "name", 86);
-  emlrtAddField(*info, emlrt_marshallOut(""), "dominantType", 86);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sign.m"), "context", 86);
+  emlrtAddField(*info, emlrt_marshallOut("coder.internal.isBuiltInNumeric"),
+                "name", 86);
+  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 86);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_switch_helper.m"),
+    "[ILXE]$matlabroot$/toolbox/shared/coder/coder/+coder/+internal/isBuiltInNumeric.m"),
                 "resolved", 86);
-  emlrtAddField(*info, b_emlrt_marshallOut(1393352458U), "fileTimeLo", 86);
+  emlrtAddField(*info, b_emlrt_marshallOut(1395953456U), "fileTimeLo", 86);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 86);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 86);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 86);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/xgemm.p"),
-                "context", 87);
-  emlrtAddField(*info, emlrt_marshallOut("coder.internal.scalarEg"), "name", 87);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/sign.m"), "context", 87);
+  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_sign"), "name", 87);
   emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 87);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/scalarEg.p"),
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_sign.m"),
                 "resolved", 87);
-  emlrtAddField(*info, b_emlrt_marshallOut(1419973028U), "fileTimeLo", 87);
+  emlrtAddField(*info, b_emlrt_marshallOut(1356563094U), "fileTimeLo", 87);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 87);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 87);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 87);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+blas/xgemm.p"),
+    "[C]C:/Jhon/UNIMELB/cursos/Directed studies/GithubDirected/Simulation/Classes/Cylinder.m"),
                 "context", 88);
-  emlrtAddField(*info, emlrt_marshallOut("coder.internal.refblas.xgemm"), "name",
-                88);
-  emlrtAddField(*info, emlrt_marshallOut("char"), "dominantType", 88);
+  emlrtAddField(*info, emlrt_marshallOut("abs"), "name", 88);
+  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 88);
   emlrtAddField(*info, emlrt_marshallOut(
-    "[ILXE]$matlabroot$/toolbox/coder/coder/+coder/+internal/+refblas/xgemm.p"),
-                "resolved", 88);
-  emlrtAddField(*info, b_emlrt_marshallOut(1419973030U), "fileTimeLo", 88);
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/abs.m"), "resolved", 88);
+  emlrtAddField(*info, b_emlrt_marshallOut(1363735452U), "fileTimeLo", 88);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 88);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 88);
   emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 88);
+  emlrtAddField(*info, emlrt_marshallOut(
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/abs.m"), "context", 89);
+  emlrtAddField(*info, emlrt_marshallOut("coder.internal.isBuiltInNumeric"),
+                "name", 89);
+  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 89);
+  emlrtAddField(*info, emlrt_marshallOut(
+    "[ILXE]$matlabroot$/toolbox/shared/coder/coder/+coder/+internal/isBuiltInNumeric.m"),
+                "resolved", 89);
+  emlrtAddField(*info, b_emlrt_marshallOut(1395953456U), "fileTimeLo", 89);
+  emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 89);
+  emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 89);
+  emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 89);
+  emlrtAddField(*info, emlrt_marshallOut(
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/abs.m"), "context", 90);
+  emlrtAddField(*info, emlrt_marshallOut("eml_scalar_abs"), "name", 90);
+  emlrtAddField(*info, emlrt_marshallOut("double"), "dominantType", 90);
+  emlrtAddField(*info, emlrt_marshallOut(
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_abs.m"),
+                "resolved", 90);
+  emlrtAddField(*info, b_emlrt_marshallOut(1286843912U), "fileTimeLo", 90);
+  emlrtAddField(*info, b_emlrt_marshallOut(0U), "fileTimeHi", 90);
+  emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeLo", 90);
+  emlrtAddField(*info, b_emlrt_marshallOut(0U), "mFileTimeHi", 90);
 }
 
 static const mxArray *mw__internal__autoInference__fcn(void)
 {
   const mxArray *infoCache;
   int8_T Ports_dims_data[4];
-  int32_T i4;
-  static int8_T iv15[4] = { 9, 2, 1, 9 };
+  int32_T i7;
+  static int8_T iv15[4] = { 12, 2, 1, 12 };
 
   uint32_T RestoreInfo_cgxeChksum[4];
   uint32_T info_VerificationInfo_dlgPrmChksum_chksum[4];
-  static uint32_T uv0[4] = { 106978902U, 377345797U, 3171370533U, 4112056921U };
+  static uint32_T uv0[4] = { 1574454650U, 2423622414U, 1975327039U, 108227308U };
 
-  static uint32_T t0_dlgPrmChksum_chksum[4] = { 4119393617U, 1661565817U,
-    4163944417U, 1726356677U };
+  static uint32_T t0_dlgPrmChksum_chksum[4] = { 2021280251U, 267425603U,
+    2478081018U, 3852170165U };
 
   s7UBIGHSehQY1gCsIQWwr5C info_VerificationInfo_propChksum[3];
-  static s7UBIGHSehQY1gCsIQWwr5C b_t0_propChksum[3] = { { { 5.80329916E+8,
-        3.311835659E+9, 1.200678795E+9, 2.69024578E+8 } }, { { 1.30480059E+8,
-        3.265749625E+9, 3.520795777E+9, 3.444041995E+9 } }, { { 3.912780797E+9,
-        4.8271938E+7, 2.633218385E+9, 2.74198087E+8 } } };
+  static s7UBIGHSehQY1gCsIQWwr5C b_t0_propChksum[3] = { { { 5.37391114E+8,
+        5.00342697E+8, 1.8042443E+8, 2.857432388E+9 } }, { { 1.376859122E+9,
+        6.27219524E+8, 4.03650117E+8, 7.55949535E+8 } }, { { 1.32865086E+8,
+        3.648002805E+9, 1.332818388E+9, 7.91134212E+8 } } };
 
   uint32_T b_t0_dlgPrmChksum_chksum[4];
   uint32_T info_VerificationInfo_postPropOnlyChksum_chksum[4];
@@ -2493,27 +3242,27 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   static const int32_T iv24[2] = { 1, 3 };
 
   infoCache = NULL;
-  for (i4 = 0; i4 < 4; i4++) {
-    Ports_dims_data[i4] = iv15[i4];
+  for (i7 = 0; i7 < 4; i7++) {
+    Ports_dims_data[i7] = iv15[i7];
   }
 
-  for (i4 = 0; i4 < 4; i4++) {
-    RestoreInfo_cgxeChksum[i4] = uv0[i4];
-    info_VerificationInfo_dlgPrmChksum_chksum[i4] = t0_dlgPrmChksum_chksum[i4];
+  for (i7 = 0; i7 < 4; i7++) {
+    RestoreInfo_cgxeChksum[i7] = uv0[i7];
+    info_VerificationInfo_dlgPrmChksum_chksum[i7] = t0_dlgPrmChksum_chksum[i7];
   }
 
-  for (i4 = 0; i4 < 3; i4++) {
-    info_VerificationInfo_propChksum[i4] = b_t0_propChksum[i4];
+  for (i7 = 0; i7 < 3; i7++) {
+    info_VerificationInfo_propChksum[i7] = b_t0_propChksum[i7];
   }
 
-  for (i4 = 0; i4 < 4; i4++) {
-    b_t0_dlgPrmChksum_chksum[i4] = t0_CGOnlyParamChksum_chksum[i4];
-    info_VerificationInfo_postPropOnlyChksum_chksum[i4] =
-      t0_postPropOnlyChksum_chksum[i4];
+  for (i7 = 0; i7 < 4; i7++) {
+    b_t0_dlgPrmChksum_chksum[i7] = t0_CGOnlyParamChksum_chksum[i7];
+    info_VerificationInfo_postPropOnlyChksum_chksum[i7] =
+      t0_postPropOnlyChksum_chksum[i7];
   }
 
-  for (i4 = 0; i4 < 3; i4++) {
-    info_slVer[i4] = cv12[i4];
+  for (i7 = 0; i7 < 3; i7++) {
+    info_slVer[i7] = cv12[i7];
   }
 
   y = NULL;
@@ -2530,17 +3279,17 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAddField(d_y, e_y, "dimModes", 0);
   u_sizes[0] = 1;
   u_sizes[1] = 4;
-  for (i4 = 0; i4 < 4; i4++) {
-    u_data[i4] = Ports_dims_data[i4];
+  for (i7 = 0; i7 < 4; i7++) {
+    u_data[i7] = Ports_dims_data[i7];
   }
 
   f_y = NULL;
   m6 = emlrtCreateNumericArray(2, u_sizes, mxDOUBLE_CLASS, mxREAL);
   pData = (real_T *)mxGetPr(m6);
-  i4 = 0;
+  i7 = 0;
   for (i = 0; i < u_sizes[1]; i++) {
-    pData[i4] = (real_T)u_data[u_sizes[0] * i];
-    i4++;
+    pData[i7] = (real_T)u_data[u_sizes[0] * i];
+    i7++;
   }
 
   emlrtAssign(&f_y, m6);
@@ -2559,8 +3308,8 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAddField(d_y, i_y, "outputBuiltInDTEqUsed", 0);
   emlrtAddField(c_y, d_y, "Ports", 0);
   j_y = NULL;
-  for (i4 = 0; i4 < 2; i4++) {
-    iv16[i4] = 1 - i4;
+  for (i7 = 0; i7 < 2; i7++) {
+    iv16[i7] = 1 - i7;
   }
 
   emlrtAssign(&j_y, emlrtCreateStructArray(2, iv16, 0, NULL));
@@ -2578,8 +3327,8 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAssign(&l_y, m6);
   emlrtAddField(c_y, l_y, "objTypeSize", 0);
   m_y = NULL;
-  for (i4 = 0; i4 < 2; i4++) {
-    iv16[i4] = 1 - i4;
+  for (i7 = 0; i7 < 2; i7++) {
+    iv16[i7] = 1 - i7;
   }
 
   emlrtAssign(&m_y, emlrtCreateStructArray(2, iv16, 0, NULL));
@@ -2599,8 +3348,8 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   o_y = NULL;
   emlrtAssign(&o_y, emlrtCreateStructMatrix(1, 1, 0, NULL));
   p_y = NULL;
-  for (i4 = 0; i4 < 2; i4++) {
-    iv16[i4] = 1 - i4;
+  for (i7 = 0; i7 < 2; i7++) {
+    iv16[i7] = 1 - i7;
   }
 
   emlrtAssign(&p_y, emlrtCreateStructArray(2, iv16, 0, NULL));
@@ -2613,8 +3362,8 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAddField(p_y, NULL, "Bias", 0);
   emlrtAddField(o_y, p_y, "Out", 0);
   q_y = NULL;
-  for (i4 = 0; i4 < 2; i4++) {
-    iv16[i4] = 1 - i4;
+  for (i7 = 0; i7 < 2; i7++) {
+    iv16[i7] = 1 - i7;
   }
 
   emlrtAssign(&q_y, emlrtCreateStructArray(2, iv16, 0, NULL));
@@ -2627,8 +3376,8 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAddField(q_y, NULL, "Bias", 0);
   emlrtAddField(o_y, q_y, "DW", 0);
   r_y = NULL;
-  for (i4 = 0; i4 < 2; i4++) {
-    iv16[i4] = 1 - i4;
+  for (i7 = 0; i7 < 2; i7++) {
+    iv16[i7] = 1 - i7;
   }
 
   emlrtAssign(&r_y, emlrtCreateStructArray(2, iv16, 0, NULL));
@@ -2646,14 +3395,14 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAssign(&s_y, m6);
   emlrtAddField(c_y, s_y, "objDWorkTypeNameIndex", 0);
   b_u_sizes[0] = 1;
-  b_u_sizes[1] = 10;
+  b_u_sizes[1] = 11;
   t_y = NULL;
   m6 = emlrtCreateNumericArray(2, b_u_sizes, mxDOUBLE_CLASS, mxREAL);
   pData = (real_T *)mxGetPr(m6);
-  i4 = 0;
-  for (i = 0; i < 10; i++) {
-    pData[i4] = 0.0;
-    i4++;
+  i7 = 0;
+  for (i = 0; i < 11; i++) {
+    pData[i7] = 0.0;
+    i7++;
   }
 
   emlrtAssign(&t_y, m6);
@@ -2687,18 +3436,18 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAssign(&y_y, m6);
   emlrtAddField(x_y, y_y, "chksum", 0);
   emlrtAddField(w_y, x_y, "dlgPrmChksum", 0);
-  for (i4 = 0; i4 < 3; i4++) {
-    u[i4] = info_VerificationInfo_propChksum[i4];
+  for (i7 = 0; i7 < 3; i7++) {
+    u[i7] = info_VerificationInfo_propChksum[i7];
   }
 
   ab_y = NULL;
-  for (i4 = 0; i4 < 2; i4++) {
-    iv16[i4] = 1 + (i4 << 1);
+  for (i7 = 0; i7 < 2; i7++) {
+    iv16[i7] = 1 + (i7 << 1);
   }
 
   emlrtAssign(&ab_y, emlrtCreateStructArray(2, iv16, 0, NULL));
-  for (i4 = 0; i4 < 3; i4++) {
-    r0 = &u[i4];
+  for (i7 = 0; i7 < 3; i7++) {
+    r0 = &u[i7];
     for (i = 0; i < 4; i++) {
       b_u[i] = r0->chksum[i];
     }
@@ -2711,7 +3460,7 @@ static const mxArray *mw__internal__autoInference__fcn(void)
     }
 
     emlrtAssign(&bb_y, m6);
-    emlrtAddField(ab_y, bb_y, "chksum", i4);
+    emlrtAddField(ab_y, bb_y, "chksum", i7);
   }
 
   emlrtAddField(w_y, ab_y, "propChksum", 0);
@@ -2740,8 +3489,8 @@ static const mxArray *mw__internal__autoInference__fcn(void)
   emlrtAddField(eb_y, fb_y, "chksum", 0);
   emlrtAddField(w_y, eb_y, "postPropOnlyChksum", 0);
   emlrtAddField(y, w_y, "VerificationInfo", 0);
-  for (i4 = 0; i4 < 3; i4++) {
-    c_u[i4] = info_slVer[i4];
+  for (i7 = 0; i7 < 3; i7++) {
+    c_u[i7] = info_slVer[i7];
   }
 
   gb_y = NULL;
@@ -2754,7 +3503,7 @@ static const mxArray *mw__internal__autoInference__fcn(void)
 }
 
 static const mxArray *mw__internal__getSimState__fcn
-  (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance)
+  (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance)
 {
   const mxArray *st;
   const mxArray *y;
@@ -2776,14 +3525,16 @@ static const mxArray *mw__internal__getSimState__fcn
   const mxArray *p_y;
   const mxArray *q_y;
   const mxArray *r_y;
+  const mxArray *s_y;
+  const mxArray *t_y;
   static const int32_T iv25[1] = { 2 };
 
   real_T *pData;
   int32_T i;
-  const mxArray *s_y;
+  const mxArray *u_y;
   static const int32_T iv26[1] = { 2 };
 
-  const mxArray *t_y;
+  const mxArray *v_y;
   st = NULL;
   y = NULL;
   emlrtAssign(&y, emlrtCreateCellMatrix(2, 1));
@@ -2823,56 +3574,64 @@ static const mxArray *mw__internal__getSimState__fcn
   emlrtAssign(&j_y, m7);
   emlrtAddField(b_y, j_y, "Urk", 0);
   k_y = NULL;
-  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.Iz);
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.Ucs);
   emlrtAssign(&k_y, m7);
-  emlrtAddField(b_y, k_y, "Iz", 0);
+  emlrtAddField(b_y, k_y, "Ucs", 0);
   l_y = NULL;
-  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.F_s_x);
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.Uck);
   emlrtAssign(&l_y, m7);
-  emlrtAddField(b_y, l_y, "F_s_x", 0);
+  emlrtAddField(b_y, l_y, "Uck", 0);
   m_y = NULL;
-  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.F_s_y);
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.Iz);
   emlrtAssign(&m_y, m7);
-  emlrtAddField(b_y, m_y, "F_s_y", 0);
+  emlrtAddField(b_y, m_y, "Iz", 0);
   n_y = NULL;
-  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.F_k_x);
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.F_s_x);
   emlrtAssign(&n_y, m7);
-  emlrtAddField(b_y, n_y, "F_k_x", 0);
+  emlrtAddField(b_y, n_y, "F_s_x", 0);
   o_y = NULL;
-  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.F_k_y);
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.F_s_y);
   emlrtAssign(&o_y, m7);
-  emlrtAddField(b_y, o_y, "F_k_y", 0);
+  emlrtAddField(b_y, o_y, "F_s_y", 0);
   p_y = NULL;
-  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.T_s);
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.F_k_x);
   emlrtAssign(&p_y, m7);
-  emlrtAddField(b_y, p_y, "T_s", 0);
+  emlrtAddField(b_y, p_y, "F_k_x", 0);
   q_y = NULL;
-  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.T_k);
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.F_k_y);
   emlrtAssign(&q_y, m7);
-  emlrtAddField(b_y, q_y, "T_k", 0);
+  emlrtAddField(b_y, q_y, "F_k_y", 0);
   r_y = NULL;
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.T_s);
+  emlrtAssign(&r_y, m7);
+  emlrtAddField(b_y, r_y, "T_s", 0);
+  s_y = NULL;
+  m7 = emlrtCreateDoubleScalar(moduleInstance->sysobj.T_k);
+  emlrtAssign(&s_y, m7);
+  emlrtAddField(b_y, s_y, "T_k", 0);
+  t_y = NULL;
   m7 = emlrtCreateNumericArray(1, iv25, mxDOUBLE_CLASS, mxREAL);
   pData = (real_T *)mxGetPr(m7);
   for (i = 0; i < 2; i++) {
     pData[i] = moduleInstance->sysobj.Position_o_G3[i];
   }
 
-  emlrtAssign(&r_y, m7);
-  emlrtAddField(b_y, r_y, "Position_o_G3", 0);
-  s_y = NULL;
+  emlrtAssign(&t_y, m7);
+  emlrtAddField(b_y, t_y, "Position_o_G3", 0);
+  u_y = NULL;
   m7 = emlrtCreateNumericArray(1, iv26, mxDOUBLE_CLASS, mxREAL);
   pData = (real_T *)mxGetPr(m7);
   for (i = 0; i < 2; i++) {
     pData[i] = moduleInstance->sysobj.Position_G3_P3_frame_cylinder[i];
   }
 
-  emlrtAssign(&s_y, m7);
-  emlrtAddField(b_y, s_y, "Position_G3_P3_frame_cylinder", 0);
+  emlrtAssign(&u_y, m7);
+  emlrtAddField(b_y, u_y, "Position_G3_P3_frame_cylinder", 0);
   emlrtSetCell(y, 0, b_y);
-  t_y = NULL;
+  v_y = NULL;
   m7 = emlrtCreateLogicalScalar(moduleInstance->sysobj_not_empty);
-  emlrtAssign(&t_y, m7);
-  emlrtSetCell(y, 1, t_y);
+  emlrtAssign(&v_y, m7);
+  emlrtSetCell(y, 1, v_y);
   emlrtAssign(&st, y);
   return st;
 }
@@ -2891,12 +3650,12 @@ static void b_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
   *parentId, Cylinder *y)
 {
   emlrtMsgIdentifier thisId;
-  static const char * fieldNames[17] = { "isInitialized", "R", "M", "g", "Us",
-    "Uk", "Urs", "Urk", "Iz", "F_s_x", "F_s_y", "F_k_x", "F_k_y", "T_s", "T_k",
-    "Position_o_G3", "Position_G3_P3_frame_cylinder" };
+  static const char * fieldNames[19] = { "isInitialized", "R", "M", "g", "Us",
+    "Uk", "Urs", "Urk", "Ucs", "Uck", "Iz", "F_s_x", "F_s_y", "F_k_x", "F_k_y",
+    "T_s", "T_k", "Position_o_G3", "Position_G3_P3_frame_cylinder" };
 
   thisId.fParent = parentId;
-  emlrtCheckStructR2012b(emlrtRootTLSGlobal, parentId, u, 17, fieldNames, 0U, 0);
+  emlrtCheckStructR2012b(emlrtRootTLSGlobal, parentId, u, 19, fieldNames, 0U, 0);
   thisId.fIdentifier = "isInitialized";
   y->isInitialized = c_emlrt_marshallIn(emlrtAlias(emlrtGetFieldR2013a
     (emlrtRootTLSGlobal, u, 0, "isInitialized")), &thisId);
@@ -2921,6 +3680,12 @@ static void b_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
   thisId.fIdentifier = "Urk";
   y->Urk = d_emlrt_marshallIn(emlrtAlias(emlrtGetFieldR2013a(emlrtRootTLSGlobal,
     u, 0, "Urk")), &thisId);
+  thisId.fIdentifier = "Ucs";
+  y->Ucs = d_emlrt_marshallIn(emlrtAlias(emlrtGetFieldR2013a(emlrtRootTLSGlobal,
+    u, 0, "Ucs")), &thisId);
+  thisId.fIdentifier = "Uck";
+  y->Uck = d_emlrt_marshallIn(emlrtAlias(emlrtGetFieldR2013a(emlrtRootTLSGlobal,
+    u, 0, "Uck")), &thisId);
   thisId.fIdentifier = "Iz";
   y->Iz = d_emlrt_marshallIn(emlrtAlias(emlrtGetFieldR2013a(emlrtRootTLSGlobal,
     u, 0, "Iz")), &thisId);
@@ -2997,7 +3762,7 @@ static boolean_T g_emlrt_marshallIn(const mxArray *u, const emlrtMsgIdentifier
   return y;
 }
 
-static void mw__internal__setSimState__fcn(InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC
+static void mw__internal__setSimState__fcn(InstanceStruct_YoHcJxtJIg4eEbvpceABdH
   *moduleInstance, const mxArray *st)
 {
   const mxArray *u;
@@ -3053,12 +3818,12 @@ static void j_emlrt_marshallIn(const mxArray *src, const emlrtMsgIdentifier
   *msgId, real_T ret[2])
 {
   int32_T iv27[1];
-  int32_T i5;
+  int32_T i8;
   iv27[0] = 2;
   emlrtCheckBuiltInR2012b(emlrtRootTLSGlobal, msgId, src, "double", false, 1U,
     iv27);
-  for (i5 = 0; i5 < 2; i5++) {
-    ret[i5] = (*(real_T (*)[2])mxGetData(src))[i5];
+  for (i8 = 0; i8 < 2; i8++) {
+    ret[i8] = (*(real_T (*)[2])mxGetData(src))[i8];
   }
 
   emlrtDestroyArray(&src);
@@ -3076,57 +3841,57 @@ static boolean_T k_emlrt_marshallIn(const mxArray *src, const emlrtMsgIdentifier
 }
 
 /* CGXE Glue Code */
-static void mdlOutputs_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S, int_T tid)
+static void mdlOutputs_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, int_T tid)
 {
-  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
-  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
+  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
+  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_outputs(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlInitialize_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
+static void mdlInitialize_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
 {
-  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
-  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
+  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
+  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_initialize(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlUpdate_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S, int_T tid)
+static void mdlUpdate_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, int_T tid)
 {
-  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
-  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
+  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
+  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_update(moduleInstance);
   CGXERT_LEAVE_CHECK();
 }
 
-static mxArray* getSimState_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
+static mxArray* getSimState_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
 {
-  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
+  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
   mxArray* mxSS;
-  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
+  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   mxSS = (mxArray *) mw__internal__getSimState__fcn(moduleInstance);
   CGXERT_LEAVE_CHECK();
   return mxSS;
 }
 
-static void setSimState_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S, const mxArray *ss)
+static void setSimState_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, const mxArray *ss)
 {
-  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
-  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
+  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
+  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   mw__internal__setSimState__fcn(moduleInstance, emlrtAlias(ss));
   CGXERT_LEAVE_CHECK();
 }
 
-static void mdlTerminate_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
+static void mdlTerminate_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
 {
-  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
-  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)ssGetUserData(S);
+  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
+  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)ssGetUserData(S);
   CGXERT_ENTER_CHECK();
   cgxe_mdl_terminate(moduleInstance);
   CGXERT_LEAVE_CHECK();
@@ -3134,11 +3899,11 @@ static void mdlTerminate_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
   ssSetUserData(S, NULL);
 }
 
-static void mdlStart_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
+static void mdlStart_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
 {
-  InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *moduleInstance;
-  moduleInstance = (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC *)calloc(1, sizeof
-    (InstanceStruct_eJG1O6WbMNFUvHWZ3mwzSC));
+  InstanceStruct_YoHcJxtJIg4eEbvpceABdH *moduleInstance;
+  moduleInstance = (InstanceStruct_YoHcJxtJIg4eEbvpceABdH *)calloc(1, sizeof
+    (InstanceStruct_YoHcJxtJIg4eEbvpceABdH));
   moduleInstance->S = S;
   ssSetUserData(S, (void *)moduleInstance);
   CGXERT_ENTER_CHECK();
@@ -3151,48 +3916,48 @@ static void mdlStart_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
     ssSetOptions(S, options);
   }
 
-  ssSetmdlOutputs(S, mdlOutputs_eJG1O6WbMNFUvHWZ3mwzSC);
-  ssSetmdlInitializeConditions(S, mdlInitialize_eJG1O6WbMNFUvHWZ3mwzSC);
-  ssSetmdlUpdate(S, mdlUpdate_eJG1O6WbMNFUvHWZ3mwzSC);
-  ssSetmdlTerminate(S, mdlTerminate_eJG1O6WbMNFUvHWZ3mwzSC);
+  ssSetmdlOutputs(S, mdlOutputs_YoHcJxtJIg4eEbvpceABdH);
+  ssSetmdlInitializeConditions(S, mdlInitialize_YoHcJxtJIg4eEbvpceABdH);
+  ssSetmdlUpdate(S, mdlUpdate_YoHcJxtJIg4eEbvpceABdH);
+  ssSetmdlTerminate(S, mdlTerminate_YoHcJxtJIg4eEbvpceABdH);
 }
 
-static void mdlProcessParameters_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S)
+static void mdlProcessParameters_YoHcJxtJIg4eEbvpceABdH(SimStruct *S)
 {
 }
 
-void method_dispatcher_eJG1O6WbMNFUvHWZ3mwzSC(SimStruct *S, int_T method, void
+void method_dispatcher_YoHcJxtJIg4eEbvpceABdH(SimStruct *S, int_T method, void
   *data)
 {
   switch (method) {
    case SS_CALL_MDL_START:
-    mdlStart_eJG1O6WbMNFUvHWZ3mwzSC(S);
+    mdlStart_YoHcJxtJIg4eEbvpceABdH(S);
     break;
 
    case SS_CALL_MDL_PROCESS_PARAMETERS:
-    mdlProcessParameters_eJG1O6WbMNFUvHWZ3mwzSC(S);
+    mdlProcessParameters_YoHcJxtJIg4eEbvpceABdH(S);
     break;
 
    case SS_CALL_MDL_GET_SIM_STATE:
-    *((mxArray**) data) = getSimState_eJG1O6WbMNFUvHWZ3mwzSC(S);
+    *((mxArray**) data) = getSimState_YoHcJxtJIg4eEbvpceABdH(S);
     break;
 
    case SS_CALL_MDL_SET_SIM_STATE:
-    setSimState_eJG1O6WbMNFUvHWZ3mwzSC(S, (const mxArray *) data);
+    setSimState_YoHcJxtJIg4eEbvpceABdH(S, (const mxArray *) data);
     break;
 
    default:
     /* Unhandled method */
     /*
        sf_mex_error_message("Stateflow Internal Error:\n"
-       "Error calling method dispatcher for module: eJG1O6WbMNFUvHWZ3mwzSC.\n"
+       "Error calling method dispatcher for module: YoHcJxtJIg4eEbvpceABdH.\n"
        "Can't handle method %d.\n", method);
      */
     break;
   }
 }
 
-int autoInfer_dispatcher_eJG1O6WbMNFUvHWZ3mwzSC(mxArray* plhs[], const char
+int autoInfer_dispatcher_YoHcJxtJIg4eEbvpceABdH(mxArray* plhs[], const char
   * commandName)
 {
   if (strcmp(commandName, "NameResolution") == 0) {
@@ -3208,7 +3973,7 @@ int autoInfer_dispatcher_eJG1O6WbMNFUvHWZ3mwzSC(mxArray* plhs[], const char
   return 0;
 }
 
-mxArray *cgxe_eJG1O6WbMNFUvHWZ3mwzSC_BuildInfoUpdate(void)
+mxArray *cgxe_YoHcJxtJIg4eEbvpceABdH_BuildInfoUpdate(void)
 {
   mxArray * mxBIArgs;
   mxArray * elem_1;
