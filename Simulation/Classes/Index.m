@@ -188,10 +188,10 @@ classdef Index < handle & matlab.System
             % External forces to internal ([x,y] to Normal)
             % Contact
             fcN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fc;
-            obj.dist.fc = fcN(1);
+            obj.dist.fc = fcN(2,1);
             % Disturbance
             feN = obj.rotMat(obj.prox.theta+obj.dist.theta)*fe;
-            obj.dist.fe = feN(1);
+            obj.dist.fe = feN(2,1);
             
             % Equation of motion
             xDot = obj.eom(initVal,fa);
