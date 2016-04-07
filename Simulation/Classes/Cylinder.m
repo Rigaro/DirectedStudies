@@ -119,6 +119,7 @@ classdef Cylinder < handle & matlab.System
     %............................................................................
     %Absolute Accelerations for G3 and P3 updated from frame 0
         function RotMatrix_0_4=RotationToContactFrame(obj,CollisionPosition,xPositionG3,yPositionG3)
+            Theta=0;
             if ((CollisionPosition(1)-xPositionG3)==0)
                 if((CollisionPosition(2)-yPositionG3)>0)
                     Theta=pi/2;
@@ -167,7 +168,7 @@ classdef Cylinder < handle & matlab.System
     %............................................................................
     %Absolute Accelerations for G3 and P3 updated from frame 0
         function ResultantTorque = ResultantTorqueCalc(obj,RotatedForceIndex,RotatedForceThumb)
-            ResultantTorque=obj.R*RotatedForceIndex(2)+RotatedForceThumb(2);
+            ResultantTorque=obj.R*RotatedForceIndex+obj.R*RotatedForceThumb;
         end
     %............................................................................
     %............................................................................
@@ -184,16 +185,75 @@ classdef Cylinder < handle & matlab.System
     %............................................................................
     %............................................................................
     %Absolute Accelerations for G3 and P3 updated from frame 0
-        function BunchOfTotalForces=ColissionCondition(obj,ColissionCondition,IndexForce,ThumbForce)
-            if(CollisionCondition(1)==1 && CollisionCondition(2)==1)
-                BunchOfTotalForce=[IndexForce,ThumbForce];
-            elseif(CollisionCondition(1)==0 && CollisionCondition(2)==1)
-                BunchOfTotalForce=[[0;0],ThumbForce];
-            elseif(CollisionCondition(1)==1 && CollisionCondition(2)==0)
-                BunchOfTotalForce=[IndexForce,[0;0]];
+        function BunchOfTotalForces=ColissionConditionCalc(obj,ColissionCondition,IndexForce,ThumbForce)
+            if(ColissionCondition(1)==1 && ColissionCondition(2)==1)
+                BunchOfTotalForces=[IndexForce,ThumbForce];
+            elseif(ColissionCondition(1)==0 && ColissionCondition(2)==1)
+                BunchOfTotalForces=[[0;0],ThumbForce];
+            elseif(ColissionCondition(1)==1 && ColissionCondition(2)==0)
+                BunchOfTotalForces=[IndexForce,[0;0]];
             else
-                BunchOfTotalForce=[[0;0],[0;0]];
+                BunchOfTotalForces=[[0;0],[0;0]];
             end
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function ReactionForcePerFinger=ReactionForceCalc(obj,CollisionCondition,CollisionPosition,IndexFext,ThumbFext,...
+                                                           xPositionG3,yPositionG3)
+            BunchOfTotalForces=ColissionConditionCalc(obj,CollisionCondition,IndexFext,ThumbFext);
+            ResultantTorqueIndex=0;
+            ResultantTorqueThumb=0;
+            RotatedForceToFrame0Index=[0;0];
+            RotatedForceToFrame0Thumb=[0;0];
+           if (CollisionCondition(1) == 1)
+               RotMatrix_0_4_Index=RotationToContactFrame(obj,CollisionPosition([1;2]),xPositionG3,yPositionG3);
+               RotatedForceIndex = ConvesrsionForceContactPoint(obj,RotMatrix_0_4_Index,BunchOfTotalForces([1;2]));
+               FrictionForceInContactFrameIndex=EvaluateFrictionInContactPoint(obj,RotatedForceIndex);
+               RotatedForceIndex(2)=FrictionForceInContactFrameIndex(2);
+               ResultantTorqueIndex = ResultantTorqueCalc(obj,FrictionForceInContactFrameIndex(2),0);
+               RotatedForceToFrame0Index = ConvesrsionContactPointFrame0(obj,RotMatrix_0_4_Index,RotatedForceIndex );
+           elseif(CollisionCondition(2) == 1)
+               RotMatrix_0_4_Thumb=RotationToContactFrame(obj,CollisionPosition([3;4]),xPositionG3,yPositionG3);
+               RotatedForceThumb = ConvesrsionForceContactPoint(obj,RotMatrix_0_4_Thumb,BunchOfTotalForces([3;4]));
+               FrictionForceInContactFrameThumb=EvaluateFrictionInContactPoint(obj,RotatedForceThumb);
+               RotatedForceThumb(2)=FrictionForceInContactFrameThumb(2);
+               ResultantTorqueThumb = ResultantTorqueCalc(obj,0,FrictionForceInContactFrameThumb(2));
+               RotatedForceToFrame0Thumb = ConvesrsionContactPointFrame0(obj,RotMatrix_0_4_Thumb,RotatedForceThumb );
+           elseif(CollisionCondition(2) == 1 && CollisionCondition(1) == 1)
+               RotMatrix_0_4_Index=RotationToContactFrame(obj,CollisionPosition([1;2]),xPositionG3,yPositionG3);
+               RotMatrix_0_4_Thumb=RotationToContactFrame(obj,CollisionPosition([3;4]),xPositionG3,yPositionG3);
+               RotatedForceIndex = ConvesrsionForceContactPoint(obj,RotMatrix_0_4_Index,BunchOfTotalForces([1;2]));
+               RotatedForceThumb = ConvesrsionForceContactPoint(obj,RotMatrix_0_4_Thumb,BunchOfTotalForces([3;4]));
+               FrictionForceInContactFrameIndex=EvaluateFrictionInContactPoint(obj,RotatedForceIndex);
+               FrictionForceInContactFrameThumb=EvaluateFrictionInContactPoint(obj,RotatedForceThumb);
+               RotatedForceIndex(2)=FrictionForceInContactFrameIndex(2);
+               RotatedForceThumb(2)=FrictionForceInContactFrameThumb(2);
+               ResultantTorqueIndex = ResultantTorqueCalc(obj,FrictionForceInContactFrameIndex(2),0);
+               ResultantTorqueThumb = ResultantTorqueCalc(obj,0,FrictionForceInContactFrameThumb(2));
+               RotatedForceToFrame0Index = ConvesrsionContactPointFrame0(obj,RotMatrix_0_4_Index,RotatedForceIndex );
+               RotatedForceToFrame0Thumb = ConvesrsionContactPointFrame0(obj,RotMatrix_0_4_Thumb,RotatedForceThumb );
+           elseif(CollisionCondition(2) == 0 && CollisionCondition(1) == 0)
+               ResultantTorqueIndex=0;
+               ResultantTorqueThumb=0;
+               RotatedForceToFrame0Index=[0;0];
+               RotatedForceToFrame0Thumb=[0;0];
+           end
+           BunchOfTotalForcesOutput=ColissionConditionCalc(obj,CollisionCondition,RotatedForceToFrame0Index...
+                                                                ,RotatedForceToFrame0Thumb);
+           ResultantForceX=ResultantXForceWithoutFloorFrictionX(obj,RotatedForceToFrame0Index(1),RotatedForceToFrame0Thumb(1));
+           ResultantForceY=ResultantXForceWithoutFloorFrictionY(obj,RotatedForceToFrame0Index(1),RotatedForceToFrame0Thumb(1));
+           ResultantTorque=ResultantTorqueIndex+ResultantTorqueThumb;
+           ReactionForcePerFinger=[ResultantForceX,ResultantForceY,ResultantTorque];
+        end
+    %............................................................................
+    %............................................................................
+    %Absolute Accelerations for G3 and P3 updated from frame 0
+        function ForceReaction=ForceReactionFinger(obj,GeneralCoordinatesDoubleDot,ForceFinger)
+           ForceReaction=[0;0];
+           ForceReaction(1)=ForceFinger(1)-GeneralCoordinatesDoubleDot(1)*obj.M;
+           ForceReaction(2)=ForceFinger(2)-GeneralCoordinatesDoubleDot(1)*obj.M;
+           ForceReaction=[ForceReaction(1);ForceReaction(2)];
         end
     end
     methods (Access = protected)
@@ -205,17 +265,19 @@ classdef Cylinder < handle & matlab.System
                                             xDotG3,yDotG3,angleDot,xPositionG3,yPositionG3,angle)
             obj.Urk=Urk;
             obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g;
-            
-            GenCordExt=[FextX,FextY,TorqueExt];
+            GenCordExt=ReactionForceCalc(obj,CollisionCondition,CollisionPosition,IndexFext,ThumbFext,xPositionG3,yPositionG3);
             FrictionCondition=NonLinearFriction(obj,abs(GenCordExt(3)),'T_s');
             GeneralCoordinatesDoubleDot = Equation_Of_Motion(obj,GenCordExt);
+            ForceReactionIndex=ForceReactionFinger(obj,GeneralCoordinatesDoubleDot,IndexFext);
+            ForceReactionThumb=ForceReactionFinger(obj,GeneralCoordinatesDoubleDot,ThumbFext);
+            ForceReactions=[ForceReactionIndex,ForceReactionThumb];
             xDoubleDot = GeneralCoordinatesDoubleDot(1);
             yDoubleDot = GeneralCoordinatesDoubleDot(2);
             angleDoubleDot = GeneralCoordinatesDoubleDot(3);
             Positions = PosCalculation(obj,angle,xPositionG3,yPositionG3);
             Velocities = VelCalculation (obj,angle,angleDot,xDotG3,yDotG3);
             Accelerations = AccCalculation (obj,angle,angleDot,angleDoubleDot,xDoubleDot,yDoubleDot);
-            CylinderResults = [Accelerations([1 2 5]),Positions([3 4]),obj.R,obj.Urk,FrictionCondition];
+            CylinderResults = [Accelerations([1 2 5]),Positions([3 4]),obj.R,ForceReactionIndex',ForceReactionThumb',obj.Urk,FrictionCondition];
         end
     end
 end
