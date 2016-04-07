@@ -1,0 +1,3 @@
+LIBRARY fullSim_cgxe.mexw64
+EXPORTS
+mexFunction

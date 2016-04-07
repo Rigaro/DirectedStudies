@@ -1,0 +1,38 @@
+CC     = "C:\Program Files\MATLAB\R2015b\sys\lcc64\lcc64\bin\lcc64.exe"
+LD     = "C:\Program Files\MATLAB\R2015b\sys\lcc64\lcc64\bin\lcclnk64.exe"
+LIBCMD = "C:\Program Files\MATLAB\R2015b\sys\lcc64\lcc64\bin\lcclib64.exe"
+CFLAGS = -dll -noregistrylookup  -c -Zp8 -DLCC_WIN64 -DMATLAB_MEX_FILE -DMX_COMPAT_32 -nodeclspec 
+LDFLAGS = -s -dll -L"C:\Program Files\MATLAB\R2015b\sys\lcc64\lcc64\lib64" -entry LibMain -map sfun.map 
+LIBFLAGS = 
+
+OBJECTS = \
+	"lccstub.obj"\
+	"fullSim_cgxe.obj"\
+	"m_CynCoNzEkJ1QVd5zEkhIm.obj"\
+	"fullSim_cgxe_registry.obj"\
+	"fullSim_cgxe.def"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libmwblas.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libmx.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libmex.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libmat.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libfixedpoint.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libut.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libmwmathutil.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libemlrt.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libmwcgxert.lib"\
+	"C:\Program Files\MATLAB\R2015b\lib\win64\libmwipp.lib"\
+	"C:\Program Files\MATLAB\R2015b\extern\lib\win64\microsoft\libcovrt.lib"\
+
+INCLUDE_PATH= -I"C:\Program Files\MATLAB\R2015b\sys\lcc64\lcc64\include64"  -I"C:\Program Files\MATLAB\R2015b\extern\include"  -I"C:\Program Files\MATLAB\R2015b\simulink\include"  -I"C:\Program Files\MATLAB\R2015b\rtw\c\src" 
+ 
+
+fullSim_cgxe.mexw64 : $(MAKEFILE) $(OBJECTS)
+	$(LD) $(LDFLAGS) -o fullSim_cgxe.mexw64 @fullSim_cgxe.lmko
+lccstub.obj :	"C:\Program Files\MATLAB\R2015b\sys\lcc64\lcc64\mex\lccstub.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Program Files\MATLAB\R2015b\sys\lcc64\lcc64\mex\lccstub.c"
+fullSim_cgxe.obj :	"fullSim_cgxe.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "fullSim_cgxe.c"
+m_CynCoNzEkJ1QVd5zEkhIm.obj :	"m_CynCoNzEkJ1QVd5zEkhIm.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "m_CynCoNzEkJ1QVd5zEkhIm.c"
+fullSim_cgxe_registry.obj :	"fullSim_cgxe_registry.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "fullSim_cgxe_registry.c"

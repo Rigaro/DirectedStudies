@@ -263,8 +263,8 @@ classdef Cylinder < handle & matlab.System
     %positions,velocities and accelerations for the cylinder
         function CylinderResults=stepImpl(obj,Urk,IndexFext,ThumbFext,CollisionCondition,CollisionPosition,...
                                             xDotG3,yDotG3,angleDot,xPositionG3,yPositionG3,angle)
-            obj.Urk=Urk;
-            obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g;
+            %obj.Urk=Urk;
+            %obj.T_k=(2/3)*obj.Urk*obj.R*obj.M*obj.g;
             GenCordExt=ReactionForceCalc(obj,CollisionCondition,CollisionPosition,IndexFext,ThumbFext,xPositionG3,yPositionG3);
             FrictionCondition=NonLinearFriction(obj,abs(GenCordExt(3)),'T_s');
             GeneralCoordinatesDoubleDot = Equation_Of_Motion(obj,GenCordExt);

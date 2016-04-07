@@ -116,7 +116,7 @@ classdef Thumb < handle & matlab.System
             % actuation) forces and transform to [x,y] coordinate.
             fc = -obj.rotMat(obj.prox.theta+obj.dist.theta)*[0;fcN(2)];
         end
-        function [xDot, fc] = eom(obj,initVal,fa)
+        function xDot = eom(obj,initVal,fa)
             % Solves the equations of motion given the initial condition
             % initVal. The states x are: x1 = prox.theta, x2 = dist.theta, 
             % x3 = prox.thetaDot, x4 = dist.thetaDot. For more information
