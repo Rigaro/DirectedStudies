@@ -43,17 +43,9 @@ classdef MinCylinderTester < handle & matlab.System
             obj.Position_o_G3=[0;0];
             obj.Position_G3_P3_frame_cylinder=[0;obj.R];
         end
-        function ForceReaction=ForceReactionCalc(obj,CollisionCondition,IndexFext,ThumbFext)
-            
-                if(CollisionCondition(1)==1)
-                    ForceReaction(1)=IndexFext(1);
-                    ForceReaction(2)=IndexFext(2);
-                else
-                    ForceReaction=[0;0];
-                end
-                if(CollisionCondition(2)==1)
-                    ForceReaction(3)=ThumbFext(1);
-                    ForceReaction(4)=ThumbFext(2);
+        function ForceReaction=ForceReactionCalc(~,CollisionCondition,IndexFext)
+                if(CollisionCondition==1)
+                    ForceReaction=IndexFext;
                 else
                     ForceReaction=[0;0];
                 end
@@ -64,9 +56,12 @@ classdef MinCylinderTester < handle & matlab.System
     %............................................................................
     %Function that is called in Simulink to calculate updated
     %positions,velocities and accelerations for the cylinder
-        function CylinderResults=stepImpl(obj,IndexFext,ThumbFext,CollisionCondition,CollisionPosition)
-                ForceReaction=ForceReactionCalc(obj,CollisionCondition,IndexFext,ThumbFext);
-                CylinderResults=ForceReaction(obj.Position_o_G3,obj.Position_G3_P3_frame_cylinder,obj.R,ForceReaction([1 2]),ForceReaction([3 4]));
+        function [PositionO_G3,PositionO_P3,Radius,ForceReactionIndex]=stepImpl(obj,IndexFext,CollisionCondition,CollisionPosition)
+                ForceReaction=ForceReactionCalc(obj,CollisionCondition,IndexFext);
+                ForceReactionIndex=ForceReaction;
+                PositionO_G3=obj.Position_o_G3;
+                PositionO_P3=obj.Position_G3_P3_frame_cylinder;
+                Radius=obj.R;
                 
         end
     end
