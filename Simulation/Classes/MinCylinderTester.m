@@ -64,9 +64,9 @@ classdef MinCylinderTester < handle & matlab.System
     %............................................................................
     %Function that is called in Simulink to calculate updated
     %positions,velocities and accelerations for the cylinder
-        function CylinderResults=stepImpl(obj,IndexFext,ThumbFext,CollisionCondition,CollisionPosition)
+        function MinCylinderResults=stepImpl(obj,IndexFext,ThumbFext,CollisionCondition,CollisionPosition)
                 ForceReaction=ForceReactionCalc(obj,CollisionCondition,IndexFext,ThumbFext);
-                CylinderResults=ForceReaction(obj.Position_o_G3,obj.Position_G3_P3_frame_cylinder,obj.R,ForceReaction([1 2]),ForceReaction([3 4]));
+                MinCylinderResults=ForceReaction(obj.Position_o_G3,obj.Position_G3_P3_frame_cylinder,obj.R,ForceReaction([1 2]),ForceReaction([3 4]));
                 
         end
     end
