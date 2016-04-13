@@ -12,7 +12,7 @@
 % 16/04/06  |   RGR     | Removed force class, using only magnitude.|
 % 16/04/09  |   RGR     | Removed classes and opted for functions.  |
 
-function [ xDot, rOtoL, iFcComp ] = Finger( iInitVal,iFa,iFcSense,iFeDist,iO )
+function [ xDot, rOtoL, iFcComp, rOtoLDot ] = Finger( iInitVal,iFa,iFcSense,iFeDist,iO )
 
     % Set initial condition:
     theta = [iInitVal(1); iInitVal(2)];
@@ -21,14 +21,17 @@ function [ xDot, rOtoL, iFcComp ] = Finger( iInitVal,iFa,iFcSense,iFeDist,iO )
     % Contact force
     fcTN = rotMat(theta(1,1)+theta(2,1))'*iFcSense;
     fcD = fcTN(2,1);
+    if(fcD>0)
+        fcD=0;
+    end
     % Disturbance force
     feTN = rotMat(theta(1,1)+theta(2,1))'*iFeDist;
     feD = feTN(2,1);
     % Set model variables:
-    kP = -0.043;
-    kD = -0.185;
-    dP = -0.01;
-    dD = -0.01;
+    kP = 0.043;
+    kD = 0.185;
+    dP = 0.01;
+    dD = 0.01;
     lP = 0.1;
     lD = 0.1;
     rP = 0.02;
@@ -65,7 +68,9 @@ function [ xDot, rOtoL, iFcComp ] = Finger( iInitVal,iFa,iFcSense,iFeDist,iO )
     rOtoL(:,2) = rOtoL(:,2-1) + rotMat(theta(1,1)+theta(2,1))*[lD;0];
     rOtoG(:,2) = rOtoG(:,2-1) + rotMat(theta(1,1)+theta(2,1))*[lD/2;0];
     
-    % Dyniamics
+    % Dynamics
+    rOtoLDot = [-lP*sin(theta(1,1))*thetaDot(1,1)-lD*sin(theta(1,1)+theta(2,1))*(thetaDot(1,1)+thetaDot(2,1));
+                -lP*cos(theta(1,1))*thetaDot(1,1)-lD*cos(theta(1,1)+theta(2,1))*(thetaDot(1,1)+thetaDot(2,1))];
     % Compute matrix parameters.
     alpha = IP + ID + (mP*(lP/2)^2) + mD*(lP^2+(lD/2)^2);
     beta = mD*lP*(lD/2);
@@ -84,14 +89,14 @@ function [ xDot, rOtoL, iFcComp ] = Finger( iInitVal,iFa,iFcSense,iFeDist,iO )
     distTau = Je'*[0; feD];
     actTau = Ja'*iFa;
     % Compute angular acceleration
-    thetaDotDot = inv(M)*(-C*thetaDot + springTau + damperTau + contactTau + distTau + actTau);
+    thetaDotDot = inv(M)*(-C*thetaDot - springTau - damperTau + contactTau + distTau + actTau);
     xDot = [thetaDot; thetaDotDot];
     % Compute applied contact force give a static condition. (Kinetostatic)
     % Compute forces normal to proximal and distal links.
-    fcComp = (inv(Jc')*-(springTau+damperTau+distTau+actTau));
+    fcComp = (inv(Jc')*((springTau+damperTau)-(distTau+actTau)));
     % Distal normal and tangential (0, no tangential force due to
     % actuation) forces and transform to [x,y] coordinate.
-    iFcComp = -rotMat(theta(1,1)+theta(2,1))*[0;fcComp(2)];
+    iFcComp = -rotMat(theta(1,1)+theta(2,1))*[0;fcComp(2,1)];
 end
         function rot = rotMat(theta)
             % 2D Z-Rotation matrix on theta.
