@@ -1,17 +1,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Start offline computation %%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear all
-t=0:0.01:3;
-tSize = size(t);
-for i=1:tSize(2)
-    theta(i,:) = posTrajectory(t(i));
-    thetaDot(i,:) = velTrajectory(t(i));
-    r_temp(i) = regOfAttractionGAC(theta(i,:)',thetaDot(i,:)');
-end
-r = r_temp';
-thetaR = theta(:,1);
-thetaDotR = thetaDot(:,1);
+% clear all
+% t=0:0.01:3;
+% tSize = size(t);
+% for i=1:tSize(2)
+%     theta(i,:) = posTrajectory(t(i));
+%     thetaDot(i,:) = velTrajectory(t(i));
+%     r_temp(i) = regOfAttractionGAC(theta(i,:)',thetaDot(i,:)');
+% end
+% r = r_temp';
+% thetaR = theta(:,1);
+% thetaDotR = thetaDot(:,1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% End of offline computation %%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
