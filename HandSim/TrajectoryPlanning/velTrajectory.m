@@ -1,4 +1,4 @@
-function traj = velTrajectory( t )
-traj = [-3*0.0543*t^2+2*0.2443*t,-3*0.0076*t^2+2*0.0343*t];
+function traj = velTrajectory(paramP,paramD,t)
+traj = [3*paramP(1)*t^2+2*paramP(2)*t+paramP(3),3*paramD(1)*t^2+2*paramD(2)*t+paramD(3)];
 end
 
