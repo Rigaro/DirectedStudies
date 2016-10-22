@@ -4,43 +4,55 @@
 % Funnel 1
 % clear all
 [paramP, paramD] = cubicTrajectory();
-t_ol=0:0.02:3;
+%t_ol=0:0.02:3;
+t_ol = t;
 tSize = size(t_ol);
-for i=1:tSize(2)
-    FcR1(i) = 0;
-    theta1(i,:) = posTrajectory(paramP,paramD,t_ol(i));
-    thetaDot1(i,:) = velTrajectory(paramP,paramD,t_ol(i));
-    r_temp1(i) = regOfAttractionGACObs(theta1(i,:)',thetaDot1(i,:)');
+j = 0;
+for i=1:tSize(1)
+    q1(i,:) = posTrajectory(paramP,paramD,t_ol(i));
+    if(t(i)<1.84)
+        FcR1(i) = 0;
+        q1_cut(i,:) = posTrajectory(paramP,paramD,t_ol(i));
+        qDot1(i,:) = velTrajectory(paramP,paramD,t_ol(i));
+    elseif(t(i)>1.84&&j==0)
+        tIndex = i;
+        j = 1;
+    end
+%     r_tempGAC(i) = regOfAttractionGACObs(q1(i,:)',qDot1(i,:)');
 end
-r1 = r_temp1';
-thetaR1 = theta1(:,1);
-thetaDotR1 = thetaDot1(:,1);
+% rGAC = r_tempGAC';
+qR1 = q1_cut(:,1);
+qDotR1 = qDot1(:,1);
 % Funnel 2
-th1Size = size(theta1);
-thetaC = theta1(th1Size(1),:)';
-for i=1:tSize(2)
+q1Size = size(q1_cut);
+qC = q1_cut(q1Size(1),:)';
+for i=1:tSize(1)
     FcR2(i) = 0.2;
-    theta2(i,:) = thetaC;
-    thetaDot2(i,:) = [0,0];
-    r_temp2(i) = regOfAttractionCFCObs(thetaC,thetaDot2(i,:)');
+    q2(i,:) = qC;
+    qDot2(i,:) = [0,0];
+%     r_tempCFC(i) = regOfAttractionCFCObs(qC,qDot2(i,:)');
 end
-r2 = r_temp2';
-thetaR2 = theta2(:,1);
-thetaDotR2 = thetaDot2(:,1);
+% rCFC = r_tempCFC';
+% qR2 = q2(:,1);
+qR2 = q;
+qDotR2 = qDot2(:,1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% End of offline computation %%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
 % Compute circles
 % Funnel 1
 angle = linspace(0,2*pi);
-for i=1:size(r1)
-    x1(i,:) = r1(i)*cos(angle)+thetaR1(i);
-    y1(i,:) = r1(i)*sin(angle)+thetaDotR1(i);
+rGACSize = size(FcR1);
+for i=1:rGACSize(2)
+    x1(i,:) = real(rGAC(i))*cos(angle)+q1_cut(i);
+    y1(i,:) = real(rGAC(i))*sin(angle)+qDotR1(i);
 end
 % Funnel 2
-for i=1:size(r2)
-    x2(i,:) = r2(i)*cos(angle)+FcR2(i);
-    y2(i,:) = r2(i)*sin(angle)+thetaDotR2(i);
+rCFCSize = size(rCFC);
+for i=1:rCFCSize(1)
+    x2(i,:) = real(rCFC(i))*cos(angle)+FcR2(i);
+    y2(i,:) = real(rCFC(i))*sin(angle)+qDotR2(i);
 end
 % Only positive forces allowed
 x2(x2<0) = 0;
@@ -49,20 +61,21 @@ figure(1)
 hold on
 % Plot circles 1
 FcR1_resize = repmat(0,size(x1(1,:)));
-for i=1:size(r1)
+for i=1:rGACSize(2)
     circ1 = plot3(x1(i,:),y1(i,:),FcR1_resize,'-c');
 end
 % Plot circles 2
-for i=1:size(r2)
-    thetaR1_resize = repmat(thetaR1(i,1),size(x2(i,:)));
-    circ2 = plot3(thetaR1_resize,y2(i,:),x2(i,:),'-m');
+for i=tIndex:rCFCSize(1)
+%     qR1_resize = repmat(q1(i,1),size(x2(i,:)));
+    qR2_resize = repmat(qR2(i,1),size(x2(i,:)));
+    circ2 = plot3(qR2_resize,y2(i,:),x2(i,:),'-g');
 end
 % Plot Trajectory 1
-traj1 = plot3(thetaR1(:,1),thetaDotR1(:,1),FcR1,'-b','LineWidth',2);
+traj1 = plot3(qR1(:,1),qDotR1(:,1),FcR1,'-b','LineWidth',2);
 % Plot Trajectory 2
-traj2 = plot3(thetaR1(:,1),thetaDotR2(:,1),FcR2,'-r','LineWidth',2);
+traj2 = plot3(qR2(:,1),qDotR2(:,1),FcR2,'-r','LineWidth',2);
 % plot real Trajectory
-trajr = plot3(theta(:,1),thetaDot(:,1),Fc,'-k','LineWidth',2);
+trajr = plot3(q(:,1),qDot(:,1),Fc,'-k','LineWidth',2);
 % Set Axis
 axis equal tight
 xlabel('$q$ (rad)', 'interpreter', 'latex')

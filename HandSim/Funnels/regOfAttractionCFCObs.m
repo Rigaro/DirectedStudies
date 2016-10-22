@@ -1,4 +1,4 @@
-function r = regOfAttractionGAC(theta,thetaDot)
+function r = regOfAttractionCFCObs(q,qDot,FcTilde)
     % Set model variables:
     kP = 0.043;
     kD = 0.185;
@@ -21,12 +21,12 @@ function r = regOfAttractionGAC(theta,thetaDot)
     beta = mD*lP*(lD/2);
     delta = ID+mD*(lD/2)^2;
     % Intertia matrix (M)
-    M = [alpha+2*beta*cos(theta(2,1)) delta+beta*cos(theta(2,1));
-         delta+beta*cos(theta(2,1)) delta];
+    M = [alpha+2*beta*cos(q(2,1)) delta+beta*cos(q(2,1));
+         delta+beta*cos(q(2,1)) delta];
     % Coriolis and Centrifugal matrix (C)
-    C = [-beta*sin(theta(2,1))*thetaDot(2,1) ...
-         -beta*sin(theta(2,1))*(thetaDot(1,1)+thetaDot(2,1));
-         beta*sin(theta(2,1))*thetaDot(1,1) 0];
+    C = [-beta*sin(q(2,1))*qDot(2,1) ...
+         -beta*sin(q(2,1))*(qDot(1,1)+qDot(2,1));
+         beta*sin(q(2,1))*qDot(1,1) 0];
     % Rayleigh damping
     D = [dP 0;
          0 dD];
@@ -43,18 +43,19 @@ function r = regOfAttractionGAC(theta,thetaDot)
           0, 1.5];
     Ki = [12, 0;
           0, 12];
-    % Observer gain
-    Kp = [5.8, 0;
-          0, 5.8];
+    % Observer gains
+    Kp = [50, 0;
+          0, 50]; 
 %     Kd = [0.1, 0;
 %           0, 0.1]; 
+%     Kd = 500;
     Kd = 500;
     % Calculate the region of attraction bounds
     % Calculate parameter kc
-    if(norm(thetaDot)==0)
+    if(norm(qDot)==0)
         kc = 0.0001;
     else
-        kc = 2*norm(C)/norm(thetaDot);
+        kc = 2*norm(C)/norm(qDot);
     end
     % Compute eigen values of M and Kd
     lambdaM = eig(M);
@@ -76,19 +77,6 @@ function r = regOfAttractionGAC(theta,thetaDot)
     lambdaL = eig(L);
     lambdaD = eig(D);
     % Get circle radius
-    r = (1/(2*kc))*sqrt(min(lambdaL)/max(lambdaL))*(Kd*min(lambdaM)+min(lambdaD)-(((max(lambdaHd)^2)/4)*((1/(min(lambdaD)+min(lambdaHd)-min(lambdaM)))+(1/(min(lambdaHp)-min(lambdaKi))))));
-    %r = 0.01;
-% 	angle = linspace(0,2*pi);
-%     x = r*cos(angle)+thetaR;
-%     y = r*sin(angle)+(pi/30);
-%     [th,r,t] = meshgrid(angle,repmat(rho,size(angle)),time);
-%     x = r.*cos(th)+thetaR;
-%     y = r.*sin(th)+(pi/30);
-%     figure(2)
-%     hold on
-%     surf(real(x),real(y),t)
-%     plot3(x,y,repmat(time,size(angle)),'-m');
-%     plot3(theta(1),thetaDot(1),time,'.k');
-%     axis([0.3 0.44 -0.005 0.13 0 1]);
+    r = (1/(2*kc))*sqrt(min(lambdaL)/max(lambdaL))*(Kd*min(lambdaM)+min(lambdaD)-(((max(lambdaHd)^2)/4)*((1/(min(lambdaD)+min(lambdaHd)-min(lambdaM)-(kc*FcTilde)))+(1/(min(lambdaHp)-min(lambdaKi))))));
 end
 

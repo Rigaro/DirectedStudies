@@ -6,25 +6,26 @@
 [paramP, paramD] = cubicTrajectory();
 tSize = size(t);
 for i=1:tSize(1)
-    theta1(i,:) = posTrajectory(paramP,paramD,t(i));
-    thetaDot1(i,:) = velTrajectory(paramP,paramD,t(i));
-    r_temp1(i) = regOfAttractionGACObs(theta1(i,:)',thetaDot1(i,:)');
+    q1(i,:) = posTrajectory(paramP,paramD,t(i));
+    qDot1(i,:) = velTrajectory(paramP,paramD,t(i));
+%     r_temp1(i) = regOfAttractionGACObs(q1(i,:)',qDot1(i,:)');
 end
-r1 = r_temp1';
-thetaR1 = theta1(:,1);
-thetaDotR1 = thetaDot1(:,1);
+% rGAC = r_temp1';
+qR1 = q1(:,1);
+qDotR1 = qDot1(:,1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% End of offline computation %%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 angle = linspace(0,2*pi);
-rSize = size(r1);
+rSize = size(rGAC);
  % Compute surface
-[x,y,z] = cylinder(real(r1),rSize(1));
+% [x,y,z] = cylinder(real(rGAC),rSize(1));
+[x,y,z] = cylinder(real(rGAC));
 clear X Y Z
 zSize = size(z);
-for i=1:size(r1)
-    X(i,:) = x(i,:)+thetaR1(i);
-    Y(i,:) = y(i,:)+thetaDotR1(i);
+for i=1:size(rGAC)
+    X(i,:) = x(i,:)+qR1(i);
+    Y(i,:) = y(i,:)+qDotR1(i);
     zTemp = repmat(t(i),zSize(2));
     Z(i,:) = zTemp(1,:);
 end
@@ -39,9 +40,9 @@ set(s,'FaceLighting','none');
 set(s,'LineStyle',':');
 set(s,'LineWidth',0.1);
 % Plot Desired Trajectory
-traj1 = plot3(thetaR1(:,1),thetaDotR1(:,1),t,'-b','LineWidth',2);
+traj1 = plot3(qR1(:,1),qDotR1(:,1),t,'-b','LineWidth',2);
 % Plot real trajectory
-trajr = plot3(theta(:,1),thetaDot(:,1),t,'-k','LineWidth',2);
+trajr = plot3(q(:,1),qDot(:,1),t,'-k','LineWidth',2);
 % Set Axis
 axis equal
 xlabel('$q$ (rad)', 'interpreter', 'latex')
