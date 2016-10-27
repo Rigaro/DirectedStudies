@@ -1,0 +1,111 @@
+CC     = "C:\Program Files\MATLAB\R2014b\sys\lcc64\lcc64\bin\lcc64.exe"
+LD     = "C:\Program Files\MATLAB\R2014b\sys\lcc64\lcc64\bin\lcclnk64.exe"
+LIBCMD = "C:\Program Files\MATLAB\R2014b\sys\lcc64\lcc64\bin\lcclib64.exe"
+CFLAGS = -dll -noregistrylookup  -c -Zp8 -DLCC_WIN64 -DMATLAB_MEX_FILE -DMX_COMPAT_32 -nodeclspec 
+LDFLAGS = -s -dll -L"C:\Program Files\MATLAB\R2014b\sys\lcc64\lcc64\lib64" -entry LibMain -map sfun.map 
+LIBFLAGS = 
+
+OBJECTS = \
+	"hybridSysSim_sfun.obj"\
+	"c1_hybridSysSim.obj"\
+	"c2_hybridSysSim.obj"\
+	"c3_hybridSysSim.obj"\
+	"c4_hybridSysSim.obj"\
+	"c5_hybridSysSim.obj"\
+	"c6_hybridSysSim.obj"\
+	"c7_hybridSysSim.obj"\
+	"c8_hybridSysSim.obj"\
+	"c9_hybridSysSim.obj"\
+	"c10_hybridSysSim.obj"\
+	"c11_hybridSysSim.obj"\
+	"c12_hybridSysSim.obj"\
+	"c13_hybridSysSim.obj"\
+	"c14_hybridSysSim.obj"\
+	"c15_hybridSysSim.obj"\
+	"c16_hybridSysSim.obj"\
+	"c17_hybridSysSim.obj"\
+	"c18_hybridSysSim.obj"\
+	"c19_hybridSysSim.obj"\
+	"c20_hybridSysSim.obj"\
+	"c21_hybridSysSim.obj"\
+	"c22_hybridSysSim.obj"\
+	"c23_hybridSysSim.obj"\
+	"c24_hybridSysSim.obj"\
+	"c25_hybridSysSim.obj"\
+	"hybridSysSim_sfun_registry.obj"\
+	"lccstub.obj"\
+	"hybridSysSim_sfun.def"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\sf_runtime.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libmwblas.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libmx.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libmex.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libmat.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libfixedpoint.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libut.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libmwmathutil.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libemlrt.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libmwsl_log_load_blocks.lib"\
+	"C:\Program Files\MATLAB\R2014b\extern\lib\win64\microsoft\libmwsimulink.lib"\
+	"C:\Program Files\MATLAB\R2014b\lib\win64\libmwipp.lib"\
+
+INCLUDE_PATH= -I"C:\Program Files\MATLAB\R2014b\sys\lcc64\lcc64\include64"  -I"C:\Program Files\MATLAB\R2014b\extern\include"  -I"C:\Program Files\MATLAB\R2014b\simulink\include"  -I"C:\Program Files\MATLAB\R2014b\stateflow\c\mex\include"  -I"C:\Program Files\MATLAB\R2014b\rtw\c\src"  -I"C:\Users\ricardog\Documents\Workspace\DirectedStudies\HandSim\SimTest\Stability\slprj\_sfprj\hybridSysSim\_self\sfun\src" 
+ 
+
+hybridSysSim_sfun.mexw64 : $(MAKEFILE) $(OBJECTS)
+	$(LD) $(LDFLAGS) -o hybridSysSim_sfun.mexw64 @hybridSysSim_sfun.lmko
+hybridSysSim_sfun.obj :	"hybridSysSim_sfun.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "hybridSysSim_sfun.c"
+c1_hybridSysSim.obj :	"c1_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c1_hybridSysSim.c"
+c2_hybridSysSim.obj :	"c2_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c2_hybridSysSim.c"
+c3_hybridSysSim.obj :	"c3_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c3_hybridSysSim.c"
+c4_hybridSysSim.obj :	"c4_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c4_hybridSysSim.c"
+c5_hybridSysSim.obj :	"c5_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c5_hybridSysSim.c"
+c6_hybridSysSim.obj :	"c6_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c6_hybridSysSim.c"
+c7_hybridSysSim.obj :	"c7_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c7_hybridSysSim.c"
+c8_hybridSysSim.obj :	"c8_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c8_hybridSysSim.c"
+c9_hybridSysSim.obj :	"c9_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c9_hybridSysSim.c"
+c10_hybridSysSim.obj :	"c10_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c10_hybridSysSim.c"
+c11_hybridSysSim.obj :	"c11_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c11_hybridSysSim.c"
+c12_hybridSysSim.obj :	"c12_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c12_hybridSysSim.c"
+c13_hybridSysSim.obj :	"c13_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c13_hybridSysSim.c"
+c14_hybridSysSim.obj :	"c14_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c14_hybridSysSim.c"
+c15_hybridSysSim.obj :	"c15_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c15_hybridSysSim.c"
+c16_hybridSysSim.obj :	"c16_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c16_hybridSysSim.c"
+c17_hybridSysSim.obj :	"c17_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c17_hybridSysSim.c"
+c18_hybridSysSim.obj :	"c18_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c18_hybridSysSim.c"
+c19_hybridSysSim.obj :	"c19_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c19_hybridSysSim.c"
+c20_hybridSysSim.obj :	"c20_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c20_hybridSysSim.c"
+c21_hybridSysSim.obj :	"c21_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c21_hybridSysSim.c"
+c22_hybridSysSim.obj :	"c22_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c22_hybridSysSim.c"
+c23_hybridSysSim.obj :	"c23_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c23_hybridSysSim.c"
+c24_hybridSysSim.obj :	"c24_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c24_hybridSysSim.c"
+c25_hybridSysSim.obj :	"c25_hybridSysSim.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c25_hybridSysSim.c"
+hybridSysSim_sfun_registry.obj :	"hybridSysSim_sfun_registry.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "hybridSysSim_sfun_registry.c"
+lccstub.obj :	"C:\Program Files\MATLAB\R2014b\sys\lcc64\lcc64\mex\lccstub.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Program Files\MATLAB\R2014b\sys\lcc64\lcc64\mex\lccstub.c"

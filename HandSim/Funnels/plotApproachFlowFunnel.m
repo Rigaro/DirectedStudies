@@ -33,21 +33,23 @@ end
 figure(2)
 hold on
 % Plot mesh
-s = surf(X,Y,Z);
+s = surf(Z,X,Y);
 set(s,'FaceColor','c');
 set(s,'FaceAlpha',0.4);
 set(s,'FaceLighting','none');
 set(s,'LineStyle',':');
 set(s,'LineWidth',0.1);
 % Plot Desired Trajectory
-traj1 = plot3(qR1(:,1),qDotR1(:,1),t,'-b','LineWidth',2);
+traj1 = plot3(t,qR1(:,1),qDotR1(:,1),'-b','LineWidth',2);
 % Plot real trajectory
-trajr = plot3(q(:,1),qDot(:,1),t,'-k','LineWidth',2);
+% trajr = plot3(q(:,1),qDot(:,1),t,'-k','LineWidth',2);
 % Set Axis
 axis equal
-xlabel('$q$ (rad)', 'interpreter', 'latex')
-ylabel('$\dot q$ (rad/s)', 'interpreter', 'latex')
-zlabel('$t$ (sec)', 'interpreter', 'latex')
+ylabel('$q$ (rad)', 'interpreter', 'latex')
+zlabel('$\dot q$ (rad/s)', 'interpreter', 'latex')
+xlabel('$t$ (sec)', 'interpreter', 'latex')
 title('Approach Flow Funnel')
-legend([s,traj1,trajr],'Approach Flow Funnel','Desired Position Trajectory',...
-    'Finger Trajectory','Location','eastoutside');
+% legend([s,traj1,trajr],'Approach Flow Funnel','Desired Position Trajectory',...
+%     'Finger Trajectory','Location','eastoutside');
+legend([s,traj1],'Approach Flow Funnel','Desired Position Trajectory',...
+    'Location','eastoutside');

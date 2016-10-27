@@ -40,23 +40,25 @@ Z = z*max(t);
 figure(2)
 hold on
 % Plot mesh
-s = surf(X,Y,Z);
+s = surf(Z,X,Y);
 set(s,'FaceColor','g');
 set(s,'FaceAlpha',0.4);
 set(s,'FaceLighting','none');
 set(s,'LineStyle',':');
 set(s,'LineWidth',0.1);
 % Plot Desired Trajectory
-traj2 = plot3(FcR2,qDotR2(:,1),t_cut,'-r','LineWidth',2);
+traj2 = plot3(t_cut,FcR2,qDotR2(:,1),'-r','LineWidth',2);
 % Plot real Trajectory
-trajr = plot3(Fc_cut,qDot_cut(:,1),t_cut,'-k','LineWidth',2);
+trajr = plot3(t_cut,Fc_cut,qDot_cut(:,1),'-k','LineWidth',2);
 % Set Axis
 axis equal
-ylim([-1.05 1.05])
-zlim([1.84 5])
-xlabel('$Fc$ (N)', 'interpreter', 'latex')
-ylabel('$\dot q$ (rad/s)', 'interpreter', 'latex')
-zlabel('$t$ (sec)', 'interpreter', 'latex')
+zlim([-1.05 1.05])
+xlim([0 5])
+ylabel('$Fc$ (N)', 'interpreter', 'latex')
+zlabel('$\dot q$ (rad/s)', 'interpreter', 'latex')
+xlabel('$t$ (sec)', 'interpreter', 'latex')
 title('Contact Catch Funnel')
-legend([s,traj2,trajr],'Contact Catch Funnel','Desired Force Trajectory',...
-    'Finger Trajectory','Location','eastoutside');
+% legend([s,traj2,trajr],'Contact Catch Funnel','Desired Force Trajectory',...
+%     'Finger Trajectory','Location','eastoutside');
+legend([s,traj2],'Contact Catch Funnel','Desired Force Trajectory',...
+    'Location','eastoutside');
